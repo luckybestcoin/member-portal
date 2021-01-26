@@ -156,7 +156,7 @@ class Form extends Component
         Mail::send(['text'=>'email.registrasi'], $data, function($message) {
             $message->to('andifajarlah@gmail.com', 'Tutorials Point')->subject
                 ('Laravel Basic Testing Mail');
-            $message->from('andifajarlah@gmail.com','Virat Gandhi');
+            $message->from('no-reply@luckybit.id','Virat Gandhi');
         });
         //$this->reset(['name', 'email', 'country', 'package', 'position']);
 
