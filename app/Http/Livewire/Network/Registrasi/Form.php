@@ -151,7 +151,13 @@ class Form extends Component
         //     $referal->save();
         // });
 
-        Mail::to('andifajarlah@gmail.com')->send(new RegistrasiEmail());
+        $data = array('name'=>"Virat Gandhi");
+
+        Mail::send(['text'=>'email.registrasi'], $data, function($message) {
+            $message->to('andifajarlah@gmail.com', 'Tutorials Point')->subject
+                ('Laravel Basic Testing Mail');
+            $message->from('no-reply@luckybit.id','Admin LuckyBIT');
+        });
         //$this->reset(['name', 'email', 'country', 'package', 'position']);
 
     }
