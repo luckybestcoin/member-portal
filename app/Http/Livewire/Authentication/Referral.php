@@ -42,9 +42,9 @@ class Referral extends Component
     public function submit()
     {
         try {
-            if ($this->data = Referal::where('referal_token', $this->kode)->count() === 0) {
-                return $this->failed = 'Referral code not found';
-            }
+            // if ($this->data = Referal::where('referal_token', $this->kode)->count() === 0) {
+            //     return $this->failed = 'Referral code not found';
+            // }
 
             $this->validate();
 

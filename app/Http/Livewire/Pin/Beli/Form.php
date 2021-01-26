@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\PIn\Beli;
+namespace App\Http\Livewire\Pin\Beli;
 
 use App\Models\Pin;
 use App\Models\Saldo;
@@ -34,7 +34,6 @@ class Form extends Component
         }
 
         $saldo = new Saldo();
-        $pin = new Pin();
 
         $this->reset('failed');
 
@@ -45,29 +44,33 @@ class Form extends Component
             return $this->failed;
         }
 
-        DB::transaction(function () {
+        DB::transaction(function () use($saldo) {
             $keterangan = "Buy ".$this->amount." registration ticket";
 
+            $id = Str::random(10)."-".date('Ymdhis').round(microtime(true) * 1000);
+
             $transaksi = new Transaksi();
-            $transaksi->transaksi_id = Str::random(40)."-".date('Ymdhis').round(microtime(true) * 1000);
+            $transaksi->transaksi_id = $id;
             $transaksi->transaksi_keterangan = $keterangan."  by ".auth()->user()->anggota_uid;
             $transaksi->save();
 
             $saldo->saldo_keterangan = $keterangan;
             $saldo->saldo_debit = $this->harga_tiket * $this->amount;
             $saldo->saldo_kredit = 0;
-            $saldo->transaksi_id = $transaksi->transaksi_id;
+            $saldo->transaksi_id = $id;
             $saldo->anggota_id = auth()->id();
             $saldo->save();
 
-            $pin->pin_ketarangan = $keterangan;
+            $pin = new Pin();
+            $pin->pin_keterangan = $keterangan;
             $pin->pin_debit = 0;
             $pin->pin_kredit = $this->amount;
-            $pin->transaksi_id = $transaksi->transaksi_id;
+            $pin->transaksi_id = $id;
             $pin->anggota_id = auth()->id();
             $pin->save();
         });
 
+        $this->reset(['amount', 'password']);
     }
 
     public function render()

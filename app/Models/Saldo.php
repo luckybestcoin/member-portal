@@ -15,7 +15,7 @@ class Saldo extends Model
     public function getTerakhirAttribute()
     {
         $saldo = 0;
-        $data_saldo = $this->select('saldo_debit', 'saldo_kredit')->where('anggota_id', auth()->user()->wallet->wallet_id)->get();
+        $data_saldo = $this->select('saldo_debit', 'saldo_kredit')->where('anggota_id', auth()->id())->get();
         if ($data_saldo->count() > 0) {
             $saldo = $data_saldo->map(function ($saldo)
             {
