@@ -34,16 +34,16 @@ return [
         ]]
 	],[
 		'icon' => 'fa fa-group',
-		'title' => 'Network',
+		'title' => 'Member',
 		'url' => 'javascript:void(0)',
-		'id' => 'network',
+		'id' => 'member',
 		'sub_menu' => [[
-            'url' => '/network',
-            'id' => 'networktree',
-            'title' => 'Network Tree'
+            'url' => '/member',
+            'id' => 'memberdata',
+            'title' => 'Data'
         ],[
-            'url' => '/network/registration',
-            'id' => 'networkregistration',
+            'url' => '/member/registration',
+            'id' => 'memberregistration',
             'title' => 'Registration'
         ]]
 	],[
@@ -53,7 +53,7 @@ return [
 		'id' => 'profile'
 	],[
 		'icon' => 'fa fa-share-alt-square',
-		'title' => 'Profit Sharing',
+		'title' => 'Benefit',
 		'url' => 'javascript:void(0)',
 		'id' => 'member',
 		'sub_menu' => [[

@@ -43,7 +43,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @include('includes.error')
+                                @include('includes.notification')
                                 <div class="row m-t-30">
                                     <div class="col-md-12">
                                         <input type="submit" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20" value="Sign In">
@@ -80,7 +80,7 @@
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            @include('includes.error')
+                            @include('includes.notification')
                         </div>
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20" value="Submit">

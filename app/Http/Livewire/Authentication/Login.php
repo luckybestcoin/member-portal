@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 class Login extends Component
 {
     public $username, $password, $referral_code, $remember = false;
-    public $failed;
+    public $notification;
 
     protected $rules = [
         'username' => 'required',
@@ -26,13 +26,13 @@ class Login extends Component
             Auth::logoutOtherDevices($this->password, 'anggota_kata_sandi');
             return redirect()->intended('dashboard');
         }
-        $this->failed = '<li><strong>Sign In Failed!!!</strong><br>Wrong username or password</li>';
+        $this->notification = '<li><strong>Sign In notification!!!</strong><br>Wrong username or password</li>';
         return;
     }
 
     public function updated()
     {
-        $this->reset('failed');
+        $this->reset('notification');
     }
 
     public function referral()
@@ -46,7 +46,7 @@ class Login extends Component
         if($referral){
             return redirect(route('referral', [ 'kode' => $this->referral_code]));
         }
-        $this->failed = '<li>Referral code not found</li>';
+        $this->notification = '<li>Referral code not found</li>';
         return;
     }
 

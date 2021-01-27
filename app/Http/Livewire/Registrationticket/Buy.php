@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Saldo\Topup;
+namespace App\Http\Livewire\Registrationticket;
 
 use App\Models\Pin;
 use App\Models\Saldo;
@@ -10,9 +10,9 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class Form extends Component
+class Buy extends Component
 {
-    public $amount, $password, $back, $notification, $balance, $pin, $left_turnover = 0, $right_turnover = 0;
+    public $amount, $password, $back, $notification, $harga_tiket, $balance, $pin, $left_turnover = 0, $right_turnover = 0;
 
     protected $rules = [
         'amount' => 'numeric',
@@ -25,40 +25,31 @@ class Form extends Component
         $this->back = Str::contains(url()->previous(), ['tambah', 'edit'])? '/network/registration': url()->previous();
     }
 
-    public function updated()
-    {
-        $saldo = new Saldo();
-        $pin = new Pin();
-
-        $this->balance = $saldo->terakhir;
-        $this->pin = $pin->terakhir;
-
-        $this->notification = [
-            'tipe' => null,
-            'pesan' => null
-        ];
-    }
-
     public function submit()
     {
         $this->validate();
 
         $saldo = new Saldo();
-        $pin = new Pin();
+        $error = null;
 
         $this->reset('notification');
 
         if(Hash::check($this->password, auth()->user()->anggota_kata_sandi) === false){
-            return $this->notification = "<li>Wrong <strong>password</strong></li>";
-        }
-        if ($saldo->terakhir < $this->harga_tiket * $this->amount) {
-            $this->notification = "<li>Insufficient <strong>balance</strong></li>";
-        }
-        if ($this->notification) {
-            return $this->notification;
+            return $error .= "<li>Wrong <strong>password</strong></li>";
         }
 
-        DB::transaction(function () use($saldo, $pin) {
+        if ($saldo->terakhir < $this->harga_tiket * $this->amount) {
+            $error .= "<li>Insufficient <strong>balance</strong></li>";
+        }
+
+        if ($error) {
+            return $this->notification = [
+                'tipe' => 'danger',
+                'pesan' => $error
+            ];
+        }
+
+        DB::transaction(function () use($saldo) {
             $keterangan = "Buy ".$this->amount." registration ticket";
 
             $id = Str::random(10)."-".date('Ymdhis').round(microtime(true) * 1000);
@@ -75,6 +66,7 @@ class Form extends Component
             $saldo->anggota_id = auth()->id();
             $saldo->save();
 
+            $pin = new Pin();
             $pin->pin_keterangan = $keterangan;
             $pin->pin_debit = 0;
             $pin->pin_kredit = $this->amount;
@@ -84,15 +76,30 @@ class Form extends Component
         });
 
         $this->reset(['amount', 'password']);
+
+        $this->updated();
+        return $this->notification = [
+            'tipe' => 'success',
+            'pesan' => 'Buy registration ticket is success!!!'
+        ];
+    }
+
+    public function updated()
+    {
+        $saldo = new Saldo();
+        $pin = new Pin();
+
+        $this->balance = $saldo->terakhir;
+        $this->pin = $pin->terakhir;
     }
 
     public function render()
     {
-        return view('livewire.saldo.topup.form')
+        return view('livewire.registrationticket.buy')
             ->extends('livewire.main', [
-                'breadcrumb' => ['Balance', 'Top Up'],
-                'title' => 'Top Up Balance',
-                'description' => 'Top Up Balance'
+                'breadcrumb' => ['Registration Ticket', 'Buy'],
+                'title' => 'Buy Registration Ticket',
+                'description' => 'Buy registration ticket to register new member'
             ])
             ->section('subcontent');
     }
