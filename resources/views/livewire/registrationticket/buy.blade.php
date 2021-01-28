@@ -9,14 +9,14 @@
                         <div class="card-block">
                             <div class="form-group">
                                 <label>Amount</label>
-                                <input type="number" class="form-control" wire:model.defer="amount" autocomplete="off">
+                                <input type="number" class="form-control" wire:model="amount" autocomplete="off">
                                 @error('amount')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label>Password</label>
-                                <input type="password" class="form-control" wire:model.defer="password" autocomplete="off">
+                                <input type="password" class="form-control" wire:model="password" autocomplete="off">
                                 @error('password')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror

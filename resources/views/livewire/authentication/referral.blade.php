@@ -18,38 +18,38 @@
                                     </div>
                                 </div>
                                 <div class="form-group form-primary">
-                                    <input type="text" wire:model.defer="nama" readonly class="form-control" placeholder="Nama" autocomplete="off">
-                                    @error('nama')
+                                    <input type="text" wire:model.defer="name" readonly class="form-control" placeholder="Name" autocomplete="off">
+                                    @error('name')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group form-primary">
-                                    <input type="text" wire:model.defer="email" readonly class="form-control" placeholder="Nama" autocomplete="off">
+                                    <input type="text" wire:model.defer="email" readonly class="form-control" placeholder="Email" autocomplete="off">
                                     @error('email')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group form-primary">
-                                    <input type="text" wire:model.defer="no_hp" readonly class="form-control" placeholder="Nama" autocomplete="off">
-                                    @error('no_hp')
+                                    <input type="text" wire:model.defer="phone_number" readonly class="form-control" placeholder="Phone Number" autocomplete="off">
+                                    @error('phone_number')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group form-primary">
-                                    <input type="text" wire:model.defer="paket" readonly class="form-control" placeholder="Nama" autocomplete="off">
-                                    @error('paket')
+                                    <input type="text" wire:model.defer="package" readonly class="form-control" placeholder="Package" autocomplete="off">
+                                    @error('package')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <hr>
                                 <div class="form-group form-primary">
-                                    <input type="text" wire:model.defer="new_user_id" class="form-control" placeholder="New User ID" autocomplete="off">
+                                    <input type="text" wire:model="new_user_id" class="form-control" placeholder="New User ID" autocomplete="off">
                                     @error('new_user_id')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group form-primary">
-                                    <input type="password" wire:model.defer="new_password" class="form-control" placeholder="New Password" autocomplete="off">
+                                    <input type="password" wire:model="new_password" class="form-control" placeholder="New Password" autocomplete="off">
                                     @error('new_password')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -86,7 +86,7 @@
                                             alt="small-logo.png">
                                     </div>
                                 </div>
-                                @include('includes.error')
+                                @include('includes.notification')
                             </div>
                             @else
                             <div class="card-block text-center">

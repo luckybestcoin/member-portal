@@ -11,4 +11,9 @@ class Peringkat extends Model
 
     protected $table = 'peringkat';
     protected $primaryKey = 'peringkat_id';
+
+    public function anggota()
+    {
+        return $this->hasMany('App\Models\Anggota', 'peringkat_id');
+    }
 }

@@ -88,28 +88,6 @@ class Registration extends Component
         $this->showTable = 1;
     }
 
-    private $parent = [];
-
-    public function setParent($data)
-    {
-        array_push($this->parent, [
-            'id' => $data->anggota_id,
-            'user' => $data->anggota_uid,
-            'parent' => $data->anggota_parent,
-            'silsilah' => $data->anggota_jaringan,
-            'paket' => $data->paket_harga,
-            'posisi' => $data->anggota_posisi,
-            'founder' => $data->anggota_parent? 0: 1,
-            'pair' => $data->pair,
-            'kiri' => (float) $data->omset_kiri - (float) $data->omset_keluar_kiri->sum('omset_keluar_jumlah'),
-            'kanan' => (float) $data->omset_kanan - (float) $data->omset_keluar_kiri->sum('omset_keluar_jumlah'),
-            "aktif" => $data->deleted_at? 0: 1,
-            'jatuh_tempo' => $data->jatuh_tempo
-        ]);
-        if($data->parent)
-            $this->setParent($data->parent);
-    }
-
     public function submit()
     {
         $this->emit('reinitialize');
@@ -134,7 +112,7 @@ class Registration extends Component
             $error .= "<li>The email address <strong>".$this->email."</strong> is already registered</li>";
         }
         if (Anggota::where('anggota_hp', $this->phone_number)->count() > 0){
-            $error .= "<li>The phone nimber <strong>".$this->phone_number."</strong> is already registered</li>";
+            $error .= "<li>The phone nomber <strong>".$this->phone_number."</strong> is already registered</li>";
         }
         if ($error) {
             return $this->notification = [
@@ -183,116 +161,14 @@ class Registration extends Component
             $referal->anggota_id = $anggota->anggota_id;
             $referal->save();
 
-            $bonus = [];
-            array_push($bonus,[
-                'bagi_hasil_keterangan' => $keterangan,
-                'bagi_hasil_jenis' => "Referral",
-                'bagi_hasil_debit' => 0,
-                'bagi_hasil_kredit' => $paket_nominal * 10 /100,
-                'transaksi_id' => $id,
-                'anggota_id' => $this->referral,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ]);
-
-            $this->setParent(Anggota::with('parent')->with('omset_keluar_kiri')->with('omset_keluar_kanan')->select("anggota_id", "anggota_uid", "anggota_parent", "anggota_posisi", "paket_harga", "anggota_jaringan", "jatuh_tempo", "deleted_at",
-            DB::raw('(select ifnull(sum(paket_harga * reinvest), 0) from anggota a where left(a.anggota_jaringan, length(concat(anggota.anggota_id, "ki")))=concat(anggota.anggota_id, "ki") ) omset_kiri'),
-            DB::raw('(select ifnull(sum(paket_harga * reinvest), 0) from anggota a where left(a.anggota_jaringan, length(concat(anggota.anggota_id, "ka")))=concat(anggota.anggota_id, "ka") ) omset_kanan'),
-            DB::raw("(select ifnull(count(anggota_id), 0) pair from anggota a where a.anggota_parent = anggota.anggota_id) pair"))->where('anggota_id', auth()->id())->first());
-
-            $data_peringkat = Peringkat::all();
-
-            $omset_keluar = [];
-            $parent_length = 0;
-            $silsilah = $anggota->anggota_jaringan;
-            foreach (collect($this->parent)->filter(function($q) use($anggota){
-                return $q['id'] != $anggota->anggota_id;
-            }) as $key => $row) {
-                $pencapaian = 0;
-                if(is_null($row['jatuh_tempo']) == 1 && $row['status'] == 1){
-                    $kaki_kecil = collect([$row['kiri'], $row['kanan']])->min();
-                    $member = Anggota::findOrFail($row['id']);
-
-                    $peringkat = $data_peringkat->filter(function ($q) use ($kaki_kecil)
-                    {
-                        return $q->peringkat_omset_min <= $kaki_kecil;
-                    })->sortBy('peringkat_omset_min')->first();
-
-                    if ($peringkat && Pencapaian::where('anggota_id', $row['id'])->where('pencapaian_id', $pencapaian->peringkat_id)->count() == 0) {
-                        $member->peringkat_id = $peringkat['peringkat_id'];
-                        $member->save();
-
-                        $pcp = new Pencapaian();
-                        $pcp->anggota_id = $row['id'];
-                        $pcp->peringkat_id = $peringkat->peringkat_id;
-                        $pcp->save();
-                    }
-
-                    if($row['pair'] == 2) {
-                        $pairing = "Turnonver growth ".$this->name." 5% of ".number_format($this->package_cost, 2);
-                        if(substr($silsilah, -2) == 'ki'){
-                            if($row['kiri'] - $paket_nominal < $row['kanan']){
-                                $nilai_bonus = 0;
-                                if($row['kiri'] > $row['kanan']){
-                                    $nilai_bonus = $row['kanan'] - $row['kiri'] + $paket_nominal;
-                                }else{
-                                    $nilai_bonus = $paket_nominal;
-                                }
-                                array_push($bonus,[
-                                    'bagi_hasil_keterangan' => $pairing." left side registration",
-                                    'bagi_hasil_jenis' => "Turnover",
-                                    'bagi_hasil_debit' => 0,
-                                    'bagi_hasil_kredit' => $nilai_bonus * 5 /100,
-                                    'transaksi_id' => $id,
-                                    'anggota_id' => $row['id'],
-                                    'created_at' => Carbon::now(),
-                                    'updated_at' => Carbon::now()
-                                ]);
-                            }
-                        }else if(substr($silsilah, -2) == 'ka'){
-                            if($row['kanan'] - $paket_nominal < $row['kiri']){
-                                $nilai_bonus = 0;
-                                if($row['kanan'] > $row['kiri']){
-                                    $nilai_bonus = $row['kiri'] - $row['kanan'] + $paket_nominal;
-                                }else{
-                                    $nilai_bonus = $paket_nominal;
-                                }
-                                array_push($bonus,[
-                                    'bagi_hasil_keterangan' => $pairing." right side registration",
-                                    'bagi_hasil_jenis' => "Turnover",
-                                    'bagi_hasil_debit' => 0,
-                                    'bagi_hasil_kredit' => $nilai_bonus * 5 /100,
-                                    'transaksi_id' => $id,
-                                    'anggota_id' => $row['id'],
-                                    'created_at' => Carbon::now(),
-                                    'updated_at' => Carbon::now()
-                                ]);
-                            }
-                        }
-                    }
-                }
-                if ($row['jatuh_tempo']) {
-                    array_push($omset_keluar,[
-                        'anggota_id' => $row['id'],
-                        'omset_keluar_anggota' => $anggota->anggota_id,
-                        'omset_keluar_jumlah' => $paket_nominal,
-                        'omset_keluar_posisi' => substr($silsilah, -2) == "ka"? 1: 0
-                    ]);
-                }
-                $parent_length = strlen($row['id'].($row['posisi'] == 0? 'ki': 'ka'));
-                $silsilah = substr($silsilah, 0, (strlen($silsilah) - $parent_length));
-            }
-            $keluar = collect($omset_keluar)->chunk(10);
-
-            foreach ($keluar as $ins)
-            {
-                OmsetKeluar::insert($ins->toArray());
-            }
-            $insert = collect($bonus)->chunk(10);
-            foreach ($insert as $ins)
-            {
-                BagiHasil::insert($ins->toArray());
-            }
+            $bagi_hasil = new BagiHasil();
+            $bagi_hasil->bagi_hasil_keterangan = $keterangan;
+            $bagi_hasil->bagi_hasil_jenis = "Referral";
+            $bagi_hasil->bagi_hasil_debit = 0;
+            $bagi_hasil->bagi_hasil_kredit = $this->package_cost * 10 /100;
+            $bagi_hasil->transaksi_id = $id;
+            $bagi_hasil->anggota_id = auth()->id();
+            $bagi_hasil->save();
 
             Mail::send('email.registrasi', [
                 'token' => $referal->referal_token,
@@ -306,12 +182,12 @@ class Registration extends Component
             });
         });
 
-        $this->reset(['name', 'email', 'country', 'package', 'position']);
         $this->updated();
         return $this->notification = [
             'tipe' => 'success',
             'pesan' => 'New member registration is successful. An email has been sent to '.$this->email
         ];
+        $this->reset(['name', 'email', 'country', 'package', 'position']);
     }
 
     public function render()

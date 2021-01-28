@@ -27,11 +27,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/registration', \App\Http\Livewire\Member\Registration::class)->name('member.registration');
     });
 
-    // Route::prefix('registrationticket')->group(function ()
-    // {
-    //     Route::get('/', \App\Http\Livewire\Pin\History\Index::class)->name('tiket');
-    //     Route::get('/buy', \App\Http\Livewire\Pin\Beli\Form::class)->name('tiket.beli');
-    // });
+    Route::prefix('registrationticket')->group(function ()
+    {
+        Route::get('/', \App\Http\Livewire\Registrationticket\History::class)->name('tiket');
+        Route::get('/buy', \App\Http\Livewire\Registrationticket\Buy::class)->name('tiket.beli');
+    });
 
     // Route::prefix('balance')->group(function ()
     // {

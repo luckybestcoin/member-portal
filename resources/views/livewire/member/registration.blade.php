@@ -60,9 +60,9 @@
                             <div class="form-group">
                                 <label>Referral</label>
                                 <select class="select2 referral" wire:model="referral">
-                                    <option value="{{ auth()->id() }}" selected>{{ auth()->user()->anggota_uid."(".auth()->user()->anggota_nama.")" }}</option>
+                                    <option value="{{ auth()->id() }}" selected>{{ auth()->user()->anggota_uid." (".auth()->user()->anggota_nama.")" }}</option>
                                     @foreach ($data_anggota as $anggota)
-                                    <option value="{{ $anggota->anggota_id }}">{{ $anggota->anggota_uid."(".$anggota->anggota_nama.")" }}</option>
+                                    <option value="{{ $anggota->anggota_id }}">{{ $anggota->anggota_uid." (".$anggota->anggota_nama.")" }}</option>
                                     @endforeach
                                 </select>
                                 @error('referral')

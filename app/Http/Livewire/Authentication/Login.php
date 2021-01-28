@@ -26,7 +26,10 @@ class Login extends Component
             Auth::logoutOtherDevices($this->password, 'anggota_kata_sandi');
             return redirect()->intended('dashboard');
         }
-        $this->notification = '<li><strong>Sign In notification!!!</strong><br>Wrong username or password</li>';
+        $this->notification = [
+            'tipe' => 'danger',
+            'pesan' => '<li><strong>Sign In notification!!!</strong><br>Wrong username or password</li>'
+        ];
         return;
     }
 
@@ -46,7 +49,10 @@ class Login extends Component
         if($referral){
             return redirect(route('referral', [ 'kode' => $this->referral_code]));
         }
-        $this->notification = '<li>Referral code not found</li>';
+        $this->notification = [
+            'tipe' => 'danger',
+            'pesan' => '<li>Referral code not found</li>'
+        ];
         return;
     }
 

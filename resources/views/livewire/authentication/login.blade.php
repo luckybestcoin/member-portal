@@ -43,7 +43,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                @include('includes.notification')
                                 <div class="row m-t-30">
                                     <div class="col-md-12">
                                         <input type="submit" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20" value="Sign In">
@@ -51,6 +50,7 @@
                                 </div>
                                 <p class="text-inverse text-left">Have a referral code? <a href="javascript.void(0);" data-toggle="modal"
                                     data-target="#default-Modal"> <b class="f-w-600">Click here </b></a></p>
+                                @include('includes.notification')
                             </div>
                         </div>
                     </form>
