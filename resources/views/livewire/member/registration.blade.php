@@ -7,7 +7,7 @@
     <div class="page-body">
         <!-- Session Idle Timeout card start -->
         <div class="row">
-            <div class="col-xl-7">
+            <div class="col-lg-7">
                 <form wire:submit.prevent="submit">
                     <div class="card">
                         <div class="card-block">
@@ -70,13 +70,13 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Position</label>
-                                <select class="form-control" wire:model="position">
-                                    <option value="">-- Choose Position --</option>
+                                <label>Turnover</label>
+                                <select class="form-control" wire:model="turnover">
+                                    <option value="">-- Choose Turnover Position --</option>
                                     <option value="0">Left Side</option>
                                     <option value="1">Right Side</option>
                                 </select>
-                                @error('position')
+                                @error('turnover')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -85,7 +85,7 @@
                     </div>
                 </form>
             </div>
-            <div class="col-xl-5">
+            <div class="col-lg-5">
                 @include('includes.information')
             </div>
         </div>

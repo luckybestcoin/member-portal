@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Livewire\Benefit;
+namespace App\Http\Livewire\Registrationticket;
 
 use Carbon\Carbon;
 use Livewire\Component;
-use App\Models\BagiHasil;
+use App\Models\BonusPin;
 use Livewire\WithPagination;
 
-class All extends Component
+class Fee extends Component
 {
     use WithPagination;
 
@@ -18,7 +18,7 @@ class All extends Component
 
     public function render()
     {
-        $pin = new BagiHasil();
+        $pin = new BonusPin();
         $data = $pin->where('anggota_id', auth()->id());
 
         if($this->period === "This Month Only"){
@@ -32,15 +32,15 @@ class All extends Component
         }
 
         $data = $data->paginate(10);
-        return view('livewire.benefit.all', [
+        return view('livewire.registrationticket.fee', [
             'no' => ($this->page - 1) * 10,
             'data' => $data,
             'total' => $pin->terakhir
         ])
         ->extends('livewire.main', [
-            'breadcrumb' => ['Benefit', 'All'],
-            'title' => 'All Benefit',
-            'description' => 'All Benefit that you have earned'
+            'breadcrumb' => ['Registration Ticket', 'Fee'],
+            'title' => 'Registration Ticket Fee',
+            'description' => 'Registration fee that you have earned'
         ])
         ->section('subcontent');
     }

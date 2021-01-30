@@ -16,99 +16,84 @@ return [
     'menu' => [[
 		'icon' => 'fa fa-home',
 		'title' => 'Dashboard',
-		'url' => '/dashboard',
-		'id' => 'dashboard'
+		'url' => '/dashboard'
 	],[
 		'icon' => 'fa fa-dollar',
 		'title' => 'Balance',
 		'url' => 'javascript:void(0)',
-		'id' => 'balance',
 		'sub_menu' => [[
             'url' => '/balance',
-            'id' => 'balancehistory',
             'title' => 'History'
         ],[
             'url' => '/balance/topup',
-            'id' => 'balancetopup',
             'title' => 'Top Up'
+        ]]
+	],[
+		'icon' => 'fa fa-share-alt-square',
+		'title' => 'Benefit',
+		'url' => 'javascript:void(0)',
+		'sub_menu' => [[
+            'url' => '/benefit',
+            'title' => 'All'
+        ],[
+            'url' => '/benefit/daily',
+            'title' => 'Daily'
+        ],[
+            'url' => '/benefit/referral',
+            'title' => 'Referral'
+        ],[
+            'url' => '/benefit/turnovergrowth',
+            'title' => 'Turnover Growth'
         ]]
 	],[
 		'icon' => 'fa fa-group',
 		'title' => 'Member',
 		'url' => 'javascript:void(0)',
-		'id' => 'member',
 		'sub_menu' => [[
             'url' => '/member',
-            'id' => 'memberdata',
-            'title' => 'Data'
+            'title' => 'Downline'
         ],[
             'url' => '/member/registration',
-            'id' => 'memberregistration',
             'title' => 'Registration'
         ]]
 	],[
 		'icon' => 'fa fa-user',
 		'title' => 'Profile',
-		'url' => '/profile',
-		'id' => 'profile'
-	],[
-		'icon' => 'fa fa-share-alt-square',
-		'title' => 'Benefit',
-		'url' => 'javascript:void(0)',
-		'id' => 'member',
-		'sub_menu' => [[
-            'url' => '/profit/daily',
-            'id' => 'dailybonus',
-            'title' => 'Daily Bonus'
-        ],[
-            'url' => '/profit/activation',
-            'id' => 'activationbonus',
-            'title' => 'Activation Bonus'
-        ],[
-            'url' => '/profit',
-            'id' => 'totalbonus',
-            'title' => 'Total'
-        ]]
+		'url' => '/profile'
 	],[
 		'icon' => 'fa fa-recycle',
 		'title' => 'Reinvest',
-		'url' => '/reinvest',
-		'id' => 'reinvest'
+		'url' => '/reinvest'
 	],[
 		'icon' => 'fa fa-ticket',
 		'title' => 'Registration Ticket',
 		'url' => 'javascript:void(0)',
-		'id' => 'registration',
 		'sub_menu' => [[
             'url' => '/registrationticket/buy',
-            'id' => 'registrationticketbuy',
             'title' => 'Buy'
         ],[
+            'url' => '/registrationticket/fee',
+            'title' => 'Fee'
+        ],[
             'url' => '/registrationticket',
-            'id' => 'registrationtickethistory',
             'title' => 'History'
         ]]
 	],[
 		'icon' => 'fa fa-trophy',
 		'title' => 'Reward',
-		'url' => '/reward',
-		'id' => 'reward'
+		'url' => '/reward'
 	],[
 		'icon' => 'zmdi zmdi-balance-wallet',
 		'title' => 'Wallet',
 		'url' => 'javascript:void(0)',
-		'id' => 'wallet',
 		'sub_menu' => [[
             'url' => '/wallet',
-            'id' => 'wallethistory',
             'title' => 'History'
         ],[
             'url' => '/wallet/deposit',
-            'id' => 'walletdeposit',
             'title' => 'Deposit'
         ],[
             'url' => '/wallet/withdraw',
-            'id' => 'walletwithdraw',
             'title' => 'Withdraw'
         ]]
 	]]

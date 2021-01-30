@@ -23,7 +23,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::prefix('member')->group(function ()
     {
-        Route::get('/', \App\Http\Livewire\Member\Data::class)->name('member');
+        Route::get('/', \App\Http\Livewire\Member\Downline::class)->name('member');
         Route::get('/registration', \App\Http\Livewire\Member\Registration::class)->name('member.registration');
     });
 
@@ -31,18 +31,22 @@ Route::group(['middleware' => ['auth']], function () {
     {
         Route::get('/', \App\Http\Livewire\Registrationticket\History::class)->name('tiket');
         Route::get('/buy', \App\Http\Livewire\Registrationticket\Buy::class)->name('tiket.beli');
+        Route::get('/fee', \App\Http\Livewire\Registrationticket\Fee::class)->name('tiket.fee');
     });
 
-    // Route::prefix('balance')->group(function ()
-    // {
-    //     Route::get('/', \App\Http\Livewire\Saldo\History\Index::class)->name('saldo');
-    //     Route::get('/topup', \App\Http\Livewire\Saldo\Topup\Form::class)->name('saldo.topup');
-    // });
+    Route::prefix('balance')->group(function ()
+    {
+        Route::get('/', \App\Http\Livewire\Balance\History::class)->name('saldo');
+        Route::get('/topup', \App\Http\Livewire\Balance\Topup::class)->name('saldo.topup');
+    });
 
-    // Route::prefix('profile')->group(function ()
-    // {
-    //     Route::get('/', \App\Http\Livewire\Profil\Form::class)->name('profil');
-    // });
+    Route::prefix('benefit')->group(function ()
+    {
+        Route::get('/', \App\Http\Livewire\Benefit\All::class)->name('bagihasil');
+        Route::get('/daily', \App\Http\Livewire\Benefit\Daily::class)->name('bagihasil.harian');
+        Route::get('/referral', \App\Http\Livewire\Benefit\Referral::class)->name('bagihasil.referal');
+        Route::get('/turnovergrowth', \App\Http\Livewire\Benefit\Turnover::class)->name('bagihasil.omset');
+    });
 
     // Route::prefix('profit')->group(function ()
     // {
@@ -51,10 +55,10 @@ Route::group(['middleware' => ['auth']], function () {
     //     Route::get('/activation', \App\Http\Livewire\Bagihasil\Aktivasi\Index::class)->name('bagihasil.tiket');
     // });
 
-    // Route::prefix('reinvest')->group(function ()
-    // {
-    //     Route::get('/', \App\Http\Livewire\Reinvest\Form::class)->name('reinvest');
-    // });
+    Route::prefix('profile')->group(function ()
+    {
+        Route::get('/', \App\Http\Livewire\Member\Profile::class)->name('profile');
+    });
 
     // Route::prefix('reward')->group(function ()
     // {

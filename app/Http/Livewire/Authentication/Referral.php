@@ -9,6 +9,7 @@ use Livewire\Component;
 use App\Models\BagiHasil;
 use App\Models\Peringkat;
 use App\Models\Transaksi;
+use App\Models\Pencapaian;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +40,7 @@ class Referral extends Component
                 $this->name = $this->data->anggota->anggota_nama;
                 $this->email = $this->data->anggota->anggota_email;
                 $this->phone_number = $this->data->anggota->anggota_hp;
-                $this->package = $this->data->paket_harga;
+                $this->package = $this->data->anggota->paket_harga;
             }
         }
     }
@@ -136,7 +137,7 @@ class Referral extends Component
                         return $q->peringkat_omset_min <= $kaki_kecil;
                     })->sortBy('peringkat_omset_min')->first();
 
-                    if ($peringkat && Pencapaian::where('anggota_id', $row['id'])->where('pencapaian_id', $pencapaian->peringkat_id)->count() == 0) {
+                    if ($peringkat && Pencapaian::where('anggota_id', $row['id'])->where('pencapaian_id', $member->peringkat_id)->count() == 0) {
                         $member->peringkat_id = $peringkat['peringkat_id'];
 
                         $pcp = new Pencapaian();
@@ -160,7 +161,7 @@ class Referral extends Component
                                 }
                                 array_push($bonus,[
                                     'bagi_hasil_keterangan' => $pairing." left side registration",
-                                    'bagi_hasil_jenis' => "Turnover",
+                                    'bagi_hasil_jenis' => "Turnover Growth",
                                     'bagi_hasil_debit' => 0,
                                     'bagi_hasil_kredit' => $nilai_bonus * 5 /100,
                                     'transaksi_id' => $id,
@@ -179,7 +180,7 @@ class Referral extends Component
                                 }
                                 array_push($bonus,[
                                     'bagi_hasil_keterangan' => $pairing." right side registration",
-                                    'bagi_hasil_jenis' => "Turnover",
+                                    'bagi_hasil_jenis' => "Turnover Growth",
                                     'bagi_hasil_debit' => 0,
                                     'bagi_hasil_kredit' => $nilai_bonus * 5 /100,
                                     'transaksi_id' => $id,

@@ -2,7 +2,7 @@
     <!-- page body start -->
     <div class="page-body">
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-lg-7">
                 <!-- Session Idle Timeout card start -->
                 <form wire:submit.prevent="submit">
                     <div class="card">
@@ -27,7 +27,7 @@
                 </form>
                 <!-- Session Idle Timeout card end -->
             </div>
-            <div class="col-sm-4">
+            <div class="col-lg-5">
                 @include('includes.information')
             </div>
         </div>

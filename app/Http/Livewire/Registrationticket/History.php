@@ -14,6 +14,8 @@ class History extends Component
     public $period = "This Month Only";
 
     protected $paginationTheme = 'bootstrap';
+    protected $queryString = ['period'];
+
     public function render()
     {
         $pin = new Pin();
@@ -37,7 +39,7 @@ class History extends Component
         ])
         ->extends('livewire.main', [
             'breadcrumb' => ['Registration Ticket', 'History'],
-            'title' => 'Registration Ticket',
+            'title' => 'Registration Ticket History',
             'description' => 'The History of Your Registration Ticket'
         ])
         ->section('subcontent');

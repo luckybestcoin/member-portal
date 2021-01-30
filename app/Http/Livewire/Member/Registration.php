@@ -21,14 +21,14 @@ use Illuminate\Support\Facades\Mail;
 
 class Registration extends Component
 {
-    public $name, $package, $country, $referral, $phone_number, $email, $position, $back, $notification, $package_cost, $package_ticket, $package_name;
+    public $name, $package, $country, $referral, $phone_number, $email, $turnover, $back, $notification, $package_cost, $package_ticket, $package_name;
 
     public $data_negara = [], $data_paket = [], $data_anggota = [];
 
     protected $rules = [
         'name' => 'required',
         'package' => 'required',
-        'position' => 'required',
+        'turnover' => 'required',
         'referral' => 'required',
         'email' => 'required|email',
         'phone_number' => 'required|min:9',
@@ -99,8 +99,8 @@ class Registration extends Component
         $this->reset('notification');
         $error = null;
 
-        if($this->position < 0 || $this->position > 1){
-            $error .= "<li>Position not available</li>";
+        if($this->turnover < 0 || $this->turnover > 1){
+            $error .= "<li>Turnover position not available</li>";
         }
         if ($saldo->terakhir < $this->package_cost) {
             $error .= "<li>Insufficient <strong>balance</strong></li>";
@@ -151,9 +151,9 @@ class Registration extends Component
             $anggota->negara_id = $this->country;
             $anggota->paket_harga = $this->package_cost;
             $anggota->anggota_hp = $this->phone_number;
-            $anggota->anggota_posisi = $this->position;
+            $anggota->anggota_posisi = $this->turnover;
             $anggota->anggota_parent = $this->referral;
-            $anggota->anggota_jaringan = auth()->user()->anggota_jaringan.auth()->id().($this->position == 0? 'ki': 'ka');
+            $anggota->anggota_jaringan = auth()->user()->anggota_jaringan.auth()->id().($this->turnover == 0? 'ki': 'ka');
             $anggota->save();
 
             $referal = new Referal();
@@ -187,7 +187,7 @@ class Registration extends Component
             'tipe' => 'success',
             'pesan' => 'New member registration is successful. An email has been sent to '.$this->email
         ];
-        $this->reset(['name', 'email', 'country', 'package', 'position']);
+        $this->reset(['name', 'email', 'country', 'package', 'phone_number', 'turnover']);
     }
 
     public function render()

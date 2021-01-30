@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Saldo\Topup;
+namespace App\Http\Livewire\Balance;
 
 use App\Models\Pin;
 use App\Models\Saldo;
@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class Form extends Component
+class Topup extends Component
 {
     public $amount, $password, $back, $notification, $balance, $pin, $left_turnover = 0, $right_turnover = 0;
 
@@ -88,7 +88,7 @@ class Form extends Component
 
     public function render()
     {
-        return view('livewire.saldo.topup.form')
+        return view('livewire.balance.topup')
             ->extends('livewire.main', [
                 'breadcrumb' => ['Balance', 'Top Up'],
                 'title' => 'Top Up Balance',

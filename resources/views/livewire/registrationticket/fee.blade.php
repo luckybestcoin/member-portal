@@ -6,7 +6,7 @@
                 <!-- Session Idle Timeout card start -->
                 <div class="card">
                     <div class="card-header">
-                        <label class="text-danger">Your remaining benefits is <span class="badge badge-default">$ {{ number_format($total, 2) }}</span></label>
+                        <label class="text-danger">You have <span class="badge badge-default">$ {{ number_format($total, 2) }}</span> Registration Ticket{{ $total > 1? 's': '' }} Fee</label>
                         <div class="float-right form-inline">
                             <select class="form-control" wire:model="period">
                                 <option value="">All Periode</option>
@@ -33,9 +33,9 @@
                                         <td class="align-middle" style="width: 5px">{{ ++$no }}</td>
                                         <td class="align-middle">{{ $row->transaksi_id }}</td>
                                         <td class="align-middle">{{ $row->created_at }}</td>
-                                        <td class="align-middle">{{ $row->bagi_hasil_keterangan }}</td>
-                                        <td class="align-middle text-nowrap text-right">{{ number_format($row->bagi_hasil_debit, 2) }}</td>
-                                        <td class="align-middle text-nowrap text-right">{{ number_format($row->bagi_hasil_kredit, 2) }}</td>
+                                        <td class="align-middle">{{ $row->bonus_pin_keterangan }}</td>
+                                        <td class="align-middle text-nowrap text-right">{{ number_format($row->bonus_pin_debit, 2) }}</td>
+                                        <td class="align-middle text-nowrap text-right">{{ number_format($row->bonus_pin_kredit, 2) }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>

@@ -126,8 +126,8 @@ class Buy extends Component
             if(strlen(trim(auth()->user()->anggota_parent)) == 0){
                 array_push($pembagian,[
                     'bonus_pin_keterangan' => $keterangan." by ".auth()->user()->anggota_uid,
-                    'bonus_pin_bonus_pin_debit' => 0,
-                    'bonus_pin_bonus_pin_kredit' => 7 * $this->amount,
+                    'bonus_pin_debit' => 0,
+                    'bonus_pin_kredit' => 7 * $this->amount,
                     'transaksi_id' => $id,
                     'anggota_id' => auth()->id(),
                     'created_at' => $now,

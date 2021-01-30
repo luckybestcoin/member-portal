@@ -7,6 +7,9 @@
                 <div class="card">
                     <div class="card-header">
                         <a href="{{ route('saldo.topup') }}" class="btn btn-primary">Top Up</a>
+                        <button type="button" class="btn btn-danger waves-effect waves-light" data-toggle="tooltip" data-placement="top" title="" data-original-title=".btn-danger.badge" disabled>
+                            Your balance is <span class="badge">$ {{ number_format($total) }}</span>
+                        </button>
                         <div class="float-right form-inline">
                             <select class="form-control" wire:model="period">
                                 <option value="">All Periode</option>
@@ -30,20 +33,24 @@
                                 <tbody>
                                 @foreach ($data as $i => $row)
                                     <tr>
-                                        <td class="align-middle">{{ ++$no }}</td>
+                                        <td class="align-middle" style="width: 5px">{{ ++$no }}</td>
                                         <td class="align-middle">{{ $row->transaksi_id }}</td>
                                         <td class="align-middle">{{ $row->created_at }}</td>
                                         <td class="align-middle">{{ $row->saldo_keterangan }}</td>
-                                        <td class="align-middle text-nowrap text-right">{{ number_format($row->saldo_debit, 2) }}</td>
-                                        <td class="align-middle text-nowrap text-right">{{ number_format($row->saldo_kredit, 2) }}</td>
+                                        <td class="align-middle text-nowrap text-right">{{ number_format($row->saldo_debit) }}</td>
+                                        <td class="align-middle text-nowrap text-right">{{ number_format($row->saldo_kredit) }}</td>
                                     </tr>
                                 @endforeach
-                                    <tr>
-                                        <th>Total Balance</th>
-                                        <th class="align-middle text-nowrap text-right">{{ number_format($total, 2) }}</th>
-                                    </tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-lg-10 col-xl-10 col-xs-12">
+                                {{ $data->links() }}
+                            </div>
+                            <div class="col-md-6 col-lg-2 col-xl-2 col-xs-12">
+                                <label class="pull-right">Total Data : {{ $data->total() }}</label>
+                            </div>
                         </div>
                     </div>
                 </div>

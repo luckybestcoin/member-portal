@@ -46,9 +46,23 @@ class Anggota extends Authenticatable
         return $this->belongsTo('App\Models\Peringkat', 'peringkat_id');
     }
 
+    public function child_kiri()
+    {
+        return $this->hasMany('App\Models\Anggota', 'anggota_parent', 'anggota_id')->with('child_kiri')->with('child_kanan')->with('peringkat')->with('omset_keluar_kiri')->with('omset_keluar_kanan')->where('anggota_posisi', 0)->whereNotNull('anggota_uid')->select("anggota_id", "anggota_uid", "peringkat_id", "anggota_parent", "anggota_posisi", "paket_harga", "anggota_jaringan", "jatuh_tempo", "deleted_at", "anggota_nama",
+        DB::raw('(select ifnull(sum(paket_harga * reinvest), 0) from anggota a where a.anggota_uid is not null and left(a.anggota_jaringan, length(concat(anggota.anggota_jaringan, anggota.anggota_id, "ki")))=concat(anggota.anggota_jaringan, anggota.anggota_id, "ki") ) omset_kiri'),
+        DB::raw('(select ifnull(sum(paket_harga * reinvest), 0) from anggota a where a.anggota_uid is not null and left(a.anggota_jaringan, length(concat(anggota.anggota_jaringan, anggota.anggota_id, "ka")))=concat(anggota.anggota_jaringan, anggota.anggota_id, "ka") ) omset_kanan'))->orderBy('anggota_uid');
+    }
+
+    public function child_kanan()
+    {
+        return $this->hasMany('App\Models\Anggota', 'anggota_parent', 'anggota_id')->with('child_kiri')->with('child_kanan')->with('peringkat')->with('omset_keluar_kiri')->with('omset_keluar_kanan')->where('anggota_posisi', 1)->whereNotNull('anggota_uid')->select("anggota_id", "anggota_uid", "peringkat_id", "anggota_parent", "anggota_posisi", "paket_harga", "anggota_jaringan", "jatuh_tempo", "deleted_at", "anggota_nama",
+        DB::raw('(select ifnull(sum(paket_harga * reinvest), 0) from anggota a where a.anggota_uid is not null and left(a.anggota_jaringan, length(concat(anggota.anggota_jaringan, anggota.anggota_id, "ki")))=concat(anggota.anggota_jaringan, anggota.anggota_id, "ki") ) omset_kiri'),
+        DB::raw('(select ifnull(sum(paket_harga * reinvest), 0) from anggota a where a.anggota_uid is not null and left(a.anggota_jaringan, length(concat(anggota.anggota_jaringan, anggota.anggota_id, "ka")))=concat(anggota.anggota_jaringan, anggota.anggota_id, "ka") ) omset_kanan'))->orderBy('anggota_uid');
+    }
+
     public function parent()
     {
-        return $this->hasOne('App\Models\Anggota', 'anggota_id', 'anggota_parent')->with('parent')->with('peringkat')->with('omset_keluar_kiri')->with('omset_keluar_kanan')->select("anggota_id", "anggota_uid", "peringkat_id", "anggota_parent", "anggota_posisi", "paket_harga", "anggota_jaringan", "jatuh_tempo", "deleted_at",
+        return $this->hasOne('App\Models\Anggota', 'anggota_id', 'anggota_parent')->with('parent')->with('peringkat')->with('omset_keluar_kiri')->with('omset_keluar_kanan')->select("anggota_id", "anggota_uid", "anggota_nama", "peringkat_id", "anggota_parent", "anggota_posisi", "paket_harga", "anggota_jaringan", "jatuh_tempo", "deleted_at",
         DB::raw('(select ifnull(sum(paket_harga * reinvest), 0) from anggota a where a.anggota_uid is not null and left(a.anggota_jaringan, length(concat(anggota.anggota_jaringan, anggota.anggota_id, "ki")))=concat(anggota.anggota_jaringan, anggota.anggota_id, "ki") ) omset_kiri'),
         DB::raw('(select ifnull(sum(paket_harga * reinvest), 0) from anggota a where a.anggota_uid is not null and left(a.anggota_jaringan, length(concat(anggota.anggota_jaringan, anggota.anggota_id, "ka")))=concat(anggota.anggota_jaringan, anggota.anggota_id, "ka") ) omset_kanan'))->withTrashed();
     }

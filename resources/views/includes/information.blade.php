@@ -2,15 +2,18 @@
 @inject('pin', 'App\Models\Pin')
 @inject('anggota', 'App\Models\Anggota')
 
-<div class="card bg-c-green text-white">
+<div class="card bg-dark text-white">
     <div class="card-block">
         <div class="row align-items-center">
             <div class="col">
-                <p class="m-b-5">Balance</p>
-                <h4 class="m-b-0 text-nowrap">{{ number_format($saldo->terakhir, 2) }}</h4>
+                <p class="m-b-5">LBIT</p>
+                <h4 class="m-b-0 text-nowrap">{{ number_format(0, 2) }}
+                    <hr class="bg-white">
+                    <small>Estimate $ 0 <label class="badge badge-default"><a href="{{ route('saldo.topup') }}">Convert Now</a></label></small>
+                </h4>
             </div>
             <div class="col col-auto text-right">
-                <i class="fa fa-coins f-50 text-c-green"></i>
+                <i class="icofont icofont-coins f-50 text-white"></i>
             </div>
         </div>
     </div>

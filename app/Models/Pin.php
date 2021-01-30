@@ -15,12 +15,6 @@ class Pin extends Model
     {
         $pin = 0;
         $data_pin = $this->select('pin_debit', 'pin_kredit')->where('anggota_id', auth()->id())->get();
-        if ($data_pin->count() > 0) {
-            $pin = $data_pin->map(function ($pin)
-            {
-                return $pin->sum('pin_kredit') - $pin->sum('pin_debit');
-            })->first();
-        }
-        return $pin;
+        return $data_pin->sum('pin_kredit') - $data_pin->sum('pin_debit');
     }
 }
