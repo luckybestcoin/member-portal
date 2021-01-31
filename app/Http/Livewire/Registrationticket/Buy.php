@@ -75,9 +75,9 @@ class Buy extends Component
             $error .= "<li>Amount cannot be less than 0</li>";
         }
 
-        if ($saldo->terakhir < $this->harga_tiket * $this->amount) {
-            $error .= "<li>Insufficient <strong>balance</strong></li>";
-        }
+        // if ($saldo->terakhir < $this->harga_tiket * $this->amount) {
+        //     $error .= "<li>Insufficient <strong>balance</strong></li>";
+        // }
 
         if ($error) {
             $this->reset(['amount', 'password']);

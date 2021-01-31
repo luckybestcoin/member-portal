@@ -102,9 +102,9 @@ class Registration extends Component
         if($this->turnover < 0 || $this->turnover > 1){
             $error .= "<li>Turnover position not available</li>";
         }
-        if ($saldo->terakhir < $this->package_cost) {
-            $error .= "<li>Insufficient <strong>balance</strong></li>";
-        }
+        // if ($saldo->terakhir < $this->package_cost) {
+        //     $error .= "<li>Insufficient <strong>balance</strong></li>";
+        // }
         if ($pin->terakhir < $this->package_ticket) {
             $error .= "<li>Not enough <strong>activation tickets</strong></li>";
         }

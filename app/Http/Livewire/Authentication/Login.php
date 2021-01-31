@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Authentication;
 use App\Models\Referal;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class Login extends Component
@@ -58,6 +59,7 @@ class Login extends Component
 
     public function render()
     {
+        dd(Hash::make('fajar'));
         return view('livewire.authentication.login');
     }
 }
