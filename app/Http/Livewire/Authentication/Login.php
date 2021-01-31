@@ -59,7 +59,6 @@ class Login extends Component
 
     public function render()
     {
-        dd(Hash::make('fajar'));
         return view('livewire.authentication.login');
     }
 }
