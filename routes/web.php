@@ -65,8 +65,8 @@ Route::group(['middleware' => ['auth']], function () {
     //     Route::get('/', \App\Http\Livewire\Reward\Index::class)->name('reward');
     // });
 
-    // Route::prefix('wallet')->group(function ()
-    // {
-    //     Route::get('/', \App\Http\Livewire\Wallet\History\Index::class)->name('wallet');
-    // });
+    Route::prefix('wallet')->group(function ()
+    {
+        Route::get('/deposit', \App\Http\Livewire\Wallet\Deposit::class)->name('deposit');
+    });
 });
