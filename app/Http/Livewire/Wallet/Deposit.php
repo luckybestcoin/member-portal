@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Wallet;
 
+use App\Models\Payment;
 use Livewire\Component;
 use App\Models\KursPembayaran;
 use App\Library\CoinPaymentsAPI;
@@ -58,16 +59,27 @@ class Deposit extends Component
             'ipn_url' => ''
         ];
 
+        $this->emit('reinitialize');
         $result = $coin->CreateTransaction($request);
         if ($result['error'] == 'ok') {
-        $this->emit('reinitialize');
-        $this->reset(['amount', 'metode']);
+            $deposit = new Payment();
+            $deposit->email = auth()->user()->anggota_email;
+            $deposit->entered_amount = $this->amount_transfer;
+            $deposit->amount = $result['result']['amount'];
+            $deposit->from_currency = $this->metode;
+            $deposit->to_currency = $this->metode;
+            $deposit->status = "initilaized";
+            $deposit->gateway_id = $result['result']['txn_id'];
+            $deposit->gateway_url = $result['result']['status_url'];
+            $deposit->save();
+            $this->reset(['amount', 'metode', 'amount_transfer']);
+
             return $this->notification = [
                 'tipe' => 'success',
-                'pesan' => '<a href="'.$result['result']['status_url'].'" target="_blank">Click this link to view the barcode</a>'
+                'pesan' => '<a href="'.$result['result']['status_url'].'" target="_blank">Click this link to view the status</a>'
             ];
         } else {
-            $this->emit('reinitialize');
+            $this->reset(['amount', 'metode', 'amount_transfer']);
             return $this->notification = [
                 'tipe' => 'danger',
                 'pesan' => 'Error: '. $result['error']

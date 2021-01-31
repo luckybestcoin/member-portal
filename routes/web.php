@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\AutentikasiController;
 
@@ -14,7 +15,7 @@ use App\Http\Controllers\AutentikasiController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/weebhook', WebhookController::index);
 Route::get('/referral', \App\Http\Livewire\Authentication\Referral::class)->name('referral');
 
 Route::group(['middleware' => ['auth']], function () {
