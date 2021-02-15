@@ -18,35 +18,19 @@ return [
 		'title' => 'Dashboard',
 		'url' => '/dashboard'
 	],[
-		'icon' => 'fa fa-dollar',
-		'title' => 'Balance',
-		'url' => 'javascript:void(0)',
-		'sub_menu' => [[
-            'url' => '/balance',
-            'title' => 'History'
-        ],[
-            'url' => '/balance/topup',
-            'title' => 'Top Up'
-        ]]
+		'icon' => 'fa fa-user',
+		'title' => 'Profile',
+		'url' => '/profile'
 	],[
-		'icon' => 'fa fa-share-alt-square',
-		'title' => 'Benefit',
-		'url' => 'javascript:void(0)',
-		'sub_menu' => [[
-            'url' => '/benefit',
-            'title' => 'All'
-        ],[
-            'url' => '/benefit/daily',
-            'title' => 'Daily'
-        ],[
-            'url' => '/benefit/referral',
-            'title' => 'Referral'
-        ],[
-            'url' => '/benefit/turnovergrowth',
-            'title' => 'Turnover Growth'
-        ]]
+		'icon' => 'fa fa-medal',
+		'title' => 'Achievement',
+		'url' => '/achievement'
 	],[
-		'icon' => 'fa fa-group',
+		'icon' => 'fa fa-exchange-alt',
+		'title' => 'Exchange',
+		'url' => '/exchange'
+	],[
+		'icon' => 'fa fa-network-wired',
 		'title' => 'Member',
 		'url' => 'javascript:void(0)',
 		'sub_menu' => [[
@@ -57,44 +41,30 @@ return [
             'title' => 'Registration'
         ]]
 	],[
-		'icon' => 'fa fa-user',
-		'title' => 'Profile',
-		'url' => '/profile'
-	],[
-		'icon' => 'fa fa-recycle',
-		'title' => 'Reinvest',
-		'url' => '/reinvest'
-	],[
-		'icon' => 'fa fa-ticket',
-		'title' => 'Registration Ticket',
+		'icon' => 'fa fa-ticket-alt',
+		'title' => 'Pin',
 		'url' => 'javascript:void(0)',
 		'sub_menu' => [[
-            'url' => '/registrationticket/buy',
+            'url' => '/pin/buy',
             'title' => 'Buy'
         ],[
-            'url' => '/registrationticket/fee',
+            'url' => '/pin/fee',
             'title' => 'Fee'
         ],[
-            'url' => '/registrationticket',
+            'url' => '/pin',
             'title' => 'History'
         ]]
+	],[
+		'icon' => 'fa fa-recycle',
+		'title' => 'Restacking',
+		'url' => '/restacking'
 	],[
 		'icon' => 'fa fa-trophy',
 		'title' => 'Reward',
 		'url' => '/reward'
 	],[
-		'icon' => 'zmdi zmdi-balance-wallet',
+		'icon' => 'fa fa-wallet',
 		'title' => 'Wallet',
-		'url' => 'javascript:void(0)',
-		'sub_menu' => [[
-            'url' => '/wallet',
-            'title' => 'History'
-        ],[
-            'url' => '/wallet/deposit',
-            'title' => 'Deposit'
-        ],[
-            'url' => '/wallet/withdraw',
-            'title' => 'Withdraw'
-        ]]
+		'url' => '/wallet'
 	]]
 ];

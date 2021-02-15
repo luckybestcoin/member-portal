@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Mail;
 
 class Registration extends Component
 {
-    public $name, $package, $country, $referral, $phone_number, $email, $turnover, $back, $notification, $package_cost, $package_ticket, $package_name;
+    public $name, $package, $country, $referral, $phone_number, $email, $turnover, $back, $notification, $package_cost, $package_ticket, $package_name, $country_code;
 
     public $data_negara = [], $data_paket = [], $data_anggota = [];
 
@@ -51,6 +51,8 @@ class Registration extends Component
     {
         $this->updated();
         $this->country = $country;
+        $negara_filter = $this->data_negara->where('negara_id', $country)->first();
+        $this->country_code = $negara_filter['negara_kode'];
     }
 
     public function setPackage($package)
@@ -105,9 +107,9 @@ class Registration extends Component
         // if ($saldo->terakhir < $this->package_cost) {
         //     $error .= "<li>Insufficient <strong>balance</strong></li>";
         // }
-        if ($pin->terakhir < $this->package_ticket) {
-            $error .= "<li>Not enough <strong>activation tickets</strong></li>";
-        }
+        // if ($pin->terakhir < $this->package_ticket) {
+        //     $error .= "<li>Not enough <strong>activation tickets</strong></li>";
+        // }
         if (Anggota::where('anggota_email', $this->email)->count() > 0){
             $error .= "<li>The email address <strong>".$this->email."</strong> is already registered</li>";
         }
@@ -149,8 +151,9 @@ class Registration extends Component
             $anggota->anggota_nama = $this->name;
             $anggota->anggota_email = $this->email;
             $anggota->negara_id = $this->country;
+            $anggota->paket_id = $this->package;
             $anggota->paket_harga = $this->package_cost;
-            $anggota->anggota_hp = $this->phone_number;
+            $anggota->anggota_hp = $this->$country_code.$this->phone_number;
             $anggota->anggota_posisi = $this->turnover;
             $anggota->anggota_parent = $this->referral;
             $anggota->anggota_jaringan = auth()->user()->anggota_jaringan.auth()->id().($this->turnover == 0? 'ki': 'ka');
@@ -183,11 +186,11 @@ class Registration extends Component
         });
 
         $this->updated();
-        return $this->notification = [
+        $this->notification = [
             'tipe' => 'success',
             'pesan' => 'New member registration is successful. An email has been sent to '.$this->email
         ];
-        $this->reset(['name', 'email', 'country', 'package', 'phone_number', 'turnover']);
+        return $this->reset(['name', 'email', 'country', 'package', 'phone_number', 'turnover']);
     }
 
     public function render()

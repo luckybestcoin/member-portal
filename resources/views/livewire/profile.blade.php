@@ -10,12 +10,15 @@
                     @include('includes.error-validation')
                     @include('includes.notification')
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <form wire:submit.prevent="submit">
-                        <div class="card">
+                        <div class="card card-default">
                             <div class="card-header">
-                                <h3 class="card-title">Form</h3>
+                                <h3 class="card-title">
+                                    Form
+                                </h3>
                             </div>
+                            <!-- /.card-header -->
                             <div class="card-body">
                                 <div class="form-group">
                                     <label>Name</label>
@@ -33,7 +36,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Country</label>
-                                    <select class="select2 country" wire:model="country"  style="width: 100%;">
+                                    <select class="select2 country" wire:model="country" style="width: 100%">
                                         <option value="">-- Choose Country --</option>
                                         @foreach ($data_negara as $negara)
                                         <option value="{{ $negara->negara_id }}">{{ $negara->negara_nama }}</option>
@@ -43,65 +46,35 @@
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <div class="form-group form-primary">
+                                <div class="form-group">
                                     <label>Phone Number</label>
-                                    <div class="input-group">
-                                        <div class="input-group-append">
-                                            <div class="input-group-text">
-                                                {{ $country_code }}
-                                            </div>
-                                        </div>
-                                        <input type="text" class="form-control" wire:model="phone_number" autocomplete="off">
-                                    </div>
+                                    <input type="text" class="form-control" wire:model="phone_number" autocomplete="off">
                                     @error('phone_number')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <hr>
                                 <div class="form-group">
-                                    <label>Stacking</label>
-                                    <select class="select2 package" wire:model="package" style="width: 100%;">
-                                        <option value="">-- Choose Package --</option>
-                                        @foreach ($data_paket as $paket)
-                                        <option value="{{ $paket->paket_id }}">{{ $paket->paket_nama }} ($ {{ number_format($paket->paket_harga, 2) }})</option>
-                                        @endforeach
-                                    </select>
+                                    <label>Package</label>
+                                    <input type="text" class="form-control" wire:model="package" autocomplete="off" disabled>
                                     @error('package')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Referral</label>
-                                    <select class="select2 referral" wire:model="referral" style="width: 100%;">
-                                        <option value="{{ auth()->id() }}" selected>{{ auth()->user()->anggota_uid." (".auth()->user()->anggota_nama.")" }}</option>
-                                        @foreach ($data_anggota as $anggota)
-                                        <option value="{{ $anggota->anggota_id }}">{{ $anggota->anggota_uid." (".$anggota->anggota_nama.")" }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" class="form-control" wire:model="referral" autocomplete="off" disabled>
                                     @error('referral')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <div class="form-group">
-                                    <label>Turnover</label>
-                                    <select class="form-control" wire:model="turnover">
-                                        <option value="">-- Choose Turnover Position --</option>
-                                        <option value="0">Left Side</option>
-                                        <option value="1">Right Side</option>
-                                    </select>
-                                    @error('turnover')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
                             </div>
+                            <!-- /.card-body -->
                             <div class="card-footer clearfix">
-                                <input type="submit" value="Submit" class="btn btn-success">
+                                <input type="submit" value="Update" class="btn btn-success">
                             </div>
                         </div>
                     </form>
-                </div>
-                <div class="col-md-4">
-                    @include('includes.information')
                 </div>
             </div>
         </div>

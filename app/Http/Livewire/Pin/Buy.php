@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Registrationticket;
+namespace App\Http\Livewire\Pin;
 
 use Carbon\Carbon;
 use App\Models\Pin;
@@ -115,7 +115,7 @@ class Buy extends Component
             $pembagian = [];
             $now = Carbon::now();
 
-            $jenis = 'Registration Ticket';
+            $jenis = 'Pin';
             $pendapatan = new Pendapatan();
             $pendapatan->pendapatan_keterangan = $keterangan." by ".auth()->user()->anggota_uid;
             $pendapatan->pendapatan_jenis = $jenis;
@@ -386,11 +386,11 @@ class Buy extends Component
 
     public function render()
     {
-        return view('livewire.registrationticket.buy')
+        return view('livewire.pin.buy')
             ->extends('livewire.main', [
-                'breadcrumb' => ['Registration Ticket', 'Buy'],
-                'title' => 'Buy Registration Ticket',
-                'description' => 'Buy registration ticket to register new member'
+                'breadcrumb' => ['Pin', 'Buy'],
+                'title' => 'Buy Pin',
+                'description' => 'Buy pin to register new member'
             ])
             ->section('subcontent');
     }

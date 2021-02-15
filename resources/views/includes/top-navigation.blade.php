@@ -1,81 +1,33 @@
-<nav class="navbar header-navbar pcoded-header">
-    <div class="navbar-wrapper">
-
-        <div class="navbar-logo">
-            <a class="mobile-menu" id="mobile-collapse" href="#!">
-                <i class="feather icon-menu"></i>
-            </a>
-            <a href="/">
-                <img class="img-fluid" src="/assets/images/logo.png" alt="Theme-Logo" />
-            </a>
-            <a class="mobile-options">
-                <i class="feather icon-more-horizontal"></i>
-            </a>
-        </div>
-
-        <div class="navbar-container">
-            <ul class="nav-left">
-                <li class="header-search">
-                    <div class="main-search morphsearch-search">
-                        <div class="input-group">
-                            {{-- <span class="input-group-prepend search-close">
-                                <i class="feather icon-x input-group-text"></i>
-                            </span> --}}
-                            <input type="text" class="form-control" placeholder="Enter Keyword">
-                            <span class="input-group-append search-btn">
-                            <i class="feather icon-search input-group-text"></i>
-                        </span>
-                        </div>
-                    </div>
+        <nav class="main-header navbar navbar-expand text-sm navbar-dark navbar-lightblue">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
-                <li>
-                    <a href="#!" onclick="javascript:toggleFullScreen()" class="waves-effect waves-light">
-                    <i class="full-screen feather icon-maximize"></i>
-                </a>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="/" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="/contact" class="nav-link">Contact</a>
                 </li>
             </ul>
-            <ul class="nav-right">
-                <li class="user-profile header-notification">
-                    <div class="dropdown-primary dropdown">
-                        <div class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="/assets/images/user.png" class="img-radius"
-                                alt="User-Profile-Image">
-                            <span>{{ auth()->user()->anggota_uid }}</span>
-                            <i class="feather icon-chevron-down"></i>
-                        </div>
-                        <ul class="show-notification profile-notification dropdown-menu"
-                            data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                            <li>
-                                <a href="#!">
-                                    <i class="feather icon-settings"></i> Settings
-                                </a>
-                            </li>
-                            <li>
-                                <a href="user-profile.html">
-                                    <i class="feather icon-user"></i> Profile
-                                </a>
-                            </li>
-                            <li>
-                                <a href="email-inbox.html">
-                                    <i class="feather icon-mail"></i> My Messages
-                                </a>
-                            </li>
-                            <li>
-                                <a href="auth-lock-screen.html">
-                                    <i class="feather icon-lock"></i> Lock Screen
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="feather icon-log-out"></i> {{ __('Log Out') }}</a>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
-                            </li>
-                        </ul>
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="far fa-user-circle"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <a href="{{ route('profile') }}" class="dropdown-item">
+                            <i class="fas fa-user mr-2"></i> Profile
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="javascript:;" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="feather icon-log-out"></i><i class="fas fa-sign-out-alt mr-2"></i> {{ __('Log Out') }}</a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
                     </div>
                 </li>
             </ul>
-        </div>
-    </div>
-</nav>
+        </nav>

@@ -2,11 +2,9 @@
 @push('css')
 <link rel="stylesheet" type="text/css" href="/assets/icon/icofont/css/icofont.css">
 @endpush
-
-<div class="alert alert-danger">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <i class="icofont icofont-close-line-circled"></i>
-    </button>
+<div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-ban"></i> Error!</h5>
     @if ($errors->count() == 1)
         {!! $errors->first() !!}
     @else

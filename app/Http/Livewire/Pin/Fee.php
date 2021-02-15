@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Livewire\Registrationticket;
+namespace App\Http\Livewire\Pin;
 
 use Carbon\Carbon;
-use App\Models\Pin;
 use Livewire\Component;
+use App\Models\BonusPin;
 use Livewire\WithPagination;
 
-class History extends Component
+class Fee extends Component
 {
     use WithPagination;
 
@@ -18,7 +18,7 @@ class History extends Component
 
     public function render()
     {
-        $pin = new Pin();
+        $pin = new BonusPin();
         $data = $pin->where('anggota_id', auth()->id());
 
         if($this->period === "This Month Only"){
@@ -32,15 +32,15 @@ class History extends Component
         }
 
         $data = $data->paginate(10);
-        return view('livewire.registrationticket.history', [
+        return view('livewire.pin.fee', [
             'no' => ($this->page - 1) * 10,
             'data' => $data,
             'total' => $pin->terakhir
         ])
         ->extends('livewire.main', [
-            'breadcrumb' => ['Registration Ticket', 'History'],
-            'title' => 'Registration Ticket History',
-            'description' => 'The History of Your Registration Ticket'
+            'breadcrumb' => ['Pin', 'Fee'],
+            'title' => 'Pin Fee',
+            'description' => 'Pin fee that you have earned'
         ])
         ->section('subcontent');
     }

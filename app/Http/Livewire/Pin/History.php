@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Livewire\Balance;
+namespace App\Http\Livewire\Pin;
 
 use Carbon\Carbon;
-use App\Models\Saldo;
+use App\Models\Pin;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -18,8 +18,8 @@ class History extends Component
 
     public function render()
     {
-        $saldo = new Saldo();
-        $data = $saldo->where('anggota_id', auth()->id());
+        $pin = new Pin();
+        $data = $pin->where('anggota_id', auth()->id());
 
         if($this->period === "This Month Only"){
             $from = Carbon::parse(now())->format("Y-m-01 00:00:00");
@@ -32,15 +32,15 @@ class History extends Component
         }
 
         $data = $data->paginate(10);
-        return view('livewire.balance.history', [
+        return view('livewire.pin.history', [
             'no' => ($this->page - 1) * 10,
             'data' => $data,
-            'total' => $saldo->terakhir
+            'total' => $pin->terakhir
         ])
         ->extends('livewire.main', [
-            'breadcrumb' => ['Balance', 'History'],
-            'title' => 'Balance',
-            'description' => 'The History of Your Balance'
+            'breadcrumb' => ['Pin', 'History'],
+            'title' => 'Pin History',
+            'description' => 'The History of Your Pin'
         ])
         ->section('subcontent');
     }

@@ -28,26 +28,15 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/registration', \App\Http\Livewire\Member\Registration::class)->name('member.registration');
     });
 
-    Route::prefix('registrationticket')->group(function ()
+    Route::prefix('pin')->group(function ()
     {
-        Route::get('/', \App\Http\Livewire\Registrationticket\History::class)->name('tiket');
-        Route::get('/buy', \App\Http\Livewire\Registrationticket\Buy::class)->name('tiket.beli');
-        Route::get('/fee', \App\Http\Livewire\Registrationticket\Fee::class)->name('tiket.fee');
+        Route::get('/', \App\Http\Livewire\Pin\History::class)->name('pin');
+        Route::get('/buy', \App\Http\Livewire\Pin\Buy::class)->name('pin.buy');
+        Route::get('/fee', \App\Http\Livewire\Pin\Fee::class)->name('pin.fee');
     });
 
-    Route::prefix('balance')->group(function ()
-    {
-        Route::get('/', \App\Http\Livewire\Balance\History::class)->name('saldo');
-        Route::get('/topup', \App\Http\Livewire\Balance\Topup::class)->name('saldo.topup');
-    });
-
-    Route::prefix('benefit')->group(function ()
-    {
-        Route::get('/', \App\Http\Livewire\Benefit\All::class)->name('bagihasil');
-        Route::get('/daily', \App\Http\Livewire\Benefit\Daily::class)->name('bagihasil.harian');
-        Route::get('/referral', \App\Http\Livewire\Benefit\Referral::class)->name('bagihasil.referal');
-        Route::get('/turnovergrowth', \App\Http\Livewire\Benefit\Turnover::class)->name('bagihasil.omset');
-    });
+    Route::get('/reward', \App\Http\Livewire\Reward::class)->name('bagihasil');
+    Route::get('/profile', \App\Http\Livewire\profile::class)->name('profile');
 
     // Route::prefix('profit')->group(function ()
     // {
@@ -55,11 +44,6 @@ Route::group(['middleware' => ['auth']], function () {
     //     Route::get('/topup', \App\Http\Livewire\Bagihasil\Harian\Index::class)->name('bagihasil.harian');
     //     Route::get('/activation', \App\Http\Livewire\Bagihasil\Aktivasi\Index::class)->name('bagihasil.tiket');
     // });
-
-    Route::prefix('profile')->group(function ()
-    {
-        Route::get('/', \App\Http\Livewire\Member\Profile::class)->name('profile');
-    });
 
     // Route::prefix('reward')->group(function ()
     // {

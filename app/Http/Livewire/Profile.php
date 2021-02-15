@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Member;
+namespace App\Http\Livewire;
 
 use App\Models\Negara;
 use App\Models\Anggota;
@@ -44,7 +44,7 @@ class Profile extends Component
         $this->email = $this->data->anggota_email;
         $this->country = $this->data->negara_id;
         $this->phone_number = $this->data->anggota_hp;
-        $this->package = number_format($this->data->paket_harga, 2);
+        $this->package = $this->data->paket->paket_nama." ".number_format($this->data->paket_harga, 2);
         $this->referral = $this->data->parent? $this->data->parent->anggota_uid." (".$this->data->parent->anggota_nama.")": "";
         $this->data_negara = Negara::orderBy('negara_nama')->get();
     }
@@ -86,7 +86,7 @@ class Profile extends Component
 
     public function render()
     {
-        return view('livewire.member.profile')
+        return view('livewire.profile')
             ->extends('livewire.main', [
                 'breadcrumb' => ['Profile'],
                 'title' => 'Profile',

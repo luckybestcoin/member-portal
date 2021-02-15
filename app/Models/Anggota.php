@@ -41,6 +41,11 @@ class Anggota extends Authenticatable
         return $this->hasOne('App\Models\Wallet', 'anggota_id');
     }
 
+    public function paket()
+    {
+        return $this->belongsTo('App\Models\Paket', 'paket_id', 'paket_id');
+    }
+
     public function peringkat()
     {
         return $this->belongsTo('App\Models\Peringkat', 'peringkat_id');

@@ -30,9 +30,10 @@
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            @if ($amount_transfer > 0)
-                            <h4 class="text-right"><small>Amount {{ $this->payment }}</small> : <strong>{{ number_format($amount_transfer, 2) }}</strong></h4>
                             <input type="submit" value="Pay Now" class="btn btn-success">
+                            @if ($amount_transfer > 0)
+                            <br>
+                            <h4 class="text-right"><small>Amount {{ $this->payment }}</small> : <strong>{{ $amount_transfer }}</strong></h4>
                             @endif
                             <br>
                             @include('includes.notification')
