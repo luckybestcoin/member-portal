@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Pendapatan extends Model
+class InvalidTurnover extends Model
 {
     use HasFactory;
-
-    protected $table = 'pendapatan';
-    protected $primaryKey = 'pendapatan_id';
+    protected $table = 'invalid_turnover';
+    protected $primaryKey = 'invalid_turnover';
 }

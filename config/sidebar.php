@@ -14,23 +14,23 @@ return [
     */
 
     'menu' => [[
-		'icon' => 'fa fa-home',
+		'icon' => '<i class="nav-icon fa fa-home"></i>',
 		'title' => 'Dashboard',
 		'url' => '/dashboard'
 	],[
-		'icon' => 'fa fa-user',
+		'icon' => '<i class="nav-icon fa fa-user"></i>',
 		'title' => 'Profile',
 		'url' => '/profile'
 	],[
-		'icon' => 'fa fa-medal',
+		'icon' => '<i class="nav-icon fa fa-medal"></i>',
 		'title' => 'Achievement',
 		'url' => '/achievement'
 	],[
-		'icon' => 'fa fa-exchange-alt',
+		'icon' => '<i class="nav-icon fa fa-exchange-alt"></i>',
 		'title' => 'Exchange',
 		'url' => '/exchange'
 	],[
-		'icon' => 'fa fa-network-wired',
+		'icon' => '<i class="nav-icon fa fa-network-wired"></i>',
 		'title' => 'Member',
 		'url' => 'javascript:void(0)',
 		'sub_menu' => [[
@@ -41,7 +41,7 @@ return [
             'title' => 'Registration'
         ]]
 	],[
-		'icon' => 'fa fa-ticket-alt',
+		'icon' => '<i class="nav-icon fa fa-ticket-alt"></i>',
 		'title' => 'Pin',
 		'url' => 'javascript:void(0)',
 		'sub_menu' => [[
@@ -55,16 +55,16 @@ return [
             'title' => 'History'
         ]]
 	],[
-		'icon' => 'fa fa-recycle',
+		'icon' => '<i class="nav-icon fa fa-recycle"></i>',
 		'title' => 'Restacking',
 		'url' => '/restacking'
 	],[
-		'icon' => 'fa fa-trophy',
+		'icon' => '<i class="nav-icon fa fa-gift"></i>',
 		'title' => 'Reward',
 		'url' => '/reward'
 	],[
-		'icon' => 'fa fa-wallet',
-		'title' => 'Wallet',
+		'icon' => '<img src="/images/favicon.ico" class="ml-10" style="margin-left: 13px; height: 25px">',
+		'title' => '<strong style="margin-left: 3px">Wallet</strong>',
 		'url' => '/wallet'
 	]]
 ];

@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Member;
 
-use App\Models\Anggota;
+use App\Models\Member;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 
@@ -23,17 +23,16 @@ class Downline extends Component
 
     public function render()
     {
-        $data_member = Anggota::with('child_kiri')->with('child_kanan')->with('omset_keluar_kiri')->with('omset_keluar_kanan')->select("anggota_id", "anggota_uid", "peringkat_id", "anggota_parent", "anggota_nama", "anggota_posisi", "paket_harga", "anggota_jaringan", "jatuh_tempo", "deleted_at",
-        DB::raw('(select ifnull(sum(paket_harga * reinvest), 0) from anggota a where a.anggota_uid is not null and left(a.anggota_jaringan, length(concat(anggota.anggota_jaringan, anggota.anggota_id, "ki")))=concat(anggota.anggota_jaringan, anggota.anggota_id, "ki") ) omset_kiri'),
-        DB::raw('(select ifnull(sum(paket_harga * reinvest), 0) from anggota a where a.anggota_uid is not null and left(a.anggota_jaringan, length(concat(anggota.anggota_jaringan, anggota.anggota_id, "ka")))=concat(anggota.anggota_jaringan, anggota.anggota_id, "ka") ) omset_kanan'))->where('anggota_id', $this->member)->first();
+        $data_member = Member::with('left_child')->with('right_child')->with('invalid_left_turnover')->with('invalid_right_turnover')->select("member_id", "member_email", "rating_id", "member_parent", "member_name", "member_position", "contract_price", "member_network", "due_date", "deleted_at",
+        DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_network, member.member_id, "ki")))=concat(member.member_network, member.member_id, "ki") ) omset_kiri'),
+        DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_network, member.member_id, "ka")))=concat(member.member_network, member.member_id, "ka") ) omset_kanan'))->where('member_id', $this->member)->first();
         // dd($data_member);
         return view('livewire.member.downline', [
             'data' => $data_member
         ])
         ->extends('livewire.main', [
             'breadcrumb' => ['Member', 'Downline'],
-            'title' => 'Downline',
-            'description' => 'Your downline member'
+            'title' => 'Downline'
         ])
         ->section('subcontent');
     }

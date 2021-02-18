@@ -38,8 +38,8 @@
                                     <label>Country</label>
                                     <select class="select2 country" wire:model="country" style="width: 100%">
                                         <option value="">-- Choose Country --</option>
-                                        @foreach ($data_negara as $negara)
-                                        <option value="{{ $negara->negara_id }}">{{ $negara->negara_nama }}</option>
+                                        @foreach ($country_data as $country)
+                                        <option value="{{ $country->country_id }}">{{ $country->country_name }}</option>
                                         @endforeach
                                     </select>
                                     @error('country')
@@ -55,9 +55,9 @@
                                 </div>
                                 <hr>
                                 <div class="form-group">
-                                    <label>Package</label>
-                                    <input type="text" class="form-control" wire:model="package" autocomplete="off" disabled>
-                                    @error('package')
+                                    <label>Contract</label>
+                                    <input type="text" class="form-control" wire:model="contract" autocomplete="off" disabled>
+                                    @error('contract')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -94,8 +94,8 @@
         function init() {
             $(".select2").select2();
 
-            $(".package").on("change", function(e) {
-                window.livewire.emit('set:setpackage', $(this).select2('data')[0]['id']);
+            $(".contract").on("change", function(e) {
+                window.livewire.emit('set:setcontract', $(this).select2('data')[0]['id']);
             });
 
             $(".referral").on("change", function(e) {

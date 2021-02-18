@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Negara extends Model
+class Country extends Model
 {
     use HasFactory;
 
-    protected $table = "negara";
-    protected $primaryKey = "negara_id";
+    protected $table = "country";
+    protected $primaryKey = "country_id";
 }

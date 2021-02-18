@@ -15,6 +15,6 @@ class Referal extends Model
 
     public function anggota()
     {
-        return $this->belongsTo('App\Models\Anggota', 'anggota_id');
+        return $this->belongsTo('App\Models\Member', 'anggota_id');
     }
 }

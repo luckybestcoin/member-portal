@@ -4,13 +4,13 @@ namespace App\Http\Livewire\Pin;
 
 use Carbon\Carbon;
 use App\Models\Pin;
-use App\Models\Saldo;
-use App\Models\Anggota;
+use App\Models\Balance;
+use App\Models\Member;
 use Livewire\Component;
-use App\Models\BonusPin;
+use App\Models\PinReward;
 use App\Models\Peringkat;
-use App\Models\Transaksi;
-use App\Models\Pendapatan;
+use App\Models\Transaction;
+use App\Models\Income;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -62,7 +62,7 @@ class Buy extends Component
     {
         $this->validate();
 
-        $saldo = new Saldo();
+        $saldo = new Balance();
         $error = null;
 
         $this->reset('notification');
@@ -92,7 +92,7 @@ class Buy extends Component
 
             $id = Str::random(10)."-".date('Ymdhis').round(microtime(true) * 1000);
 
-            $transaksi = new Transaksi();
+            $transaksi = new Transaction();
             $transaksi->transaksi_id = $id;
             $transaksi->transaksi_keterangan = $keterangan." by ".auth()->user()->anggota_uid;
             $transaksi->save();
@@ -116,7 +116,7 @@ class Buy extends Component
             $now = Carbon::now();
 
             $jenis = 'Pin';
-            $pendapatan = new Pendapatan();
+            $pendapatan = new Income();
             $pendapatan->pendapatan_keterangan = $keterangan." by ".auth()->user()->anggota_uid;
             $pendapatan->pendapatan_jenis = $jenis;
             $pendapatan->pendapatan_jumlah = config("constant.admin_harga_tiket") * $this->amount;
@@ -134,7 +134,7 @@ class Buy extends Component
                     'updated_at' => $now
                 ]);
             }else{
-                $this->setParent(Anggota::with('parent')->with('peringkat')->with('omset_keluar_kiri')->with('omset_keluar_kanan')->select("anggota_id", "anggota_uid", "anggota_parent", "anggota_posisi", "peringkat_id", "paket_harga", "anggota_jaringan", "jatuh_tempo", "deleted_at",
+                $this->setParent(Member::with('parent')->with('peringkat')->with('omset_keluar_kiri')->with('omset_keluar_kanan')->select("anggota_id", "anggota_uid", "anggota_parent", "anggota_posisi", "peringkat_id", "paket_harga", "anggota_jaringan", "jatuh_tempo", "deleted_at",
                 DB::raw('(select ifnull(sum(paket_harga * reinvest), 0) from anggota a where a.anggota_uid is not null and left(a.anggota_jaringan, length(concat(anggota.anggota_id, "ki")))=concat(anggota.anggota_id, "ki") ) omset_kiri'),
                 DB::raw('(select ifnull(sum(paket_harga * reinvest), 0) from anggota a where a.anggota_uid is not null and left(a.anggota_jaringan, length(concat(anggota.anggota_id, "ka")))=concat(anggota.anggota_id, "ka") ) omset_kanan'))->where('anggota_id', auth()->id())->first());
 
@@ -367,7 +367,7 @@ class Buy extends Component
             $insert = collect($pembagian)->chunk(10);
             foreach ($insert as $ins)
             {
-                BonusPin::insert($ins->toArray());
+                PinReward::insert($ins->toArray());
             }
         });
 

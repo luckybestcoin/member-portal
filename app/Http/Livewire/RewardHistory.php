@@ -4,10 +4,10 @@ namespace App\Http\Livewire;
 
 use Carbon\Carbon;
 use Livewire\Component;
-use App\Models\BagiHasil;
+use App\Models\Reward;
 use Livewire\WithPagination;
 
-class Reward extends Component
+class RewardHistory extends Component
 {
     use WithPagination;
 
@@ -18,7 +18,7 @@ class Reward extends Component
 
     public function render()
     {
-        $pin = new BagiHasil();
+        $pin = new Reward();
         $data = $pin->where('anggota_id', auth()->id());
 
         if ($this->category != 'All') {

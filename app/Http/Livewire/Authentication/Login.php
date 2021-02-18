@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\Session;
 
 class Login extends Component
 {
-    public $username, $password, $referral_code, $remember = false;
+    public $email, $password, $referral_code, $remember = false;
     public $notification;
 
     protected $rules = [
-        'username' => 'required',
+        'email' => 'required',
         'password' => 'required',
     ];
 
@@ -23,13 +23,13 @@ class Login extends Component
         $this->validate();
 
         $remember = $this->remember == 'on';
-        if (Auth::attempt(['anggota_uid' => $this->username, 'password' => $this->password], $remember)) {
-            Auth::logoutOtherDevices($this->password, 'anggota_kata_sandi');
+        if (Auth::attempt(['member_email' => $this->email, 'password' => $this->password], $remember)) {
+            Auth::logoutOtherDevices($this->password, 'member_password');
             return redirect()->intended('dashboard');
         }
         $this->notification = [
             'tipe' => 'danger',
-            'pesan' => '<li><strong>Sign In notification!!!</strong><br>Wrong username or password</li>'
+            'pesan' => '<li><strong>Sign In notification!!!</strong><br>Wrong email or password</li>'
         ];
         return;
     }

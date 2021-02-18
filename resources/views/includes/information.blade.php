@@ -1,13 +1,13 @@
-@inject('saldo', 'App\Models\Saldo')
-@inject('pin', 'App\Models\Pin')
-@inject('anggota', 'App\Models\Anggota')
+@inject('balance', 'App\Models\Balance')
+@inject('pin', 'App\Models\TransactionPin')
+@inject('member', 'App\Models\Member')
 
 @push('css')
 <link rel="stylesheet" type="text/css" href="/icon/icofont/css/icofont.css">
 @endpush
 
 @php
-    $omset = auth()->user()->select(DB::raw('(select ifnull(sum(paket_harga * reinvest), 0) from anggota a where a.anggota_uid is not null and left(a.anggota_jaringan, length(concat(anggota.anggota_id, "ki")))=concat(anggota.anggota_id, "ki") ) omset_kiri'), DB::raw('(select ifnull(sum(paket_harga * reinvest), 0) from anggota a where a.anggota_uid is not null and left(a.anggota_jaringan, length(concat(anggota.anggota_id, "ka")))=concat(anggota.anggota_id, "ka") ) omset_kanan'))->where('anggota_id', auth()->id())->first();
+    $omset = auth()->user()->select(DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_id, "ki")))=concat(member.member_id, "ki") ) omset_kiri'), DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_id, "ka")))=concat(member.member_id, "ka") ) omset_kanan'))->where('member_id', auth()->id())->first();
 @endphp
 
 <div class="info-box mb-3 bg-dark">
@@ -29,7 +29,7 @@
     <div class="info-box-content">
         <span class="info-box-text"><h5>Your PIN</h5></span>
         <span class="info-box-number">
-            {{ number_format($pin->terakhir) }}
+            {{ number_format($pin->balance) }}
         </span>
     </div>
 </div>

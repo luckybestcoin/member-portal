@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <label>{{ $data->anggota_nama }}</label>
+                    <label>{{ $data->member_name }}</label>
                 </div>
                 <div class="col-md-6">
                     <div class="card">
@@ -21,20 +21,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data->child_kiri as $item)
+                                    @foreach ($data->right_child as $item)
                                     <tr>
-                                        <td class="text-unwrap">{{ $item->anggota_uid }}</td>
-                                        <td class="text-unwrap">{{ $item->anggota_nama }}</td>
-                                        <td class="text-right text-unwrap">$ {{ $item->paket->paket_nama." ".number_format($row->paket_harga, 2) }}</td>
-                                        <td class="text-right text-unwrap">$ {{ number_format($row->omset_kiri - $row->omset_keluar_kiri->sum('omset_keluar_jumlah'), 2) }}</td>
-                                        <td class="text-right text-unwrap">$ {{ number_format($row->omset_kanan - $row->omset_keluar_kanan->sum('omset_keluar_jumlah'), 2) }}</td>
+                                        <td class="text-unwrap">{{ $item->member_email }}</td>
+                                        <td class="text-unwrap">{{ $item->member_name }}</td>
+                                        <td class="text-right text-unwrap">$ {{ $item->paket->paket_name." ".number_format($row->paket_harga, 2) }}</td>
+                                        <td class="text-right text-unwrap">$ {{ number_format($row->left_turnover - $row->invalid_left_turnover->sum('invalid_turnover_amount'), 2) }}</td>
+                                        <td class="text-right text-unwrap">$ {{ number_format($row->right_turnover - $row->invalid_right_turnover->sum('invalid_turnover_amount'), 2) }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
                         <div class="card-footer clearfix">
-                            <label class="float-right ">$ {{ number_format($data->omset_kanan - $data->omset_keluar_kanan->sum('omset_keluar_jumlah'), 2) }}</label>
+                            <label class="float-right ">$ {{ number_format($data->left_turnover - $data->invalid_left_turnover->sum('invalid_turnover_amount'), 2) }}</label>
                         </div>
                     </div>
                 </div>
@@ -54,20 +54,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data->child_kiri as $item)
+                                    @foreach ($data->right_child as $item)
                                     <tr>
-                                        <td class="text-unwrap">{{ $item->anggota_uid }}</td>
-                                        <td class="text-unwrap">{{ $item->anggota_nama }}</td>
-                                        <td class="text-right text-unwrap">$ {{ $item->paket->paket_nama." ".number_format($row->paket_harga, 2) }}</td>
-                                        <td class="text-right text-unwrap">$ {{ number_format($row->omset_kiri - $row->omset_keluar_kiri->sum('omset_keluar_jumlah'), 2) }}</td>
-                                        <td class="text-right text-unwrap">$ {{ number_format($row->omset_kanan - $row->omset_keluar_kanan->sum('omset_keluar_jumlah'), 2) }}</td>
+                                        <td class="text-unwrap">{{ $item->member_email }}</td>
+                                        <td class="text-unwrap">{{ $item->member_name }}</td>
+                                        <td class="text-right text-unwrap">$ {{ $item->paket->paket_name." ".number_format($row->paket_harga, 2) }}</td>
+                                        <td class="text-right text-unwrap">$ {{ number_format($row->left_turnover - $row->invalid_left_turnover->sum('invalid_turnover_amount'), 2) }}</td>
+                                        <td class="text-right text-unwrap">$ {{ number_format($row->right_turnover - $row->invalid_right_turnover->sum('invalid_turnover_amount'), 2) }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
                         <div class="card-footer clearfix">
-                            <label class="float-right ">$ {{ number_format($data->omset_kanan - $data->omset_keluar_kanan->sum('omset_keluar_jumlah'), 2) }}</label>
+                            <label class="float-right ">$ {{ number_format($data->right_turnover - $data->invalid_right_turnover->sum('invalid_turnover_amount'), 2) }}</label>
                         </div>
                     </div>
                 </div>

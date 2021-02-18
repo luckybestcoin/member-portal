@@ -34,9 +34,9 @@
                                 <div class="form-group">
                                     <label>Country</label>
                                     <select class="select2 country" wire:model="country"  style="width: 100%;">
-                                        <option value="">-- Choose Country --</option>
-                                        @foreach ($data_negara as $negara)
-                                        <option value="{{ $negara->negara_id }}">{{ $negara->negara_nama }}</option>
+                                        <option value=""></option>
+                                        @foreach ($country_data as $country)
+                                        <option value="{{ $country->country_id }}">{{ $country->country_name }}</option>
                                         @endforeach
                                     </select>
                                     @error('country')
@@ -59,23 +59,23 @@
                                 </div>
                                 <hr>
                                 <div class="form-group">
-                                    <label>Stacking</label>
-                                    <select class="select2 package" wire:model="package" style="width: 100%;">
-                                        <option value="">-- Choose Package --</option>
-                                        @foreach ($data_paket as $paket)
-                                        <option value="{{ $paket->paket_id }}">{{ $paket->paket_nama }} ($ {{ number_format($paket->paket_harga, 2) }})</option>
+                                    <label>Contract</label>
+                                    <select class="select2 contract" wire:model="contract" style="width: 100%;">
+                                        <option value=""></option>
+                                        @foreach ($contract_data as $contract)
+                                        <option value="{{ $contract->contract_id }}">{{ $contract->contract_name }} ($ {{ number_format($contract->contract_price, 2) }})</option>
                                         @endforeach
                                     </select>
-                                    @error('package')
+                                    @error('contract')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Referral</label>
                                     <select class="select2 referral" wire:model="referral" style="width: 100%;">
-                                        <option value="{{ auth()->id() }}" selected>{{ auth()->user()->anggota_uid." (".auth()->user()->anggota_nama.")" }}</option>
-                                        @foreach ($data_anggota as $anggota)
-                                        <option value="{{ $anggota->anggota_id }}">{{ $anggota->anggota_uid." (".$anggota->anggota_nama.")" }}</option>
+                                        <option value="{{ auth()->id() }}" selected>{{ auth()->user()->member_uid." (".auth()->user()->member_name.")" }}</option>
+                                        @foreach ($member_data as $member)
+                                        <option value="{{ $member->member_id }}">{{ $member->member_email." (".$member->member_name.")" }}</option>
                                         @endforeach
                                     </select>
                                     @error('referral')
@@ -85,7 +85,7 @@
                                 <div class="form-group">
                                     <label>Turnover</label>
                                     <select class="form-control" wire:model="turnover">
-                                        <option value="">-- Choose Turnover Position --</option>
+                                        <option value=""></option>
                                         <option value="0">Left Side</option>
                                         <option value="1">Right Side</option>
                                     </select>
@@ -121,8 +121,8 @@
         function init() {
             $(".select2").select2();
 
-            $(".package").on("change", function(e) {
-                window.livewire.emit('set:setpackage', $(this).select2('data')[0]['id']);
+            $(".contract").on("change", function(e) {
+                window.livewire.emit('set:setcontract', $(this).select2('data')[0]['id']);
             });
 
             $(".referral").on("change", function(e) {

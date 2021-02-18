@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Wallet;
 
 use App\Models\Payment;
 use Livewire\Component;
-use App\Models\KursPembayaran;
+use App\Models\PaymentMethod;
 use App\Library\CoinPaymentsAPI;
 
 class Deposit extends Component
@@ -15,7 +15,7 @@ class Deposit extends Component
 
     public function mount()
     {
-        $this->data_kurs_pembayaran = KursPembayaran::all();
+        $this->data_kurs_pembayaran = PaymentMethod::all();
     }
 
     public function updated()

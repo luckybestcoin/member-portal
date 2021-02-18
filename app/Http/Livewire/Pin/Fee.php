@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Pin;
 
 use Carbon\Carbon;
 use Livewire\Component;
-use App\Models\BonusPin;
+use App\Models\PinReward;
 use Livewire\WithPagination;
 
 class Fee extends Component
@@ -18,7 +18,7 @@ class Fee extends Component
 
     public function render()
     {
-        $pin = new BonusPin();
+        $pin = new PinReward();
         $data = $pin->where('anggota_id', auth()->id());
 
         if($this->period === "This Month Only"){

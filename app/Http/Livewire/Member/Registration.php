@@ -3,17 +3,17 @@
 namespace App\Http\Livewire\Member;
 
 use Carbon\Carbon;
-use App\Models\Pin;
-use App\Models\Paket;
-use App\Models\Saldo;
-use App\Models\Negara;
-use App\Models\Anggota;
+use App\Models\TransactionPin;
+use App\Models\Contract;
+use App\Models\TransactionBalance;
+use App\Models\Country;
+use App\Models\Member;
 use App\Models\Referal;
 use Livewire\Component;
-use App\Models\BagiHasil;
+use App\Models\Reward;
 use App\Models\Peringkat;
-use App\Models\Transaksi;
-use App\Models\Pencapaian;
+use App\Models\Transaction;
+use App\Models\Achievement;
 use Illuminate\Support\Str;
 use App\Mail\RegistrasiEmail;
 use Illuminate\Support\Facades\DB;
@@ -21,13 +21,13 @@ use Illuminate\Support\Facades\Mail;
 
 class Registration extends Component
 {
-    public $name, $package, $country, $referral, $phone_number, $email, $turnover, $back, $notification, $package_cost, $package_ticket, $package_name, $country_code;
+    public $name, $contract, $country, $referral, $phone_number, $email, $turnover, $back, $notification, $contract_cost, $contract_ticket, $contract_name, $country_code;
 
-    public $data_negara = [], $data_paket = [], $data_anggota = [];
+    public $country_data = [], $contract_data = [], $member_data = [];
 
     protected $rules = [
         'name' => 'required',
-        'package' => 'required',
+        'contract' => 'required',
         'turnover' => 'required',
         'referral' => 'required',
         'email' => 'required|email',
@@ -37,7 +37,7 @@ class Registration extends Component
 
     protected $listeners = [
         'set:setreferral' => 'setReferral',
-        'set:setpackage' => 'setPackage',
+        'set:setcontract' => 'setContract',
         'set:setcountry' => 'setCountry'
     ];
 
@@ -51,21 +51,21 @@ class Registration extends Component
     {
         $this->updated();
         $this->country = $country;
-        $negara_filter = $this->data_negara->where('negara_id', $country)->first();
-        $this->country_code = $negara_filter['negara_kode'];
+        $country_filter = $this->country_data->where('country_id', $country)->first();
+        $this->country_code = $country_filter['country_code'];
     }
 
-    public function setPackage($package)
+    public function setContract($contract)
     {
         $this->updated();
-        if ($package) {
-            $this->package = $package;
-            $package_filter = $this->data_paket->where('paket_id', $package)->first();
-            $this->package_cost = $package_filter['paket_harga'];
-            $this->package_ticket = $package_filter['paket_pin'];
-            $this->package_name = $package_filter['paket_name'];
+        if ($contract) {
+            $this->contract = $contract;
+            $contract_filter = $this->contract_data->where('contract_id', $contract)->first();
+            $this->contract_cost = $contract_filter['contract_cost'];
+            $this->contract_ticket = $contract_filter['contract_pin'];
+            $this->contract_name = $contract_filter['contract_name'];
         } else {
-            $this->reset(['package']);
+            $this->reset(['contract']);
         }
     }
 
@@ -80,9 +80,9 @@ class Registration extends Component
         $this->updated();
         $this->referral = auth()->id();
         $this->back = Str::contains(url()->previous(), ['tambah', 'edit'])? '/Member/registration': url()->previous();
-        $this->data_negara = Negara::orderBy('negara_nama')->get();
-        $this->data_paket = Paket::all();
-        $this->data_anggota = Anggota::whereNotNull('anggota_uid')->where('anggota_jaringan', 'like', auth()->user()->anggota_jaringan.auth()->id().'%')->get();
+        $this->country_data = Country::orderBy('country_name')->get();
+        $this->contract_data = Contract::all();
+        $this->member_data = Member::whereNotNull('member_password')->where('member_network', 'like', auth()->user()->member_network.auth()->id().'%')->get();
     }
 
     public function countryChanged()
@@ -95,8 +95,8 @@ class Registration extends Component
         $this->emit('reinitialize');
         $this->validate();
 
-        $saldo = new Saldo();
-        $pin = new Pin();
+        $transaction_balance = new TransactionBalance();
+        $pin = new TransactionPin();
 
         $this->reset('notification');
         $error = null;
@@ -104,16 +104,16 @@ class Registration extends Component
         if($this->turnover < 0 || $this->turnover > 1){
             $error .= "<li>Turnover position not available</li>";
         }
-        // if ($saldo->terakhir < $this->package_cost) {
-        //     $error .= "<li>Insufficient <strong>balance</strong></li>";
+        // if ($transaction_balance->terakhir < $this->contract_cost) {
+        //     $error .= "<li>Insufficient <strong>LBC balance</strong></li>";
         // }
-        // if ($pin->terakhir < $this->package_ticket) {
+        // if ($pin->terakhir < $this->contract_ticket) {
         //     $error .= "<li>Not enough <strong>activation tickets</strong></li>";
         // }
-        if (Anggota::where('anggota_email', $this->email)->count() > 0){
+        if (Member::where('member_email', $this->email)->count() > 0){
             $error .= "<li>The email address <strong>".$this->email."</strong> is already registered</li>";
         }
-        if (Anggota::where('anggota_hp', $this->phone_number)->count() > 0){
+        if (Member::where('member_phone', $this->phone_number)->count() > 0){
             $error .= "<li>The phone nomber <strong>".$this->phone_number."</strong> is already registered</li>";
         }
         if ($error) {
@@ -123,60 +123,58 @@ class Registration extends Component
             ];
         }
 
-        DB::transaction(function () use ($saldo, $pin) {
-            $keterangan = "Member registration on behalf of ".$this->name;
-
+        DB::transaction(function () use ($transaction_balance, $pin) {
+            $information = "Member registration on behalf of ".$this->name;
             $id = Str::random(10)."-".date('Ymdhis').round(microtime(true) * 1000);
 
-            $transaksi = new Transaksi();
-            $transaksi->transaksi_id = $id;
-            $transaksi->transaksi_keterangan = $keterangan." by ".auth()->user()->anggota_uid;
-            $transaksi->save();
+            $transaction = new Transaction();
+            $transaction->transaction_id = $id;
+            $transaction->transaction_information = $information." by ".auth()->user()->member_email;
+            $transaction->save();
 
-            $saldo->saldo_keterangan = $keterangan;
-            $saldo->saldo_debit = $this->package_cost;
-            $saldo->saldo_kredit = 0;
-            $saldo->transaksi_id = $id;
-            $saldo->anggota_id = auth()->id();
-            $saldo->save();
+            $transaction_balance->transaction_balance_information = $information;
+            $transaction_balance->transaction_balance_amount = -$this->contract_cost;
+            $transaction_balance->transaction_id = $id;
+            $transaction_balance->member_id = auth()->id();
+            $transaction_balance->save();
 
-            $pin->pin_keterangan = $keterangan;
-            $pin->pin_debit = $this->package_ticket;
+            $pin->pin_information = $information;
+            $pin->pin_debit = $this->contract_ticket;
             $pin->pin_kredit = 0;
-            $pin->transaksi_id = $id;
-            $pin->anggota_id = auth()->id();
+            $pin->transaction_id = $id;
+            $pin->member_id = auth()->id();
             $pin->save();
 
-            $anggota = new Anggota();
-            $anggota->anggota_nama = $this->name;
-            $anggota->anggota_email = $this->email;
-            $anggota->negara_id = $this->country;
-            $anggota->paket_id = $this->package;
-            $anggota->paket_harga = $this->package_cost;
-            $anggota->anggota_hp = $this->$country_code.$this->phone_number;
-            $anggota->anggota_posisi = $this->turnover;
-            $anggota->anggota_parent = $this->referral;
-            $anggota->anggota_jaringan = auth()->user()->anggota_jaringan.auth()->id().($this->turnover == 0? 'ki': 'ka');
-            $anggota->save();
+            $member = new Member();
+            $member->member_name = $this->name;
+            $member->member_email = $this->email;
+            $member->country_id = $this->country;
+            $member->contract_id = $this->contract;
+            $member->contract_harga = $this->contract_cost;
+            $member->member_phone = $this->$country_code.$this->phone_number;
+            $member->member_posisi = $this->turnover;
+            $member->member_parent = $this->referral;
+            $member->member_network = auth()->user()->member_network.auth()->id().($this->turnover == 0? 'ki': 'ka');
+            $member->save();
 
             $referal = new Referal();
-            $referal->referal_token = Str::random(40).$anggota->anggota_id;
-            $referal->anggota_id = $anggota->anggota_id;
+            $referal->referal_token = Str::random(40).$member->member_id;
+            $referal->member_id = $member->member_id;
             $referal->save();
 
-            $bagi_hasil = new BagiHasil();
-            $bagi_hasil->bagi_hasil_keterangan = $keterangan;
+            $bagi_hasil = new Reward();
+            $bagi_hasil->bagi_hasil_information = $information;
             $bagi_hasil->bagi_hasil_jenis = "Referral";
             $bagi_hasil->bagi_hasil_debit = 0;
-            $bagi_hasil->bagi_hasil_kredit = $this->package_cost * 10 /100;
-            $bagi_hasil->transaksi_id = $id;
-            $bagi_hasil->anggota_id = auth()->id();
+            $bagi_hasil->bagi_hasil_kredit = $this->contract_cost * 10 /100;
+            $bagi_hasil->transaction_id = $id;
+            $bagi_hasil->member_id = auth()->id();
             $bagi_hasil->save();
 
             Mail::send('email.registrasi', [
                 'token' => $referal->referal_token,
-                'nama' => $this->name,
-                'paket' => $this->package,
+                'name' => $this->name,
+                'contract' => $this->contract,
                 'email' => $this->email
             ], function($message) {
                 $message->to($this->email, $this->name)->subject
@@ -190,7 +188,7 @@ class Registration extends Component
             'tipe' => 'success',
             'pesan' => 'New member registration is successful. An email has been sent to '.$this->email
         ];
-        return $this->reset(['name', 'email', 'country', 'package', 'phone_number', 'turnover']);
+        return $this->reset(['name', 'email', 'country', 'contract', 'phone_number', 'turnover']);
     }
 
     public function render()

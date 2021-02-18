@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OmsetKeluar extends Model
+class PaymentMethod extends Model
 {
     use HasFactory;
-    protected $table = 'omset_keluar';
-    protected $primaryKey = 'omset_keluar_id';
+
+    protected $table = 'payment_method';
+    protected $primaryKey = 'payment_method_id';
 }

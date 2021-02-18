@@ -1,4 +1,4 @@
-@inject('kurs_pembayaran', 'App\Models\KursPembayaran')
+@inject('payment_method', 'App\Models\PaymentMethod')
 @extends('layouts.app')
 
 @section('title', ' | '.$title)
@@ -57,10 +57,13 @@
 @include('includes.sidebar')
 <div class="content-wrapper">
     <div class="marquee bg-dark">
-        <label>
+        @php
+            $color = \Str::random(6)
+        @endphp
+        <label >
             LBC :
-            @foreach ($kurs_pembayaran->all() as $item)
-            {{ $item->kurs_pembayaran_metode." (".$item->kurs_pembayaran_nilai.") | " }}
+            @foreach ($payment_method->all() as $item)
+            <span style="color: {{ sprintf('#%06X', mt_rand(0, 0xFFFFFF)) }}">{{ $item->payment_method_name." (".$item->payment_method_price." ".$item->payment_method_abbrevation.") | " }}</span>
             @endforeach
         </label>
     </div>

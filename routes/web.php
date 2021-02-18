@@ -35,7 +35,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/fee', \App\Http\Livewire\Pin\Fee::class)->name('pin.fee');
     });
 
-    Route::get('/reward', \App\Http\Livewire\Reward::class)->name('bagihasil');
+    Route::get('/reward', \App\Http\Livewire\RewardHistory::class)->name('bagihasil');
     Route::get('/profile', \App\Http\Livewire\profile::class)->name('profile');
 
     // Route::prefix('profit')->group(function ()

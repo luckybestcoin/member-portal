@@ -11,11 +11,11 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                    <img src="/images/user.png" alt="User Image">
+                        <img src="/images/user.png" alt="User Image">
                     </div>
                     <div class="info">
-                    <a href="#" class="d-block">
-                        {{ auth()->user()->anggota_nama }}
+                        <a href="#" class="d-block">
+                        {{ auth()->user()->member_name }}
                         </a>
                     </div>
                 </div>
@@ -81,7 +81,6 @@
                         foreach (config('sidebar.menu') as $key => $menu) {
                             $GLOBALS['parent_active'] = '';
 
-                            $hasIcon = (!empty($menu['icon'])) ? '<i class="nav-icon '.$menu['icon'].'"></i>' : '';
                             $hasTitle = (!empty($menu['title'])) ? $menu['title'] : '';
                             $hasCaret = !empty($menu['sub_menu']) ? '<i class="right fas fa-angle-left"></i>': '';
 
@@ -101,7 +100,7 @@
                             echo '
                                 <li class="nav-item '. (!empty($menu['sub_menu'])? $active: '') .'">
                                     <a href="'. $menu['url'] .'" class="nav-link '.(strlen($active) > 0? 'active': '').'">
-                                        '. $hasIcon .'
+                                        '. $menu['icon'] .'
                                         <p>'. $hasTitle .' '.$hasCaret.'</p>
                                     </a>
                                     '.$subMenu.'

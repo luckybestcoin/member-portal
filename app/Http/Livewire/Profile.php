@@ -2,19 +2,19 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Negara;
-use App\Models\Anggota;
+use App\Models\Country;
+use App\Models\Member;
 use Livewire\Component;
 
 class Profile extends Component
 {
-    public $name, $package, $country, $referral, $phone_number, $email, $turnover, $back, $notification, $data;
+    public $name, $contract, $country, $referral, $phone_number, $email, $turnover, $back, $notification, $data;
 
-    public $data_negara = [];
+    public $country_data = [];
 
     protected $rules = [
         'name' => 'required',
-        'package' => 'required',
+        'contract' => 'required',
         'email' => 'required|email',
         'phone_number' => 'required|min:9',
         'country' => 'required'
@@ -39,14 +39,14 @@ class Profile extends Component
     public function mount()
     {
         $this->updated();
-        $this->data = Anggota::findOrFail(auth()->id());
-        $this->name = $this->data->anggota_nama;
-        $this->email = $this->data->anggota_email;
-        $this->country = $this->data->negara_id;
-        $this->phone_number = $this->data->anggota_hp;
-        $this->package = $this->data->paket->paket_nama." ".number_format($this->data->paket_harga, 2);
-        $this->referral = $this->data->parent? $this->data->parent->anggota_uid." (".$this->data->parent->anggota_nama.")": "";
-        $this->data_negara = Negara::orderBy('negara_nama')->get();
+        $this->data = Member::findOrFail(auth()->id());
+        $this->name = $this->data->member_name;
+        $this->email = $this->data->member_email;
+        $this->country = $this->data->country_id;
+        $this->phone_number = $this->data->member_phone;
+        $this->contract = $this->data->contract->contract_name." ".number_format($this->data->contract_price, 2);
+        $this->referral = $this->data->parent? $this->data->parent->member_email: "";
+        $this->country_data = Country::orderBy('country_name')->get();
     }
 
     public function submit()
@@ -57,12 +57,10 @@ class Profile extends Component
         $this->reset('notification');
         $error = null;
 
-        if (Anggota::where('anggota_email', $this->email)->where('anggota_id', '!=', auth()->id())->count() > 0){
+        if (Member::where('member_email', $this->email)->where('member_id', '!=', auth()->id())->count() > 0){
             $error .= "<li>The email address <strong>".$this->email."</strong> is already registered</li>";
         }
-        if (Anggota::where('anggota_hp', $this->phone_number)->where('anggota_id', '!=', auth()->id())->count() > 0){
-            $error .= "<li>The phone nomber <strong>".$this->phone_number."</strong> is already registered</li>";
-        }
+
         if ($error) {
             return $this->notification = [
                 'tipe' => 'danger',
@@ -70,16 +68,16 @@ class Profile extends Component
             ];
         }
 
-        $this->data->anggota_nama = $this->name;
-        $this->data->anggota_email = $this->email;
-        $this->data->negara_id = $this->country;
-        $this->data->anggota_hp = $this->phone_number;
+        $this->data->member_name = $this->name;
+        $this->data->member_email = $this->email;
+        $this->data->country_id = $this->country;
+        $this->data->member_phone = $this->phone_number;
         $this->data->save();
 
         $this->updated();
         return $this->notification = [
             'tipe' => 'success',
-            'pesan' => 'Your profile has been changed '.$this->email
+            'pesan' => 'Your profile has been changed '
         ];
         $this->reset(['name', 'email', 'country', 'phone_number']);
     }
@@ -89,8 +87,7 @@ class Profile extends Component
         return view('livewire.profile')
             ->extends('livewire.main', [
                 'breadcrumb' => ['Profile'],
-                'title' => 'Profile',
-                'description' => 'The Detail of Your Profile'
+                'title' => 'Profile'
             ])
             ->section('subcontent');
     }

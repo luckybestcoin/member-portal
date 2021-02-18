@@ -3,13 +3,13 @@
 namespace App\Http\Livewire\Authentication;
 
 use Carbon\Carbon;
-use App\Models\Anggota;
+use App\Models\Member;
 use App\Models\Referal;
 use Livewire\Component;
-use App\Models\BagiHasil;
+use App\Models\Reward;
 use App\Models\Peringkat;
-use App\Models\Transaksi;
-use App\Models\Pencapaian;
+use App\Models\Transaction;
+use App\Models\Achievement;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -98,7 +98,7 @@ class Referral extends Component
         $this->validate();
 
         DB::transaction(function () {
-            $anggota = Anggota::findOrFail($this->anggota_id);
+            $anggota = Member::findOrFail($this->anggota_id);
             $anggota->anggota_uid = $this->new_user_id;
             $anggota->anggota_kata_sandi = Hash::make($this->new_password);
             $anggota->save();
@@ -109,12 +109,12 @@ class Referral extends Component
 
             $id = Str::random(10)."-".date('Ymdhis').round(microtime(true) * 1000);
 
-            $transaksi = new Transaksi();
+            $transaksi = new Transaction();
             $transaksi->transaksi_id = $id;
             $transaksi->transaksi_keterangan = $keterangan." by ".$anggota->anggota_uid;
             $transaksi->save();
 
-            $this->setParent(Anggota::with('parent')->with('peringkat')->with('omset_keluar_kiri')->with('omset_keluar_kanan')->select("anggota_id", "anggota_uid", "anggota_parent", "anggota_posisi", "peringkat_id", "paket_harga", "anggota_jaringan", "jatuh_tempo", "deleted_at",
+            $this->setParent(Member::with('parent')->with('peringkat')->with('omset_keluar_kiri')->with('omset_keluar_kanan')->select("anggota_id", "anggota_uid", "anggota_parent", "anggota_posisi", "peringkat_id", "paket_harga", "anggota_jaringan", "jatuh_tempo", "deleted_at",
             DB::raw('(select ifnull(sum(paket_harga * reinvest), 0) from anggota a where a.anggota_uid is not null and left(a.anggota_jaringan, length(concat(anggota.anggota_id, "ki")))=concat(anggota.anggota_id, "ki") ) omset_kiri'),
             DB::raw('(select ifnull(sum(paket_harga * reinvest), 0) from anggota a where a.anggota_uid is not null and left(a.anggota_jaringan, length(concat(anggota.anggota_id, "ka")))=concat(anggota.anggota_id, "ka") ) omset_kanan'))->where('anggota_id', $this->anggota_id)->first());
 
@@ -130,17 +130,17 @@ class Referral extends Component
                 $pencapaian = 0;
                 if(is_null($row['jatuh_tempo']) == 1 && $row['aktif'] == 1){
                     $kaki_kecil = collect([$row['kiri'], $row['kanan']])->min();
-                    $member = Anggota::findOrFail($row['id']);
+                    $member = Member::findOrFail($row['id']);
 
                     $peringkat = $data_peringkat->filter(function ($q) use ($kaki_kecil)
                     {
                         return $q->peringkat_omset_min <= $kaki_kecil;
                     })->sortBy('peringkat_omset_min')->first();
 
-                    if ($peringkat && Pencapaian::where('anggota_id', $row['id'])->where('pencapaian_id', $member->peringkat_id)->count() == 0) {
+                    if ($peringkat && Achievement::where('anggota_id', $row['id'])->where('pencapaian_id', $member->peringkat_id)->count() == 0) {
                         $member->peringkat_id = $peringkat['peringkat_id'];
 
-                        $pcp = new Pencapaian();
+                        $pcp = new Achievement();
                         $pcp->anggota_id = $row['id'];
                         $pcp->peringkat_id = $peringkat->peringkat_id;
                         $pcp->save();
@@ -212,7 +212,7 @@ class Referral extends Component
             $insert = collect($bonus)->chunk(10);
             foreach ($insert as $ins)
             {
-                BagiHasil::insert($ins->toArray());
+                Reward::insert($ins->toArray());
             }
         });
 
