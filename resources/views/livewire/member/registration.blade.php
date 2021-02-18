@@ -1,7 +1,7 @@
 <div>
     @push('css')
-    <link rel="stylesheet" href="/assets/admin-lte/plugins/select2/css/select2.min.css">
-    <link rel="stylesheet" href="/assets/admin-lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     @endpush
     <section class="content">
         <div class="container-fluid">
@@ -108,7 +108,7 @@
     </section>
     @push('scripts')
     <!-- Masking js -->
-    <script type="text/javascript" src="/assets/admin-lte/plugins/select2/js/select2.full.min.js"></script>
+    <script type="text/javascript" src="/plugins/select2/js/select2.full.min.js"></script>
     <script>
         $(document).ready(function(){
             init();

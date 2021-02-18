@@ -3,7 +3,7 @@
         <aside class="main-sidebar elevation-1 sidebar-light-primary">
             <!-- Brand Logo -->
             <a href="index3.html" class="brand-link text-sm">
-                <img src="/assets/images/luckybestcoin.png" alt="{{ config("app.name") }}" class="brand-image ">
+                <img src="/images/luckybestcoin.png" alt="{{ config("app.name") }}" class="brand-image ">
             </a>
 
             <!-- Sidebar -->
@@ -11,7 +11,7 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                    <img src="/assets/images/user.png" alt="User Image">
+                    <img src="/images/user.png" alt="User Image">
                     </div>
                     <div class="info">
                     <a href="#" class="d-block">

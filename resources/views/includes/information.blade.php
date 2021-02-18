@@ -3,7 +3,7 @@
 @inject('anggota', 'App\Models\Anggota')
 
 @push('css')
-<link rel="stylesheet" type="text/css" href="/assets/icon/icofont/css/icofont.css">
+<link rel="stylesheet" type="text/css" href="/icon/icofont/css/icofont.css">
 @endpush
 
 @php
