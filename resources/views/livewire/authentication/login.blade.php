@@ -68,8 +68,8 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="form-group form-primary">
-                            <input type="text" wire:model="referral_code" class="form-control" placeholder="Referral Code" autocomplete="off">
-                            @error('referral_code')
+                            <input type="text" wire:model="referral_token" class="form-control" placeholder="Referral Code" autocomplete="off">
+                            @error('referral_token')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>

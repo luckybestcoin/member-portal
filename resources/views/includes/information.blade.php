@@ -1,6 +1,6 @@
-@inject('balance', 'App\Models\Balance')
 @inject('pin', 'App\Models\TransactionPin')
 @inject('member', 'App\Models\Member')
+@inject('rate', 'App\Models\Rate')
 
 @push('css')
 <link rel="stylesheet" type="text/css" href="/icon/icofont/css/icofont.css">
@@ -8,6 +8,8 @@
 
 @php
     $omset = auth()->user()->select(DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_id, "ki")))=concat(member.member_id, "ki") ) omset_kiri'), DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_id, "ka")))=concat(member.member_id, "ka") ) omset_kanan'))->where('member_id', auth()->id())->first();
+    $lbc_balance = bitcoind()->getbalance(auth()->user()->member_email)[0];
+    $rate_dollar = $rate->last_dollar;
 @endphp
 
 <div class="info-box mb-3 bg-dark">
@@ -17,8 +19,8 @@
     <div class="info-box-content">
         <span class="info-box-text"><h5>Your LBC Balance</h5></span>
         <span class="info-box-number">
-            {{ number_format(0, 2) }}
-            <small>($ 0)</small>
+            <h4>{{ number_format($lbc_balance, 8) }}</h4>
+            $ {{ number_format($lbc_balance * $rate_dollar, 2) }}
         </span>
     </div>
 </div>

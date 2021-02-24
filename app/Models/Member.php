@@ -42,7 +42,7 @@ class Member extends Authenticatable
 
     public function contract()
     {
-        return $this->belongsTo('App\Models\Contract', 'contract_id', 'contract_id');
+        return $this->belongsTo('App\Models\Contract', 'contract_id');
     }
 
     public function rating()

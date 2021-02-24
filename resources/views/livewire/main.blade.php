@@ -1,4 +1,5 @@
 @inject('payment_method', 'App\Models\PaymentMethod')
+@inject('rate', 'App\Models\Rate')
 @extends('layouts.app')
 
 @section('title', ' | '.$title)
@@ -61,9 +62,11 @@
             $color = \Str::random(6)
         @endphp
         <label >
-            LBC :
+            LBC PRICE :
+            <span>$ {{ $rate->last_dollar }}</span>
+            DEPOSIT LBC :
             @foreach ($payment_method->all() as $item)
-            <span style="color: {{ sprintf('#%06X', mt_rand(0, 0xFFFFFF)) }}">{{ $item->payment_method_name." (".$item->payment_method_price." ".$item->payment_method_abbrevation.") | " }}</span>
+            <span>{{ $item->payment_method_name." (".$item->payment_method_price." ".$item->payment_method_abbrevation.") | " }}</span>
             @endforeach
         </label>
     </div>

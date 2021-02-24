@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <body>
-    Hy {{ $nama }}, welcome to Lucky BIT. Please click to this link below to activate your account;<br><br>
+    Hy {{ $name }}, welcome to Lucky BIT. Please click to this link below to activate your account;<br><br>
     <a href="https://member.luckybit.id/referral?kode={{ $token }}" target="_blank">https://member.luckybit.id/referral?kode={{ $token }}</a><br>
     Thank You
     <br><br>

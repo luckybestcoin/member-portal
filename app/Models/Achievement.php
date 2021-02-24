@@ -9,6 +9,6 @@ class Achievement extends Model
 {
     use HasFactory;
 
-    protected $table = 'pencapaian';
-    protected $primaryKey = 'pencapaian_id';
+    protected $table = 'achievement';
+    protected $primaryKey = 'achievement_id';
 }

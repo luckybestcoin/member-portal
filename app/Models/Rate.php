@@ -11,4 +11,9 @@ class Rate extends Model
 
     protected $table = 'rate';
     protected $primaryKey = 'rate_id';
+
+    public function getLastDollarAttribute()
+    {
+        return $this->where('rate_currency', 'USD')->orderBy('created_at', 'desc')->get()->first()->rate_price;
+    }
 }

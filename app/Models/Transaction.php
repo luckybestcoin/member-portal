@@ -9,6 +9,6 @@ class Transaction extends Model
 {
     use HasFactory;
 
-    protected $table = 'transaksi';
-    protected $primaryKey = 'transaksi_id';
+    protected $table = 'transaction';
+    protected $primaryKey = 'transaction_id';
 }

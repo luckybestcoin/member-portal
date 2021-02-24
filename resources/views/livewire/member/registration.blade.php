@@ -93,6 +93,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
+                                <h4 class="text-success">You Need : {{ number_format($lbc_amount, 8) }} LBC</h4>
                             </div>
                             <div class="card-footer clearfix">
                                 <input type="submit" value="Submit" class="btn btn-success">

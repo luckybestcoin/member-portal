@@ -4,13 +4,14 @@ namespace App\Http\Livewire\Authentication;
 
 use App\Models\Referal;
 use Livewire\Component;
+use App\Models\Referral;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class Login extends Component
 {
-    public $email, $password, $referral_code, $remember = false;
+    public $email, $password, $referral_token, $remember = false;
     public $notification;
 
     protected $rules = [
@@ -37,22 +38,23 @@ class Login extends Component
     public function updated()
     {
         $this->reset('notification');
+        $this->validate();
     }
 
     public function referral()
     {
         $this->validate([
-            'referral_code' => 'required'
+            'referral_token' => 'required'
         ]);
 
-        $referral = Referal::where('referal_token', $this->referral_code)->first();
+        $referral = Referral::where('referral_token', $this->referral_token)->first();
 
         if($referral){
-            return redirect(route('referral', [ 'kode' => $this->referral_code]));
+            return redirect(route('referral', [ 'token' => $this->referral_token]));
         }
         $this->notification = [
             'tipe' => 'danger',
-            'pesan' => '<li>Referral code not found</li>'
+            'pesan' => '<li>Referral token not found</li>'
         ];
         return;
     }

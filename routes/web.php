@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RateController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\AutentikasiController;
@@ -16,11 +17,11 @@ use App\Http\Controllers\AutentikasiController;
 |
 */
 Route::get('/weebhook', [WebhookController::class, 'index']);
-Route::get('/referral', \App\Http\Livewire\Authentication\Referral::class)->name('referral');
+Route::get('/referral', \App\Http\Livewire\Authentication\Activation::class)->name('referral');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/', \App\Http\Livewire\Dashboard\Index::class);
-    Route::get('/dashboard', \App\Http\Livewire\Dashboard\Index::class)->name('dashboard');
+    Route::get('/', \App\Http\Livewire\Dashboard::class);
+    Route::get('/dashboard', \App\Http\Livewire\Dashboard::class)->name('dashboard');
 
     Route::prefix('member')->group(function ()
     {
@@ -36,7 +37,11 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::get('/reward', \App\Http\Livewire\RewardHistory::class)->name('bagihasil');
-    Route::get('/profile', \App\Http\Livewire\profile::class)->name('profile');
+    Route::get('/profile', \App\Http\Livewire\Profile::class)->name('profile');
+    Route::get('/wallet', \App\Http\Livewire\Lbc::class)->name('wallet');
+    Route::get('/exchange', \App\Http\Livewire\Exchange::class)->name('exchange');
+
+    Route::get('/rate', [RateController::class, 'dollar']);
 
     // Route::prefix('profit')->group(function ()
     // {
@@ -49,9 +54,4 @@ Route::group(['middleware' => ['auth']], function () {
     // {
     //     Route::get('/', \App\Http\Livewire\Reward\Index::class)->name('reward');
     // });
-
-    Route::prefix('wallet')->group(function ()
-    {
-        Route::get('/deposit', \App\Http\Livewire\Wallet\Deposit::class)->name('deposit');
-    });
 });
