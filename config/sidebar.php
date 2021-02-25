@@ -65,6 +65,13 @@ return [
 	],[
 		'icon' => '<img src="/images/favicon.ico" class="ml-10" style="margin-left: 13px; height: 25px">',
 		'title' => '<strong style="margin-left: 3px">Wallet</strong>',
-		'url' => '/wallet'
+		'url' => 'javascript:void(0)',
+		'sub_menu' => [[
+            'url' => '/wallet',
+            'title' => 'Main'
+        ],[
+            'url' => '/wallet/deposit',
+            'title' => 'Deposit'
+        ]]
 	]]
 ];

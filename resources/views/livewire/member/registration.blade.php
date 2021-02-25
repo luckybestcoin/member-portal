@@ -33,7 +33,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Country</label>
-                                    <select class="select2 country" wire:model="country"  style="width: 100%;">
+                                    <select class="select2 country" wire:model="country" style="width: 100%;">
                                         <option value=""></option>
                                         @foreach ($country_data as $country)
                                         <option value="{{ $country->country_id }}">{{ $country->country_name }}</option>

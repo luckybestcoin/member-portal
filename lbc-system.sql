@@ -14,7 +14,6 @@
  Date: 24/02/2021 08:13:43
 */
 
-SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
@@ -25,7 +24,7 @@ CREATE TABLE `achievement`  (
   `achievement_id` bigint NOT NULL AUTO_INCREMENT,
   `rating_id` bigint NULL DEFAULT NULL,
   `member_id` bigint NULL DEFAULT NULL,
-  `process` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
+  `process` text  NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -34,7 +33,7 @@ CREATE TABLE `achievement`  (
   INDEX `anggota_id`(`member_id`) USING BTREE,
   CONSTRAINT `achievement_ibfk_1` FOREIGN KEY (`rating_id`) REFERENCES `rating` (`rating_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `achievement_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 ;
 
 -- ----------------------------
 -- Records of achievement
@@ -54,7 +53,7 @@ INSERT INTO `achievement` VALUES (10, 1, 1, NULL, '2021-02-23 01:26:08', '2021-0
 DROP TABLE IF EXISTS `contract`;
 CREATE TABLE `contract`  (
   `contract_id` bigint NOT NULL AUTO_INCREMENT,
-  `contract_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `contract_name` varchar(255)  NOT NULL,
   `contract_price` decimal(65, 2) NOT NULL,
   `contract_pin` tinyint NOT NULL,
   `contract_reward_exchange_fee` decimal(60, 2) NULL DEFAULT NULL,
@@ -70,7 +69,7 @@ CREATE TABLE `contract`  (
   PRIMARY KEY (`contract_id`) USING BTREE,
   INDEX `pengguna_id`(`user_id`) USING BTREE,
   CONSTRAINT `contract_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 ;
 
 -- ----------------------------
 -- Records of contract
@@ -89,8 +88,8 @@ INSERT INTO `contract` VALUES (7, 'CROWN', 10000.00, 9, 7.00, 500.00, 10000.00, 
 DROP TABLE IF EXISTS `country`;
 CREATE TABLE `country`  (
   `country_id` bigint NOT NULL AUTO_INCREMENT,
-  `country_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `country_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `country_name` varchar(255)  NULL DEFAULT NULL,
+  `country_code` varchar(255)  NULL DEFAULT NULL,
   `user_id` bigint NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -98,7 +97,7 @@ CREATE TABLE `country`  (
   PRIMARY KEY (`country_id`) USING BTREE,
   INDEX `pengguna_id`(`user_id`) USING BTREE,
   CONSTRAINT `country_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 197 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 197 ;
 
 -- ----------------------------
 -- Records of country
@@ -306,8 +305,8 @@ INSERT INTO `country` VALUES (196, 'Zimbabwe', '263', 1, NULL, NULL, NULL);
 DROP TABLE IF EXISTS `holiday`;
 CREATE TABLE `holiday`  (
   `holiday_id` bigint NOT NULL AUTO_INCREMENT,
-  `holiday_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `holiday_information` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `holiday_date` varchar(255)  NOT NULL,
+  `holiday_information` text  NOT NULL,
   `pengguna_id` bigint NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
@@ -315,7 +314,7 @@ CREATE TABLE `holiday`  (
   UNIQUE INDEX `hari_besar_hari_besar_tanggal_idx`(`holiday_date`) USING BTREE,
   INDEX `pengguna_id`(`pengguna_id`) USING BTREE,
   CONSTRAINT `holiday_ibfk_1` FOREIGN KEY (`pengguna_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 ;
 
 -- ----------------------------
 -- Records of holiday
@@ -336,7 +335,7 @@ CREATE TABLE `invalid_turnover`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`invalid_turnover_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 ;
 
 -- ----------------------------
 -- Records of invalid_turnover
@@ -348,11 +347,11 @@ CREATE TABLE `invalid_turnover`  (
 DROP TABLE IF EXISTS `member`;
 CREATE TABLE `member`  (
   `member_id` bigint NOT NULL AUTO_INCREMENT,
-  `member_password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `member_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `member_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `member_phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `member_network` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `member_password` varchar(255)  NULL DEFAULT NULL,
+  `member_name` varchar(255) NULL DEFAULT NULL,
+  `member_email` varchar(255) NOT NULL,
+  `member_phone` varchar(255)  NULL DEFAULT NULL,
+  `member_network` longtext  NOT NULL,
   `member_parent` bigint NULL DEFAULT NULL,
   `member_position` smallint NULL DEFAULT NULL,
   `contract_id` bigint NOT NULL,
@@ -361,7 +360,7 @@ CREATE TABLE `member`  (
   `due_date` date NULL DEFAULT NULL,
   `extension` int NOT NULL DEFAULT 1,
   `rating_id` bigint NULL DEFAULT NULL,
-  `remember_token` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
+  `remember_token` text  NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -371,7 +370,7 @@ CREATE TABLE `member`  (
   INDEX `paket_id`(`contract_id`) USING BTREE,
   CONSTRAINT `anggota_peringkat_id_fkey` FOREIGN KEY (`rating_id`) REFERENCES `rating` (`rating_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `member_ibfk_1` FOREIGN KEY (`contract_id`) REFERENCES `contract` (`contract_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 ;
 
 -- ----------------------------
 -- Records of member
@@ -386,14 +385,14 @@ INSERT INTO `member` VALUES (9, '$2y$10$Ulib8czNU5/5VMfgP2s/luS5rC5X1uuKOoCaVxpQ
 DROP TABLE IF EXISTS `model_has_permissions`;
 CREATE TABLE `model_has_permissions`  (
   `permission_id` int UNSIGNED NOT NULL,
-  `model_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_type` varchar(255)  NOT NULL,
   `model_id` bigint NOT NULL,
   PRIMARY KEY (`permission_id`, `model_type`, `model_id`) USING BTREE,
   INDEX `model_has_permissions_model_id_model_type_index`(`model_type`) USING BTREE,
   INDEX `izin_pengguna_fk`(`model_id`) USING BTREE,
   CONSTRAINT `model_has_permissions_ibfk_1` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `model_has_permissions_ibfk_2` FOREIGN KEY (`model_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB ;
 
 -- ----------------------------
 -- Records of model_has_permissions
@@ -405,14 +404,14 @@ CREATE TABLE `model_has_permissions`  (
 DROP TABLE IF EXISTS `model_has_roles`;
 CREATE TABLE `model_has_roles`  (
   `role_id` int UNSIGNED NOT NULL,
-  `model_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_type` varchar(255)  NOT NULL,
   `model_id` bigint NOT NULL,
   PRIMARY KEY (`role_id`, `model_type`, `model_id`) USING BTREE,
   INDEX `model_has_roles_model_id_model_type_index`(`model_type`) USING BTREE,
   INDEX `level_pengguna_fk`(`model_id`) USING BTREE,
   CONSTRAINT `model_has_roles_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `model_has_roles_ibfk_2` FOREIGN KEY (`model_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB ;
 
 -- ----------------------------
 -- Records of model_has_roles
@@ -425,15 +424,15 @@ INSERT INTO `model_has_roles` VALUES (1, 'App\\Models\\Pengguna', 1);
 DROP TABLE IF EXISTS `payment_method`;
 CREATE TABLE `payment_method`  (
   `payment_method_id` bigint NOT NULL AUTO_INCREMENT COMMENT ' ',
-  `payment_method_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `payment_method_abbrevation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `payment_method_name` varchar(255)  NULL DEFAULT NULL,
+  `payment_method_abbrevation` varchar(255)  NULL DEFAULT NULL,
   `payment_method_price` decimal(60, 10) NULL DEFAULT NULL,
   `user_id` bigint NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`payment_method_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 ;
 
 -- ----------------------------
 -- Records of payment_method
@@ -450,13 +449,13 @@ INSERT INTO `payment_method` VALUES (6, 'USD Tether', 'USDT', 1.0000000000, 1, N
 DROP TABLE IF EXISTS `permissions`;
 CREATE TABLE `permissions`  (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `guard_name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `name` varchar(191)  NOT NULL,
+  `guard_name` varchar(45)  NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `permissions_name_unique`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 ;
 
 -- ----------------------------
 -- Records of permissions
@@ -469,14 +468,14 @@ DROP TABLE IF EXISTS `rate`;
 CREATE TABLE `rate`  (
   `rate_id` bigint NOT NULL AUTO_INCREMENT,
   `rate_price` decimal(65, 2) NOT NULL,
-  `rate_currency` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `rate_currency` varchar(255)  NULL DEFAULT NULL,
   `user_id` bigint NOT NULL,
   `created_at` timestamp(6) NOT NULL,
   `updated_at` timestamp(6) NOT NULL,
   PRIMARY KEY (`rate_id`) USING BTREE,
   INDEX `pengguna_id`(`user_id`) USING BTREE,
   CONSTRAINT `rate_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 ;
 
 -- ----------------------------
 -- Records of rate
@@ -492,7 +491,7 @@ INSERT INTO `rate` VALUES (5, 110.00, 'USD', 1, '2021-02-10 02:00:00.120000', '2
 DROP TABLE IF EXISTS `rating`;
 CREATE TABLE `rating`  (
   `rating_id` bigint NOT NULL AUTO_INCREMENT,
-  `rating_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `rating_name` varchar(255)  NOT NULL,
   `rating_min_turnover` decimal(65, 2) NOT NULL,
   `rating_reward` decimal(65, 2) NOT NULL,
   `rating_order` tinyint(1) NOT NULL,
@@ -504,7 +503,7 @@ CREATE TABLE `rating`  (
   UNIQUE INDEX `rating_order`(`rating_order`) USING BTREE,
   INDEX `pengguna_id`(`user_id`) USING BTREE,
   CONSTRAINT `rating_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 ;
 
 -- ----------------------------
 -- Records of rating
@@ -520,7 +519,7 @@ INSERT INTO `rating` VALUES (4, 'Platinum', 3500000.00, 35000.00, 4, 1, '2021-01
 DROP TABLE IF EXISTS `referral`;
 CREATE TABLE `referral`  (
   `referral_id` bigint NOT NULL AUTO_INCREMENT,
-  `referral_token` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `referral_token` varchar(300)  NULL DEFAULT NULL,
   `member_id` bigint NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -529,7 +528,7 @@ CREATE TABLE `referral`  (
   UNIQUE INDEX `referal_ibfk_1`(`member_id`) USING BTREE,
   UNIQUE INDEX `referal_token`(`referral_token`) USING BTREE,
   CONSTRAINT `referral_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 55 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 55 ;
 
 -- ----------------------------
 -- Records of referral
@@ -548,7 +547,7 @@ CREATE TABLE `role_has_permissions`  (
   INDEX `role_has_permissions_role_id_foreign`(`role_id`) USING BTREE,
   CONSTRAINT `role_has_permissions_ibfk_1` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `role_has_permissions_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB ;
 
 -- ----------------------------
 -- Records of role_has_permissions
@@ -560,13 +559,13 @@ CREATE TABLE `role_has_permissions`  (
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles`  (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `guard_name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `name` varchar(191)  NOT NULL,
+  `guard_name` varchar(45)  NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `roles_name_unique`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 ;
 
 -- ----------------------------
 -- Records of roles
@@ -580,12 +579,12 @@ INSERT INTO `roles` VALUES (3, 'guest', 'web', '2019-04-24 03:38:59', '2019-04-2
 -- ----------------------------
 DROP TABLE IF EXISTS `transaction`;
 CREATE TABLE `transaction`  (
-  `transaction_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `transaction_information` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
+  `transaction_id` varchar(255)  NOT NULL,
+  `transaction_information` text  NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   PRIMARY KEY (`transaction_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB ;
 
 -- ----------------------------
 -- Records of transaction
@@ -610,7 +609,7 @@ CREATE TABLE `transaction_exchange`  (
   `transaction_exchange_amount` decimal(65, 30) NOT NULL,
   `rate_id` bigint NOT NULL,
   `wallet_id` bigint NOT NULL,
-  `transaction_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `transaction_id` varchar(255)  NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -620,7 +619,7 @@ CREATE TABLE `transaction_exchange`  (
   CONSTRAINT `transaction_exchange_ibfk_1` FOREIGN KEY (`wallet_id`) REFERENCES `wallet` (`wallet_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `transaction_exchange_ibfk_2` FOREIGN KEY (`rate_id`) REFERENCES `rate` (`rate_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `transaction_exchange_ibfk_3` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB ;
 
 -- ----------------------------
 -- Records of transaction_exchange
@@ -632,7 +631,7 @@ CREATE TABLE `transaction_exchange`  (
 DROP TABLE IF EXISTS `transaction_extension`;
 CREATE TABLE `transaction_extension`  (
   `member_id` bigint NOT NULL,
-  `transaction_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `transaction_id` varchar(255)  NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -640,7 +639,7 @@ CREATE TABLE `transaction_extension`  (
   INDEX `reinvest_ibfk_1`(`transaction_id`) USING BTREE,
   CONSTRAINT `transaction_extension_ibfk_1` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `transaction_extension_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB ;
 
 -- ----------------------------
 -- Records of transaction_extension
@@ -651,15 +650,15 @@ CREATE TABLE `transaction_extension`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `transaction_income`;
 CREATE TABLE `transaction_income`  (
-  `transaction_income_information` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `transaction_income_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `transaction_income_information` text  NOT NULL,
+  `transaction_income_type` varchar(255)  NOT NULL,
   `transaction_income_amount` decimal(65, 2) NOT NULL,
-  `transaction_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `transaction_id` varchar(255)  NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   INDEX `pendapatan_ibfk_1`(`transaction_id`) USING BTREE,
   CONSTRAINT `transaction_income_ibfk_1` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB ;
 
 -- ----------------------------
 -- Records of transaction_income
@@ -674,18 +673,18 @@ INSERT INTO `transaction_income` VALUES ('Buy 10 PINs by fajar@gmail.com', 'Pin'
 DROP TABLE IF EXISTS `transaction_payment`;
 CREATE TABLE `transaction_payment`  (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `from_currency` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `entered_amount` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `to_currency` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `amount` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `gateway_id` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `gateway_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255)  NULL DEFAULT NULL,
+  `from_currency` varchar(500)  NOT NULL,
+  `entered_amount` varchar(1000)  NOT NULL,
+  `to_currency` varchar(500)  NOT NULL,
+  `amount` varchar(50)  NOT NULL,
+  `gateway_id` varchar(1000)  NOT NULL,
+  `gateway_url` text  NOT NULL,
+  `status` varchar(500)  NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 ;
 
 -- ----------------------------
 -- Records of transaction_payment
@@ -697,9 +696,9 @@ INSERT INTO `transaction_payment` VALUES (2, 'andifajarlah@gmail.com', 'ETH', '1
 -- ----------------------------
 DROP TABLE IF EXISTS `transaction_pin`;
 CREATE TABLE `transaction_pin`  (
-  `transaction_pin_information` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `transaction_pin_information` text  NOT NULL,
   `transaction_pin_amount` int NOT NULL,
-  `transaction_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `transaction_id` varchar(255)  NOT NULL,
   `member_id` bigint NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
@@ -707,7 +706,7 @@ CREATE TABLE `transaction_pin`  (
   INDEX `pin_ibfk_1`(`transaction_id`) USING BTREE,
   CONSTRAINT `transaction_pin_ibfk_1` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `transaction_pin_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB ;
 
 -- ----------------------------
 -- Records of transaction_pin
@@ -723,10 +722,10 @@ INSERT INTO `transaction_pin` VALUES ('Member registration on behalf of Andi Faj
 -- ----------------------------
 DROP TABLE IF EXISTS `transaction_reward`;
 CREATE TABLE `transaction_reward`  (
-  `transaction_reward_information` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `transaction_reward_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `transaction_reward_information` text  NOT NULL,
+  `transaction_reward_type` varchar(255)  NOT NULL,
   `transaction_reward_amount` decimal(65, 2) NOT NULL,
-  `transaction_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `transaction_id` varchar(255)  NOT NULL,
   `member_id` bigint NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
@@ -734,7 +733,7 @@ CREATE TABLE `transaction_reward`  (
   INDEX `transaksi_id`(`transaction_id`) USING BTREE,
   CONSTRAINT `transaction_reward_ibfk_1` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `transaction_reward_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB ;
 
 -- ----------------------------
 -- Records of transaction_reward
@@ -750,9 +749,9 @@ INSERT INTO `transaction_reward` VALUES ('Exchange reward $ 100 to 0.89090909090
 -- ----------------------------
 DROP TABLE IF EXISTS `transaction_reward_pin`;
 CREATE TABLE `transaction_reward_pin`  (
-  `transaction_reward_pin_information` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `transaction_reward_pin_information` text  NOT NULL,
   `transaction_reward_pin_amount` decimal(65, 2) NOT NULL,
-  `transaction_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `transaction_id` varchar(255)  NOT NULL,
   `member_id` bigint NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
@@ -760,7 +759,7 @@ CREATE TABLE `transaction_reward_pin`  (
   INDEX `bonus_pin_ibfk_1`(`transaction_id`) USING BTREE,
   CONSTRAINT `transaction_reward_pin_ibfk_1` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `transaction_reward_pin_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB ;
 
 -- ----------------------------
 -- Records of transaction_reward_pin
@@ -776,17 +775,17 @@ INSERT INTO `transaction_reward_pin` VALUES ('Exchange reward $ 10 to 0.07272727
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
   `user_id` bigint NOT NULL AUTO_INCREMENT,
-  `user_nick` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_password` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_photo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
-  `remember_token` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
+  `user_nick` varchar(255)  NOT NULL,
+  `user_password` text  NOT NULL,
+  `user_name` text  NOT NULL,
+  `user_photo` text  NULL,
+  `remember_token` text  NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`) USING BTREE,
   UNIQUE INDEX `pengguna_uid`(`user_nick`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 ;
 
 -- ----------------------------
 -- Records of user
@@ -799,7 +798,7 @@ INSERT INTO `user` VALUES (1, 'administrator', '$2y$10$yjJhDISo1cbZ03jIA/PLFeCa1
 DROP TABLE IF EXISTS `wallet`;
 CREATE TABLE `wallet`  (
   `wallet_id` bigint NOT NULL AUTO_INCREMENT,
-  `wallet_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `wallet_address` varchar(255)  NOT NULL,
   `main` tinyint(1) NOT NULL DEFAULT 1,
   `member_id` bigint NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -808,7 +807,7 @@ CREATE TABLE `wallet`  (
   PRIMARY KEY (`wallet_id`) USING BTREE,
   UNIQUE INDEX `wallet_wallet_kode_idx`(`wallet_address`) USING BTREE,
   INDEX `wallet_ibfk_1`(`member_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 ;
 
 -- ----------------------------
 -- Records of wallet

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Wallet;
 
 use App\Models\Rate;
 use App\Models\Wallet;
 use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
 
-class Lbc extends Component
+class Main extends Component
 {
     public $address, $transaction, $balance, $dollar, $lbc_amount, $to_address, $notification, $password;
 
@@ -79,13 +79,14 @@ class Lbc extends Component
             ];
         }
     }
+
     public function render()
     {
         $rate = new Rate();
         $this->balance = bitcoind()->getbalance(auth()->user()->member_email)[0];
         $this->transaction = collect(bitcoind()->listtransactions(auth()->user()->member_email, 30)->result())->sortByDesc('time');
         $this->dollar = $this->balance * $rate->last_dollar;
-        return view('livewire.lbc')
+        return view('livewire.wallet.main')
             ->extends('livewire.main', [
                 'breadcrumb' => ['Wallet'],
                 'title' => 'Wallet'

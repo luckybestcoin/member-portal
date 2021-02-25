@@ -36,9 +36,14 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/fee', \App\Http\Livewire\Pin\Fee::class)->name('pin.fee');
     });
 
+    Route::prefix('wallet')->group(function ()
+    {
+        Route::get('/', \App\Http\Livewire\Wallet\Main::class)->name('wallet');
+        Route::get('/deposit', \App\Http\Livewire\Wallet\Deposit::class)->name('wallet.deposit');
+    });
+
     Route::get('/reward', \App\Http\Livewire\RewardHistory::class)->name('bagihasil');
     Route::get('/profile', \App\Http\Livewire\Profile::class)->name('profile');
-    Route::get('/wallet', \App\Http\Livewire\Lbc::class)->name('wallet');
     Route::get('/exchange', \App\Http\Livewire\Exchange::class)->name('exchange');
 
     Route::get('/rate', [RateController::class, 'dollar']);

@@ -13,6 +13,7 @@
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
+        "hexters/coinpayment": "^3.0",
         "kevupton/laravel-coinpayments": "^1.1",
         "laravel/fortify": "^1.7",
         "laravel/framework": "^8.12",
