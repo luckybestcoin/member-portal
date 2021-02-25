@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\DB;
 use App\Models\TransactionRewardPin;
 use Illuminate\Support\Facades\Hash;
 
-class Exchange extends Component
+class Conversion extends Component
 {
-    public $rate, $type, $amount, $percent, $lbc_amount, $lbc_price, $tx_fee, $password, $notification, $trx_reward, $trx_pinfee;
+    public $rate, $type, $amount, $percent, $lbc_amount, $lbc_price, $tx_fee, $password, $notification, $trx_reward, $trx_pinfee, $exchange = false;
     public $reward, $fee;
 
     protected $rules = [
@@ -27,6 +27,7 @@ class Exchange extends Component
         $this->trx_reward = new TransactionReward();
         $this->trx_pinfee = new TransactionRewardPin();
         $this->rate = new Rate();
+        $this->check();
     }
 
     public function updated()
@@ -37,19 +38,35 @@ class Exchange extends Component
             $this->tx_fee = auth()->user()->contract->contract_reward_exchange_fee;
         }
         $this->lbc_amount = ($this->amount? $this->amount - $this->tx_fee:0) / $this->lbc_price;
-        $this->validate();
     }
 
     public function form_reward()
     {
         $this->type = 'reward';
         $this->reset(['amount', 'percent', 'password', 'lbc_amount']);
+        $this->check();
     }
 
     public function form_pinfee()
     {
         $this->type = 'pinfee';
         $this->reset(['amount', 'percent', 'password', 'lbc_amount']);
+        $this->check();
+    }
+
+    private function check()
+    {
+        $this->exchange = false;
+        if ($this->type == 'pinfee') {
+            if (TransactionRewardPin::where('transaction_reward_pin_amount', '<', 0)->where('created_at', 'like', date('Y-m-d').'%')->where('member_id', auth()->id())->get()->count() > 0) {
+                dd('tes');
+                $this->exchange = true;
+            }
+        } else {
+            if (TransactionReward::where('transaction_reward_amount', '<', 0)->where('created_at', 'like', date('Y-m-d').'%')->where('member_id', auth()->id())->get()->count() > 0) {
+                $this->exchange = true;
+            }
+        }
     }
 
     public function set_percent($percent)
@@ -77,7 +94,7 @@ class Exchange extends Component
                 $error .= "<li>Wrong <strong>password</strong></li>";
             }
 
-            if (TransactionReward::where('created_at', 'like', date('Y-m-d').'%')->where('member_id', auth()->id())->get()->count() > 0) {
+            if (TransactionReward::where('transaction_reward_type', 'Conversion')->where('created_at', 'like', date('Y-m-d').'%')->where('member_id', auth()->id())->get()->count() > 0) {
                 $error .= "<li>You have made a reward exchange today</li>";
             }
 
@@ -86,11 +103,11 @@ class Exchange extends Component
             }
 
             if ($this->amount > auth()->user()->contract->contract_reward_exchange_max) {
-                $error .= "<li>Max. Reward to Exchange $ ". number_format(auth()->user()->contract->contract_reward_exchange_max, 2)."</li>";
+                $error .= "<li>Max. Reward to Conversion $ ". number_format(auth()->user()->contract->contract_reward_exchange_max, 2)."</li>";
             }
 
             if ($this->amount < auth()->user()->contract->contract_reward_exchange_min) {
-                $error .= "<li>Min. Reward to Exchange $ ". number_format(auth()->user()->contract->contract_reward_exchange_min, 2)."</li>";
+                $error .= "<li>Min. Reward to Conversion $ ". number_format(auth()->user()->contract->contract_reward_exchange_min, 2)."</li>";
             }
 
             if ($this->lbc_amount > bitcoind()->getbalance(config("constant.admin_email"))[0]){
@@ -105,7 +122,7 @@ class Exchange extends Component
                 ];
             }
             DB::transaction(function () {
-                $information = "Exchange reward $ ".$this->amount." to ".$this->lbc_amount. " LBC";
+                $information = "Conversion reward $ ".$this->amount." to ".$this->lbc_amount. " LBC";
 
                 $id = auth()->user()->wallet->wallet_address.date('Ymdhis').round(microtime(true) * 1000);
 
@@ -116,7 +133,7 @@ class Exchange extends Component
 
                 $trx_reward = new TransactionReward();
                 $trx_reward->transaction_reward_information = $information;
-                $trx_reward->transaction_reward_type = "Exchange";
+                $trx_reward->transaction_reward_type = "Conversion";
                 $trx_reward->transaction_reward_amount = -$this->amount;
                 $trx_reward->transaction_id = $id;
                 $trx_reward->member_id = auth()->id();
@@ -154,7 +171,7 @@ class Exchange extends Component
                 $error .= "<li>Wrong <strong>password</strong></li>";
             }
 
-            if (TransactionRewardPin::where('created_at', 'like', date('Y-m-d').'%')->where('member_id', auth()->id())->get()->count() > 0) {
+            if (TransactionRewardPin::where('transaction_reward_pin_type', 'Conversion')->where('created_at', 'like', date('Y-m-d').'%')->where('member_id', auth()->id())->get()->count() > 0) {
                 $error .= "<li>You have made a pin fee exchange today</li>";
             }
 
@@ -163,11 +180,11 @@ class Exchange extends Component
             }
 
             if ($this->amount > auth()->user()->contract->contract_pin_reward_exchange_max) {
-                $error .= "<li>Max. Pin Fee to Exchange $ ". number_format(auth()->user()->contract->contract_pin_reward_exchange_max, 2)."</li>";
+                $error .= "<li>Max. Pin Fee to Conversion $ ". number_format(auth()->user()->contract->contract_pin_reward_exchange_max, 2)."</li>";
             }
 
             if ($this->amount < auth()->user()->contract->contract_pin_reward_exchange_fee) {
-                $error .= "<li>Min. Pin Fee to Exchange $ ". number_format(auth()->user()->contract->contract_pin_reward_exchange_fee, 2)."</li>";
+                $error .= "<li>Min. Pin Fee to Conversion $ ". number_format(auth()->user()->contract->contract_pin_reward_exchange_fee, 2)."</li>";
             }
 
             if ($this->lbc_amount > bitcoind()->getbalance(config("constant.admin_email"))[0]){
@@ -182,7 +199,7 @@ class Exchange extends Component
                 ];
             }
             DB::transaction(function () {
-                $information = "Exchange reward $ ".$this->amount." to ".$this->lbc_amount. " LBC";
+                $information = "Conversion reward $ ".$this->amount." to ".$this->lbc_amount. " LBC";
 
                 $id = auth()->user()->wallet->wallet_address.date('Ymdhis').round(microtime(true) * 1000);
 
@@ -194,6 +211,7 @@ class Exchange extends Component
                 $trx_reward = new TransactionRewardPin();
                 $trx_reward->transaction_reward_pin_information = $information;
                 $trx_reward->transaction_reward_pin_amount = -$this->amount;
+                $trx_reward->transaction_reward_pin_type = "Conversion";
                 $trx_reward->transaction_id = $id;
                 $trx_reward->member_id = auth()->id();
                 $trx_reward->save();
@@ -220,10 +238,11 @@ class Exchange extends Component
         $this->reward = $this->trx_reward->balance;
         $this->fee = $this->trx_pinfee->balance;
         $this->lbc_price = $this->rate->last_dollar;
-        return view('livewire.exchange')
+
+        return view('livewire.conversion')
             ->extends('livewire.main', [
-                'breadcrumb' => ['Exchange'],
-                'title' => 'Exchange'
+                'breadcrumb' => ['Conversion'],
+                'title' => 'Conversion'
             ])
             ->section('subcontent');
     }

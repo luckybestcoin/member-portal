@@ -84,7 +84,7 @@ class Main extends Component
     {
         $rate = new Rate();
         $this->balance = bitcoind()->getbalance(auth()->user()->member_email)[0];
-        $this->transaction = collect(bitcoind()->listtransactions(auth()->user()->member_email, 30)->result())->sortByDesc('time');
+        $this->transaction = collect(bitcoind()->listtransactions(auth()->user()->member_email, 30)->result());
         $this->dollar = $this->balance * $rate->last_dollar;
         return view('livewire.wallet.main')
             ->extends('livewire.main', [

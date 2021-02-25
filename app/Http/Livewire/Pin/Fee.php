@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\PinReward;
 use Livewire\WithPagination;
+use App\Models\TransactionRewardPin;
 
 class Fee extends Component
 {
@@ -18,8 +19,8 @@ class Fee extends Component
 
     public function render()
     {
-        $pin = new PinReward();
-        $data = $pin->where('anggota_id', auth()->id());
+        $pin = new TransactionRewardPin();
+        $data = $pin->where('member_id', auth()->id());
 
         if($this->period === "This Month Only"){
             $from = Carbon::parse(now())->format("Y-m-01 00:00:00");
@@ -39,8 +40,7 @@ class Fee extends Component
         ])
         ->extends('livewire.main', [
             'breadcrumb' => ['Pin', 'Fee'],
-            'title' => 'Pin Fee',
-            'description' => 'Pin fee that you have earned'
+            'title' => 'Pin Fee'
         ])
         ->section('subcontent');
     }

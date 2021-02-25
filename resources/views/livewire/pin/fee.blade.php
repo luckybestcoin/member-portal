@@ -24,19 +24,17 @@
                                 <th>Transaction ID</th>
                                 <th>Timestamp</th>
                                 <th>Description</th>
-                                <th>Debit</th>
-                                <th>Credit</th>
+                                <th>Amount</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach ($data as $i => $row)
                                 <tr>
                                     <td class="align-middle" style="width: 5px">{{ ++$no }}</td>
-                                    <td class="align-middle">{{ $row->transaksi_id }}</td>
+                                    <td class="align-middle">{{ $row->transaction_id }}</td>
                                     <td class="align-middle">{{ $row->created_at }}</td>
-                                    <td class="align-middle">{{ $row->bonus_pin_keterangan }}</td>
-                                    <td class="align-middle text-nowrap text-right">{{ number_format($row->bonus_pin_debit, 2) }}</td>
-                                    <td class="align-middle text-nowrap text-right">{{ number_format($row->bonus_pin_kredit, 2) }}</td>
+                                    <td class="align-middle">{{ $row->transaction_reward_pin_information }}</td>
+                                    <td class="align-middle text-nowrap text-right">{{ number_format($row->transaction_reward_pin_amount, 2) }}</td>
                                 </tr>
                             @endforeach
                             </tbody>

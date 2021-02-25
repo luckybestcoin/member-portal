@@ -4,8 +4,8 @@ namespace App\Http\Livewire;
 
 use Carbon\Carbon;
 use Livewire\Component;
-use App\Models\Reward;
 use Livewire\WithPagination;
+use App\Models\TransactionReward;
 
 class RewardHistory extends Component
 {
@@ -18,12 +18,9 @@ class RewardHistory extends Component
 
     public function render()
     {
-        $pin = new Reward();
-        $data = $pin->where('anggota_id', auth()->id());
+        $transaction = new TransactionReward();
+        $data = $transaction->where('member_id', auth()->id());
 
-        if ($this->category != 'All') {
-            $data = $data->where('bagi_hasil_jenis', $this->category);
-        }
 
         if($this->period === "This Month Only"){
             $from = Carbon::parse(now())->format("Y-m-01 00:00:00");
@@ -36,10 +33,10 @@ class RewardHistory extends Component
         }
 
         $data = $data->paginate(10);
-        return view('livewire.reward', [
+        return view('livewire.reward-history', [
             'no' => ($this->page - 1) * 10,
             'data' => $data,
-            'total' => $pin->terakhir
+            'total' => $transaction->balance
         ])
         ->extends('livewire.main', [
             'breadcrumb' => ['Reward'],

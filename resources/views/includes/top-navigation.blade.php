@@ -1,3 +1,8 @@
+@inject('rate', 'App\Models\Rate')
+@php
+    $lbc_balance = bitcoind()->getbalance(auth()->user()->member_email)[0];
+    $rate_dollar = $rate->last_dollar;
+@endphp
         <nav class="main-header navbar navbar-expand text-sm navbar-dark navbar-lightblue">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
@@ -14,6 +19,9 @@
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
+                <li class="nav-item  d-none d-sm-inline-block">
+                    <a href="#" class="nav-link badge-pill badge badge-warning text-dark"><h6><strong>LBC : {{ $lbc_balance }} = $ {{ number_format($lbc_balance * $rate_dollar, 2) }}</strong></h6></a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-user-circle"></i>

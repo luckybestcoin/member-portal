@@ -8,22 +8,8 @@
 
 @php
     $omset = auth()->user()->select(DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_id, "ki")))=concat(member.member_id, "ki") ) omset_kiri'), DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_id, "ka")))=concat(member.member_id, "ka") ) omset_kanan'))->where('member_id', auth()->id())->first();
-    $lbc_balance = bitcoind()->getbalance(auth()->user()->member_email)[0];
-    $rate_dollar = $rate->last_dollar;
 @endphp
 
-<div class="info-box mb-3 bg-dark">
-    <span class="info-box-icon">
-        <i class="icofont icofont-coins"></i>
-    </span>
-    <div class="info-box-content">
-        <span class="info-box-text"><h5>Your LBC Balance</h5></span>
-        <span class="info-box-number">
-            <h4>{{ number_format($lbc_balance, 8) }}</h4>
-            $ {{ number_format($lbc_balance * $rate_dollar, 2) }}
-        </span>
-    </div>
-</div>
 <div class="info-box mb-3 bg-info">
     <span class="info-box-icon">
         <i class="icofont icofont-ticket"></i>
@@ -35,7 +21,7 @@
         </span>
     </div>
 </div>
-<div class="info-box mb-3 bg-default">
+<div class="info-box mb-3 bg-secondary">
     <div class="row m-2" style="width: 100%">
         <div class="col-lg-12">
             <label>Left Side Turnover</label>

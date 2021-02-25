@@ -50,7 +50,7 @@
                                         <th>Comments</th>
                                         <th>Info</th>
                                     </tr>
-                                    @foreach ($transaction as $item)
+                                    @foreach ($transaction->sortByDesc('time') as $item)
                                     @if ($item['category'] == 'move')
                                     <tr>
                                         <td>{{ date('Y-m-d h:m:s', $item['time']) }}</td>

@@ -10,7 +10,7 @@
                     @include('includes.error-validation')
                     @include('includes.notification')
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-8">
                     <form wire:submit.prevent="submit">
                         <div class="card card-default">
                             <div class="card-header">
@@ -75,6 +75,9 @@
                             </div>
                         </div>
                     </form>
+                </div>
+                <div class="col-md-4">
+                    @include('includes.information')
                 </div>
             </div>
         </div>

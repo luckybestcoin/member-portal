@@ -18,9 +18,14 @@
                         <div class="card-body">
                             <div class="tab-content" id="custom-tabs-one-tabContent">
                                 <div class="tab-pane fade {{ $type == 'pinfee'? '': 'show active' }}" id="custom-tabs-one-reward" role="tabpanel" aria-labelledby="custom-tabs-one-reward-tab">
+                                    @if ($exchange)
+                                    <div class="text-center text-danger">
+                                        <h3>You cannot exchange your reward more than once on the same day!!!</h3>
+                                    </div>
+                                    @else
                                     <form wire:submit.prevent="reward">
                                         <div class="form-group">
-                                            <label>Amount Reward</label>
+                                            <label>Amount Reward to Exchange</label>
                                             <div class="input-group">
                                                 <input type="number" step="any" class="form-control" wire:model="amount" autocomplete="off">
                                                 <div class="input-group-append">
@@ -49,11 +54,17 @@
                                         <div class="alert alert-warning">When you click <strong>Accept & Go</strong>, the process cannot be undone!!!</div>
                                         <button type="submit" class="btn btn-primary">Accept & Go</button>
                                     </form>
+                                    @endif
                                 </div>
                                 <div class="tab-pane fade {{ $type == 'pinfee'? 'show active': '' }}" id="custom-tabs-one-pinfee" role="tabpanel" aria-labelledby="custom-tabs-one-pinfee-tab">
+                                    @if ($exchange)
+                                    <div class="text-center text-red">
+                                        <h3>You cannot exchange your reward more than once on the same day!!!</h3>
+                                    </div>
+                                    @else
                                     <form wire:submit.prevent="pinfee">
                                         <div class="form-group">
-                                            <label>Amount Pin Fee</label>
+                                            <label>Amount Pin Fee to Exchange</label>
                                             <div class="input-group">
                                                 <input type="number" step="any" class="form-control" wire:model="amount" autocomplete="off">
                                                 <div class="input-group-append">
@@ -82,6 +93,7 @@
                                         <div class="alert alert-warning">When you click <strong>Accept & Go</strong>, the process cannot be undone!!!</div>
                                         <button type="submit" class="btn btn-primary">Accept & Go</button>
                                     </form>
+                                    @endif
                                 </div>
                           </div>
                         </div>
@@ -106,14 +118,13 @@
                     <div class="small-box bg-success">
                         <div class="inner">
                             <h3>$ {{ number_format($reward, 2) }}</h3>
-
                             <p>Reward</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-gift"></i>
                         </div>
                     </div>
-                    <div class="small-box bg-primary">
+                    <div class="small-box bg-yellow">
                         <div class="inner">
                             <h3>$ {{ number_format($fee, 2) }}</h3>
 
@@ -123,8 +134,6 @@
                             <i class="fa fa-ticket-alt"></i>
                         </div>
                     </div>
-                    <hr>
-                    @include('includes.information')
                 </div>
             </div>
         </div>

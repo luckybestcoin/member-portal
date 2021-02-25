@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Pin;
 
 use Carbon\Carbon;
-use App\Models\Pin;
+use App\Models\TransactionPin;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -18,8 +18,8 @@ class History extends Component
 
     public function render()
     {
-        $pin = new Pin();
-        $data = $pin->where('anggota_id', auth()->id());
+        $pin = new TransactionPin();
+        $data = $pin->where('member_id', auth()->id());
 
         if($this->period === "This Month Only"){
             $from = Carbon::parse(now())->format("Y-m-01 00:00:00");
@@ -39,8 +39,7 @@ class History extends Component
         ])
         ->extends('livewire.main', [
             'breadcrumb' => ['Pin', 'History'],
-            'title' => 'Pin History',
-            'description' => 'The History of Your Pin'
+            'title' => 'Pin History'
         ])
         ->section('subcontent');
     }

@@ -6,10 +6,11 @@ use App\Models\Rate;
 use Livewire\Component;
 use Hexters\CoinPayment\CoinPayment;
 use Illuminate\Support\Facades\Hash;
+use App\Models\CoinpaymentTransactions;
 
 class Deposit extends Component
 {
-    public $amount, $password, $notification, $total_payment = 0, $price, $note, $rate;
+    public $amount, $password, $notification, $total_payment = 0, $price, $note, $rate, $transaction = [];
 
     public $payment_method = [];
 
@@ -21,6 +22,7 @@ class Deposit extends Component
     public function mount()
     {
         $this->rate = new Rate();
+        $this->transaction = CoinpaymentTransactions::with('items')->where('buyer_email', auth()->user()->member_email)->orderBy('created_at', 'desc')->limit(30)->get();
     }
 
     public function updated()

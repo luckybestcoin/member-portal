@@ -27,8 +27,8 @@ return [
 		'url' => '/achievement'
 	],[
 		'icon' => '<i class="nav-icon fa fa-exchange-alt"></i>',
-		'title' => 'Exchange',
-		'url' => '/exchange'
+		'title' => 'Conversion',
+		'url' => '/conversion'
 	],[
 		'icon' => '<i class="nav-icon fa fa-network-wired"></i>',
 		'title' => 'Member',
@@ -56,15 +56,15 @@ return [
         ]]
 	],[
 		'icon' => '<i class="nav-icon fa fa-recycle"></i>',
-		'title' => 'Restacking',
-		'url' => '/restacking'
+		'title' => 'Extension',
+		'url' => '/extension'
 	],[
 		'icon' => '<i class="nav-icon fa fa-gift"></i>',
 		'title' => 'Reward',
 		'url' => '/reward'
 	],[
-		'icon' => '<img src="/images/favicon.ico" class="ml-10" style="margin-left: 13px; height: 25px">',
-		'title' => '<strong style="margin-left: 3px">Wallet</strong>',
+		'icon' => '<img src="/images/favicon.ico" class="ml-10" style="margin-left: 13px; margin-right: 5px; height: 25px">',
+		'title' => 'Wallet',
 		'url' => 'javascript:void(0)',
 		'sub_menu' => [[
             'url' => '/wallet',
