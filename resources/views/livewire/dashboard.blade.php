@@ -5,7 +5,7 @@
                 <!-- ./col -->
                 <div class="col-lg-4 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-danger">
+                    <div class="small-box bg-primary">
                         <div class="inner">
                             <h3>$ {{ number_format(auth()->user()->contract_price * 3) }}</h3>
 
@@ -35,7 +35,7 @@
                 <!-- ./col -->
                 <div class="col-lg-4 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-warning">
+                    <div class="small-box bg-danger">
                         <div class="inner">
                             <h3>$ {{ number_format($fee, 2) }}</h3>
 

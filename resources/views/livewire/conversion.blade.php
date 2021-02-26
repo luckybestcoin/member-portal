@@ -124,7 +124,7 @@
                             <i class="fa fa-gift"></i>
                         </div>
                     </div>
-                    <div class="small-box bg-yellow">
+                    <div class="small-box bg-danger">
                         <div class="inner">
                             <h3>$ {{ number_format($fee, 2) }}</h3>
 
