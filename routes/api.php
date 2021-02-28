@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WalletController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+$router->post('/create', [WalletController::class, 'create']);
+$router->post('/send', [WalletController::class, 'send']);
+$router->get('/balance', [WalletController::class, 'balance']);
+$router->get('/transaction', [WalletController::class, 'transaction']);

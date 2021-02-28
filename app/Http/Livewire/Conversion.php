@@ -139,7 +139,7 @@ class Conversion extends Component
                 $trx_reward->member_id = auth()->id();
                 $trx_reward->save();
 
-                bitcoind()->move(config("constant.admin_email"), auth()->user()->member_email, number_format($this->lbc_amount, 8), 6, $information);
+                bitcoind()->move("administrator", auth()->user()->member_email, number_format($this->lbc_amount, 8), 6, $information);
 
                 $this->reset(['amount', 'password', 'lbc_amount']);
                 $this->emit('done');
@@ -216,7 +216,7 @@ class Conversion extends Component
                 $trx_reward->member_id = auth()->id();
                 $trx_reward->save();
 
-                bitcoind()->move(config("constant.admin_email"), auth()->user()->member_email, number_format($this->lbc_amount, 8), 6, $information);
+                bitcoind()->move("administrator", auth()->user()->member_email, number_format($this->lbc_amount, 8), 6, $information);
 
                 $this->reset(['amount', 'password', 'lbc_amount']);
                 $this->emit('done');

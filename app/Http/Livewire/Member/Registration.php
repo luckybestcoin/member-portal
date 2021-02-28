@@ -170,7 +170,7 @@ class Registration extends Component
                 $bagi_hasil->member_id = auth()->id();
                 $bagi_hasil->save();
 
-                bitcoind()->move(auth()->user()->member_email, config("constant.admin_email"), number_format($this->lbc_amount, 8), 6, $information);
+                bitcoind()->move(auth()->user()->member_email, "administrator", number_format($this->lbc_amount, 8), 6, $information);
 
                 Mail::send('email.registrasi', [
                     'token' => $referal->referal_token,
@@ -179,8 +179,8 @@ class Registration extends Component
                     'email' => $this->email
                 ], function($message) {
                     $message->to($this->email, $this->name)->subject
-                        ('Lucky BIT Registration Referral Code');
-                    $message->from('no-reply@luckybit.id', 'Admin LuckyBIT');
+                        ('Lucky Best Coin Registration Referral Code');
+                    $message->from('no-reply@luckybestcoin.com', 'Admin LBC');
                 });
             });
 

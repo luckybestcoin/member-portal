@@ -11,9 +11,10 @@
  Target Server Version : 80023
  File Encoding         : 65001
 
- Date: 24/02/2021 08:13:43
+ Date: 28/02/2021 07:56:45
 */
 
+SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
@@ -24,7 +25,7 @@ CREATE TABLE `achievement`  (
   `achievement_id` bigint NOT NULL AUTO_INCREMENT,
   `rating_id` bigint NULL DEFAULT NULL,
   `member_id` bigint NULL DEFAULT NULL,
-  `process` text  NULL,
+  `process` text NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -33,27 +34,74 @@ CREATE TABLE `achievement`  (
   INDEX `anggota_id`(`member_id`) USING BTREE,
   CONSTRAINT `achievement_ibfk_1` FOREIGN KEY (`rating_id`) REFERENCES `rating` (`rating_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `achievement_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 ;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 ;
+
 
 -- ----------------------------
--- Records of achievement
+-- Table structure for coinpayment_transaction_items
 -- ----------------------------
-INSERT INTO `achievement` VALUES (2, 1, 1, NULL, '2021-02-23 00:56:25', '2021-02-23 00:56:25', NULL);
-INSERT INTO `achievement` VALUES (4, 1, 1, NULL, '2021-02-23 01:00:00', '2021-02-23 01:00:00', NULL);
-INSERT INTO `achievement` VALUES (5, 1, 1, NULL, '2021-02-23 01:06:30', '2021-02-23 01:06:30', NULL);
-INSERT INTO `achievement` VALUES (6, 1, 1, NULL, '2021-02-23 01:09:02', '2021-02-23 01:09:02', NULL);
-INSERT INTO `achievement` VALUES (7, 1, 1, NULL, '2021-02-23 01:14:47', '2021-02-23 01:14:47', NULL);
-INSERT INTO `achievement` VALUES (8, 1, 1, NULL, '2021-02-23 01:17:28', '2021-02-23 01:17:28', NULL);
-INSERT INTO `achievement` VALUES (9, 1, 1, NULL, '2021-02-23 01:18:34', '2021-02-23 01:18:34', NULL);
-INSERT INTO `achievement` VALUES (10, 1, 1, NULL, '2021-02-23 01:26:08', '2021-02-23 01:26:08', NULL);
+DROP TABLE IF EXISTS `coinpayment_transaction_items`;
+CREATE TABLE `coinpayment_transaction_items`  (
+  `coinpayment_transaction_id` bigint NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `price` decimal(10, 2) NOT NULL,
+  `qty` decimal(10, 2) NOT NULL,
+  `subtotal` decimal(10, 2) NOT NULL,
+  `currency_code` varchar(255) NULL DEFAULT NULL,
+  `type` varchar(255) NULL DEFAULT NULL,
+  `state` varchar(255) NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  INDEX `coinpayment_transaction_id`(`coinpayment_transaction_id`) USING BTREE,
+  CONSTRAINT `coinpayment_transaction_items_ibfk_1` FOREIGN KEY (`coinpayment_transaction_id`) REFERENCES `coinpayment_transactions` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB;
+
 
 -- ----------------------------
--- Table structure for contract
+-- Table structure for coinpayment_transactions
 -- ----------------------------
-DROP TABLE IF EXISTS `contract`;
+DROP TABLE IF EXISTS `coinpayment_transactions`;
+CREATE TABLE `coinpayment_transactions`  (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `uuid` char(36) NOT NULL,
+  `txn_id` varchar(255) NULL DEFAULT NULL,
+  `order_id` varchar(255) NULL DEFAULT NULL,
+  `buyer_name` varchar(255) NULL DEFAULT NULL,
+  `buyer_email` varchar(255) NULL DEFAULT NULL,
+  `currency_code` varchar(255) NULL DEFAULT NULL,
+  `time_expires` varchar(255) NULL DEFAULT NULL,
+  `address` varchar(255) NULL DEFAULT NULL,
+  `amount_total_fiat` decimal(10, 2) NULL DEFAULT NULL,
+  `amount` varchar(255) NULL DEFAULT NULL,
+  `amountf` varchar(255) NULL DEFAULT NULL,
+  `coin` varchar(255) NULL DEFAULT NULL,
+  `confirms_needed` int NULL DEFAULT NULL,
+  `payment_address` varchar(255) NULL DEFAULT NULL,
+  `qrcode_url` text NULL,
+  `received` varchar(255) NULL DEFAULT NULL,
+  `receivedf` varchar(255) NULL DEFAULT NULL,
+  `recv_confirms` varchar(255) NULL DEFAULT NULL,
+  `status` varchar(255) NULL DEFAULT NULL,
+  `status_text` varchar(255) NULL DEFAULT NULL,
+  `status_url` text NULL,
+  `timeout` varchar(255) NULL DEFAULT NULL,
+  `checkout_url` longtext NULL,
+  `redirect_url` longtext NULL,
+  `cancel_url` longtext NULL,
+  `type` varchar(255) NULL DEFAULT NULL,
+  `payload` longtext NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `coinpayment_transactions_uuid_unique`(`uuid`) USING BTREE,
+  UNIQUE INDEX `coinpayment_transactions_txn_id_unique`(`txn_id`) USING BTREE,
+  UNIQUE INDEX `coinpayment_transactions_order_id_unique`(`order_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3;
+
+
 CREATE TABLE `contract`  (
   `contract_id` bigint NOT NULL AUTO_INCREMENT,
-  `contract_name` varchar(255)  NOT NULL,
+  `contract_name` varchar(255) NOT NULL,
   `contract_price` decimal(65, 2) NOT NULL,
   `contract_pin` tinyint NOT NULL,
   `contract_reward_exchange_fee` decimal(60, 2) NULL DEFAULT NULL,
@@ -88,8 +136,8 @@ INSERT INTO `contract` VALUES (7, 'CROWN', 10000.00, 9, 7.00, 500.00, 10000.00, 
 DROP TABLE IF EXISTS `country`;
 CREATE TABLE `country`  (
   `country_id` bigint NOT NULL AUTO_INCREMENT,
-  `country_name` varchar(255)  NULL DEFAULT NULL,
-  `country_code` varchar(255)  NULL DEFAULT NULL,
+  `country_name` varchar(255) NULL DEFAULT NULL,
+  `country_code` varchar(255) NULL DEFAULT NULL,
   `user_id` bigint NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -300,13 +348,33 @@ INSERT INTO `country` VALUES (195, 'Zambia', '260', 1, NULL, NULL, NULL);
 INSERT INTO `country` VALUES (196, 'Zimbabwe', '263', 1, NULL, NULL, NULL);
 
 -- ----------------------------
+-- Table structure for failed_jobs
+-- ----------------------------
+DROP TABLE IF EXISTS `failed_jobs`;
+CREATE TABLE `failed_jobs`  (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `failed_jobs_uuid_unique`(`uuid`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1;
+
+-- ----------------------------
+-- Records of failed_jobs
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for holiday
 -- ----------------------------
 DROP TABLE IF EXISTS `holiday`;
 CREATE TABLE `holiday`  (
   `holiday_id` bigint NOT NULL AUTO_INCREMENT,
-  `holiday_date` varchar(255)  NOT NULL,
-  `holiday_information` text  NOT NULL,
+  `holiday_date` varchar(255) NOT NULL,
+  `holiday_information` text NOT NULL,
   `pengguna_id` bigint NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
@@ -314,13 +382,7 @@ CREATE TABLE `holiday`  (
   UNIQUE INDEX `hari_besar_hari_besar_tanggal_idx`(`holiday_date`) USING BTREE,
   INDEX `pengguna_id`(`pengguna_id`) USING BTREE,
   CONSTRAINT `holiday_ibfk_1` FOREIGN KEY (`pengguna_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 ;
-
--- ----------------------------
--- Records of holiday
--- ----------------------------
-INSERT INTO `holiday` VALUES (1, '2020-10-12', 'tesa', 1, '2021-01-17 00:42:55', '2021-01-17 00:49:30');
-INSERT INTO `holiday` VALUES (2, '2020-11-21', 'res', 1, '2021-01-17 00:49:44', '2021-01-17 00:55:45');
+) ENGINE = InnoDB AUTO_INCREMENT = 1 ;
 
 -- ----------------------------
 -- Table structure for invalid_turnover
@@ -347,11 +409,11 @@ CREATE TABLE `invalid_turnover`  (
 DROP TABLE IF EXISTS `member`;
 CREATE TABLE `member`  (
   `member_id` bigint NOT NULL AUTO_INCREMENT,
-  `member_password` varchar(255)  NULL DEFAULT NULL,
+  `member_password` varchar(255) NULL DEFAULT NULL,
   `member_name` varchar(255) NULL DEFAULT NULL,
   `member_email` varchar(255) NOT NULL,
-  `member_phone` varchar(255)  NULL DEFAULT NULL,
-  `member_network` longtext  NOT NULL,
+  `member_phone` varchar(255) NULL DEFAULT NULL,
+  `member_network` longtext NOT NULL,
   `member_parent` bigint NULL DEFAULT NULL,
   `member_position` smallint NULL DEFAULT NULL,
   `contract_id` bigint NOT NULL,
@@ -360,7 +422,7 @@ CREATE TABLE `member`  (
   `due_date` date NULL DEFAULT NULL,
   `extension` int NOT NULL DEFAULT 1,
   `rating_id` bigint NULL DEFAULT NULL,
-  `remember_token` text  NULL,
+  `remember_token` text NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -370,14 +432,28 @@ CREATE TABLE `member`  (
   INDEX `paket_id`(`contract_id`) USING BTREE,
   CONSTRAINT `anggota_peringkat_id_fkey` FOREIGN KEY (`rating_id`) REFERENCES `rating` (`rating_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `member_ibfk_1` FOREIGN KEY (`contract_id`) REFERENCES `contract` (`contract_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 ;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 ;
 
 -- ----------------------------
--- Records of member
+-- Table structure for migrations
 -- ----------------------------
-INSERT INTO `member` VALUES (1, '$2y$10$N3WaDbRehALzPMTbrght3epbST1HFqtY3W.gAQqHzRU6r74KOivIS', 'fajar', 'fajar@gmail.com', '080808080808', '', NULL, NULL, 1, 10000.00, 65, NULL, 1, 1, NULL, '2021-01-31 00:00:00', '2021-02-23 11:45:28', NULL);
-INSERT INTO `member` VALUES (8, '$2y$10$KAP8YOAK/dz2ddd4tDGt/u3EdFZVBOs9zmD6FKrrbex2PSvsED2eW', 'Andi Fajar Nugraha', 'andifajarlah@gmail.com', '62081803747336', '1ka', 1, 1, 5, 2000.00, 65, NULL, 1, NULL, NULL, '2021-02-22 13:16:03', '2021-02-23 00:56:25', NULL);
-INSERT INTO `member` VALUES (9, '$2y$10$Ulib8czNU5/5VMfgP2s/luS5rC5X1uuKOoCaVxpQyrmvixLG6SlZa', 'andi', 'andi@gmail.com', '62081803747336', '1ki', 1, 0, 5, 2000.00, 65, NULL, 1, NULL, NULL, '2021-02-22 21:41:09', '2021-02-23 01:26:08', NULL);
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE `migrations`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) NOT NULL,
+  `batch` int NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6;
+
+-- ----------------------------
+-- Records of migrations
+-- ----------------------------
+INSERT INTO `migrations` VALUES (1, '2014_10_12_000000_create_users_table', 1);
+INSERT INTO `migrations` VALUES (2, '2014_10_12_100000_create_password_resets_table', 1);
+INSERT INTO `migrations` VALUES (3, '2014_10_12_200000_add_two_factor_columns_to_users_table', 1);
+INSERT INTO `migrations` VALUES (4, '2019_01_26_221915_create_coinpayment_transactions_table', 1);
+INSERT INTO `migrations` VALUES (5, '2019_08_19_000000_create_failed_jobs_table', 1);
+INSERT INTO `migrations` VALUES (6, '2020_11_30_030150_create_coinpayment_transaction_items_table', 1);
 
 -- ----------------------------
 -- Table structure for model_has_permissions
@@ -385,7 +461,7 @@ INSERT INTO `member` VALUES (9, '$2y$10$Ulib8czNU5/5VMfgP2s/luS5rC5X1uuKOoCaVxpQ
 DROP TABLE IF EXISTS `model_has_permissions`;
 CREATE TABLE `model_has_permissions`  (
   `permission_id` int UNSIGNED NOT NULL,
-  `model_type` varchar(255)  NOT NULL,
+  `model_type` varchar(255) NOT NULL,
   `model_id` bigint NOT NULL,
   PRIMARY KEY (`permission_id`, `model_type`, `model_id`) USING BTREE,
   INDEX `model_has_permissions_model_id_model_type_index`(`model_type`) USING BTREE,
@@ -404,7 +480,7 @@ CREATE TABLE `model_has_permissions`  (
 DROP TABLE IF EXISTS `model_has_roles`;
 CREATE TABLE `model_has_roles`  (
   `role_id` int UNSIGNED NOT NULL,
-  `model_type` varchar(255)  NOT NULL,
+  `model_type` varchar(255) NOT NULL,
   `model_id` bigint NOT NULL,
   PRIMARY KEY (`role_id`, `model_type`, `model_id`) USING BTREE,
   INDEX `model_has_roles_model_id_model_type_index`(`model_type`) USING BTREE,
@@ -419,29 +495,35 @@ CREATE TABLE `model_has_roles`  (
 INSERT INTO `model_has_roles` VALUES (1, 'App\\Models\\Pengguna', 1);
 
 -- ----------------------------
+-- Table structure for password_resets
+-- ----------------------------
+DROP TABLE IF EXISTS `password_resets`;
+CREATE TABLE `password_resets`  (
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  INDEX `password_resets_email_index`(`email`) USING BTREE
+) ENGINE = InnoDB;
+
+-- ----------------------------
+-- Records of password_resets
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for payment_method
 -- ----------------------------
 DROP TABLE IF EXISTS `payment_method`;
 CREATE TABLE `payment_method`  (
   `payment_method_id` bigint NOT NULL AUTO_INCREMENT COMMENT ' ',
-  `payment_method_name` varchar(255)  NULL DEFAULT NULL,
-  `payment_method_abbrevation` varchar(255)  NULL DEFAULT NULL,
+  `payment_method_name` varchar(255) NULL DEFAULT NULL,
+  `payment_method_abbrevation` varchar(255) NULL DEFAULT NULL,
   `payment_method_price` decimal(60, 10) NULL DEFAULT NULL,
   `user_id` bigint NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`payment_method_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 ;
-
--- ----------------------------
--- Records of payment_method
--- ----------------------------
-INSERT INTO `payment_method` VALUES (1, 'BitCoin', 'BTC', 0.0020000000, 1, '2021-01-30 00:00:00', '2021-01-30 00:00:00', NULL);
-INSERT INTO `payment_method` VALUES (2, 'Etherium', 'ETH', 0.1000000000, 1, '2021-01-30 00:00:00', '2021-01-30 00:00:00', NULL);
-INSERT INTO `payment_method` VALUES (4, 'Binance', 'BNB', 0.0030000000, 1, NULL, NULL, NULL);
-INSERT INTO `payment_method` VALUES (5, 'Tron', 'TRX', 0.0003000000, 1, NULL, NULL, NULL);
-INSERT INTO `payment_method` VALUES (6, 'USD Tether', 'USDT', 1.0000000000, 1, NULL, NULL, NULL);
+) ENGINE = InnoDB AUTO_INCREMENT = 1 ;
 
 -- ----------------------------
 -- Table structure for permissions
@@ -449,8 +531,8 @@ INSERT INTO `payment_method` VALUES (6, 'USD Tether', 'USDT', 1.0000000000, 1, N
 DROP TABLE IF EXISTS `permissions`;
 CREATE TABLE `permissions`  (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(191)  NOT NULL,
-  `guard_name` varchar(45)  NULL DEFAULT NULL,
+  `name` varchar(191) NOT NULL,
+  `guard_name` varchar(45) NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
@@ -468,22 +550,15 @@ DROP TABLE IF EXISTS `rate`;
 CREATE TABLE `rate`  (
   `rate_id` bigint NOT NULL AUTO_INCREMENT,
   `rate_price` decimal(65, 2) NOT NULL,
-  `rate_currency` varchar(255)  NULL DEFAULT NULL,
+  `rate_currency` varchar(255) NULL DEFAULT NULL,
   `user_id` bigint NOT NULL,
   `created_at` timestamp(6) NOT NULL,
   `updated_at` timestamp(6) NOT NULL,
   PRIMARY KEY (`rate_id`) USING BTREE,
   INDEX `pengguna_id`(`user_id`) USING BTREE,
   CONSTRAINT `rate_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 ;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 ;
 
--- ----------------------------
--- Records of rate
--- ----------------------------
-INSERT INTO `rate` VALUES (2, 150.00, 'USD', 1, '2021-01-20 00:02:00.023000', '2021-01-20 00:00:00.000000');
-INSERT INTO `rate` VALUES (3, 7500.00, 'IDR', 1, '2021-01-20 00:01:00.000000', '2021-01-20 00:00:00.000000');
-INSERT INTO `rate` VALUES (4, 120.00, 'USD', 1, '2021-01-20 00:22:01.020000', '2021-01-21 00:00:00.000000');
-INSERT INTO `rate` VALUES (5, 110.00, 'USD', 1, '2021-02-10 02:00:00.120000', '2021-01-30 00:00:00.000000');
 
 -- ----------------------------
 -- Table structure for rating
@@ -491,7 +566,7 @@ INSERT INTO `rate` VALUES (5, 110.00, 'USD', 1, '2021-02-10 02:00:00.120000', '2
 DROP TABLE IF EXISTS `rating`;
 CREATE TABLE `rating`  (
   `rating_id` bigint NOT NULL AUTO_INCREMENT,
-  `rating_name` varchar(255)  NOT NULL,
+  `rating_name` varchar(255) NOT NULL,
   `rating_min_turnover` decimal(65, 2) NOT NULL,
   `rating_reward` decimal(65, 2) NOT NULL,
   `rating_order` tinyint(1) NOT NULL,
@@ -519,7 +594,7 @@ INSERT INTO `rating` VALUES (4, 'Platinum', 3500000.00, 35000.00, 4, 1, '2021-01
 DROP TABLE IF EXISTS `referral`;
 CREATE TABLE `referral`  (
   `referral_id` bigint NOT NULL AUTO_INCREMENT,
-  `referral_token` varchar(300)  NULL DEFAULT NULL,
+  `referral_token` varchar(300) NULL DEFAULT NULL,
   `member_id` bigint NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -528,13 +603,7 @@ CREATE TABLE `referral`  (
   UNIQUE INDEX `referal_ibfk_1`(`member_id`) USING BTREE,
   UNIQUE INDEX `referal_token`(`referral_token`) USING BTREE,
   CONSTRAINT `referral_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 55 ;
-
--- ----------------------------
--- Records of referral
--- ----------------------------
-INSERT INTO `referral` VALUES (53, 'EleNCZVooeNQU4QvM8pQ8A1a8SgCRjtsahaFOQcS8', 8, '2021-02-22 13:16:03', '2021-02-23 00:56:25', '2021-02-23 00:56:25');
-INSERT INTO `referral` VALUES (54, 'ZgWhmeAZhxriujIxkX0jmF4xwgatQCnfKjMMmWK39', 9, '2021-02-22 21:41:09', '2021-02-23 01:26:08', '2021-02-23 01:26:08');
+) ENGINE = InnoDB AUTO_INCREMENT = 1;
 
 -- ----------------------------
 -- Table structure for role_has_permissions
@@ -559,8 +628,8 @@ CREATE TABLE `role_has_permissions`  (
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles`  (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(191)  NOT NULL,
-  `guard_name` varchar(45)  NULL DEFAULT NULL,
+  `name` varchar(191) NOT NULL,
+  `guard_name` varchar(45) NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
@@ -575,33 +644,6 @@ INSERT INTO `roles` VALUES (2, 'user', 'web', '2019-04-24 03:38:59', '2019-04-24
 INSERT INTO `roles` VALUES (3, 'guest', 'web', '2019-04-24 03:38:59', '2019-04-24 03:38:59');
 
 -- ----------------------------
--- Table structure for transaction
--- ----------------------------
-DROP TABLE IF EXISTS `transaction`;
-CREATE TABLE `transaction`  (
-  `transaction_id` varchar(255)  NOT NULL,
-  `transaction_information` text  NULL,
-  `created_at` timestamp NOT NULL,
-  `updated_at` timestamp NOT NULL,
-  PRIMARY KEY (`transaction_id`) USING BTREE
-) ENGINE = InnoDB ;
-
--- ----------------------------
--- Records of transaction
--- ----------------------------
-INSERT INTO `transaction` VALUES ('4D2oveVHUC-202102220941091614030069324', 'Member registration on behalf of Andi Fajar Nugraha by fajar@gmail.com', '2021-02-22 21:41:09', '2021-02-22 21:41:09');
-INSERT INTO `transaction` VALUES ('F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq202102220431441613968304145', 'Buy 02 PINs by fajar@gmail.com', '2021-02-22 04:31:44', '2021-02-22 04:31:44');
-INSERT INTO `transaction` VALUES ('F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq202102220435561613968556511', 'Buy 2 PINs by fajar@gmail.com', '2021-02-22 04:35:56', '2021-02-22 04:35:56');
-INSERT INTO `transaction` VALUES ('F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq202102220437521613968672475', 'Buy 10 PINs by fajar@gmail.com', '2021-02-22 04:37:52', '2021-02-22 04:37:52');
-INSERT INTO `transaction` VALUES ('F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq202102230640131614062413609', 'Exchange reward $ 100 to 0.89090909090909 LBC by fajar@gmail.com', '2021-02-23 06:40:13', '2021-02-23 06:40:13');
-INSERT INTO `transaction` VALUES ('F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq202102230641361614062496801', 'Exchange reward $ 100 to 0.89090909090909 LBC by fajar@gmail.com', '2021-02-23 06:41:36', '2021-02-23 06:41:36');
-INSERT INTO `transaction` VALUES ('F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq202102230642471614062567019', 'Exchange reward $ 100 to 0.89090909090909 LBC by fajar@gmail.com', '2021-02-23 06:42:47', '2021-02-23 06:42:47');
-INSERT INTO `transaction` VALUES ('F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq202102230701551614063715001', 'Exchange reward $ 10 to 0.072727272727273 LBC by fajar@gmail.com', '2021-02-23 07:01:55', '2021-02-23 07:01:55');
-INSERT INTO `transaction` VALUES ('kvPTb6YBQx-202102220116031613999763411', 'Member registration on behalf of Andi Fajar Nugraha by fajar@gmail.com', '2021-02-22 13:16:03', '2021-02-22 13:16:03');
-INSERT INTO `transaction` VALUES ('MWnNaQ88J0-202102230109021614042542849', 'Member activation on behalf of  by andi@gmail.com', '2021-02-23 01:09:02', '2021-02-23 01:09:02');
-INSERT INTO `transaction` VALUES ('YNtUAAZfMN-202102231256251614041785266', 'Member activation on behalf of  by andifajarlah@gmail.com', '2021-02-23 00:56:25', '2021-02-23 00:56:25');
-
--- ----------------------------
 -- Table structure for transaction_exchange
 -- ----------------------------
 DROP TABLE IF EXISTS `transaction_exchange`;
@@ -609,7 +651,7 @@ CREATE TABLE `transaction_exchange`  (
   `transaction_exchange_amount` decimal(65, 30) NOT NULL,
   `rate_id` bigint NOT NULL,
   `wallet_id` bigint NOT NULL,
-  `transaction_id` varchar(255)  NOT NULL,
+  `transaction_id` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -619,7 +661,7 @@ CREATE TABLE `transaction_exchange`  (
   CONSTRAINT `transaction_exchange_ibfk_1` FOREIGN KEY (`wallet_id`) REFERENCES `wallet` (`wallet_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `transaction_exchange_ibfk_2` FOREIGN KEY (`rate_id`) REFERENCES `rate` (`rate_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `transaction_exchange_ibfk_3` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB ;
+) ENGINE = InnoDB;
 
 -- ----------------------------
 -- Records of transaction_exchange
@@ -631,7 +673,7 @@ CREATE TABLE `transaction_exchange`  (
 DROP TABLE IF EXISTS `transaction_extension`;
 CREATE TABLE `transaction_extension`  (
   `member_id` bigint NOT NULL,
-  `transaction_id` varchar(255)  NULL DEFAULT NULL,
+  `transaction_id` varchar(255) NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -639,7 +681,7 @@ CREATE TABLE `transaction_extension`  (
   INDEX `reinvest_ibfk_1`(`transaction_id`) USING BTREE,
   CONSTRAINT `transaction_extension_ibfk_1` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `transaction_extension_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB ;
+) ENGINE = InnoDB;
 
 -- ----------------------------
 -- Records of transaction_extension
@@ -650,22 +692,15 @@ CREATE TABLE `transaction_extension`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `transaction_income`;
 CREATE TABLE `transaction_income`  (
-  `transaction_income_information` text  NOT NULL,
-  `transaction_income_type` varchar(255)  NOT NULL,
+  `transaction_income_information` text NOT NULL,
+  `transaction_income_type` varchar(255) NOT NULL,
   `transaction_income_amount` decimal(65, 2) NOT NULL,
-  `transaction_id` varchar(255)  NOT NULL,
+  `transaction_id` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   INDEX `pendapatan_ibfk_1`(`transaction_id`) USING BTREE,
   CONSTRAINT `transaction_income_ibfk_1` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB ;
-
--- ----------------------------
--- Records of transaction_income
--- ----------------------------
-INSERT INTO `transaction_income` VALUES ('Buy 02 PINs by fajar@gmail.com', 'Pin', 6.00, 'F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq202102220431441613968304145', '2021-02-22 04:31:44', '2021-02-22 04:31:44');
-INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by fajar@gmail.com', 'Pin', 6.00, 'F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq202102220435561613968556511', '2021-02-22 04:35:56', '2021-02-22 04:35:56');
-INSERT INTO `transaction_income` VALUES ('Buy 10 PINs by fajar@gmail.com', 'Pin', 30.00, 'F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq202102220437521613968672475', '2021-02-22 04:37:52', '2021-02-22 04:37:52');
+) ENGINE = InnoDB;
 
 -- ----------------------------
 -- Table structure for transaction_payment
@@ -673,32 +708,27 @@ INSERT INTO `transaction_income` VALUES ('Buy 10 PINs by fajar@gmail.com', 'Pin'
 DROP TABLE IF EXISTS `transaction_payment`;
 CREATE TABLE `transaction_payment`  (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `email` varchar(255)  NULL DEFAULT NULL,
-  `from_currency` varchar(500)  NOT NULL,
-  `entered_amount` varchar(1000)  NOT NULL,
-  `to_currency` varchar(500)  NOT NULL,
-  `amount` varchar(50)  NOT NULL,
-  `gateway_id` varchar(1000)  NOT NULL,
-  `gateway_url` text  NOT NULL,
-  `status` varchar(500)  NOT NULL,
+  `email` varchar(255) NULL DEFAULT NULL,
+  `from_currency` varchar(500) NOT NULL,
+  `entered_amount` varchar(1000) NOT NULL,
+  `to_currency` varchar(500) NOT NULL,
+  `amount` varchar(50) NOT NULL,
+  `gateway_id` varchar(1000) NOT NULL,
+  `gateway_url` text NOT NULL,
+  `status` varchar(500) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 ;
-
--- ----------------------------
--- Records of transaction_payment
--- ----------------------------
-INSERT INTO `transaction_payment` VALUES (2, 'andifajarlah@gmail.com', 'ETH', '10', 'ETH', '10.00000000', 'CPFB1GXSOKSJVSST5AEBDAGLL0', 'https://www.coinpayments.net/index.php?cmd=status&id=CPFB1GXSOKSJVSST5AEBDAGLL0&key=48f1f184cc4a7f1f90f8a690f5dfa826', 'initilaized', '2021-02-03 12:33:56', '2021-02-03 12:33:56');
+) ENGINE = InnoDB AUTO_INCREMENT = 3;
 
 -- ----------------------------
 -- Table structure for transaction_pin
 -- ----------------------------
 DROP TABLE IF EXISTS `transaction_pin`;
 CREATE TABLE `transaction_pin`  (
-  `transaction_pin_information` text  NOT NULL,
+  `transaction_pin_information` text NOT NULL,
   `transaction_pin_amount` int NOT NULL,
-  `transaction_id` varchar(255)  NOT NULL,
+  `transaction_id` varchar(255) NOT NULL,
   `member_id` bigint NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
@@ -706,26 +736,17 @@ CREATE TABLE `transaction_pin`  (
   INDEX `pin_ibfk_1`(`transaction_id`) USING BTREE,
   CONSTRAINT `transaction_pin_ibfk_1` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `transaction_pin_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB ;
-
--- ----------------------------
--- Records of transaction_pin
--- ----------------------------
-INSERT INTO `transaction_pin` VALUES ('Buy 02 PINs', 2, 'F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq202102220431441613968304145', 1, '2021-02-22 04:31:44', '2021-02-22 04:31:44');
-INSERT INTO `transaction_pin` VALUES ('Buy 2 PINs', 2, 'F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq202102220435561613968556511', 1, '2021-02-22 04:35:56', '2021-02-22 04:35:56');
-INSERT INTO `transaction_pin` VALUES ('Buy 10 PINs', 10, 'F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq202102220437521613968672475', 1, '2021-02-22 04:37:52', '2021-02-22 04:37:52');
-INSERT INTO `transaction_pin` VALUES ('Member registration on behalf of Andi Fajar Nugraha', -3, 'kvPTb6YBQx-202102220116031613999763411', 1, '2021-02-22 13:16:03', '2021-02-22 13:16:03');
-INSERT INTO `transaction_pin` VALUES ('Member registration on behalf of Andi Fajar Nugraha', -3, '4D2oveVHUC-202102220941091614030069324', 1, '2021-02-22 21:41:09', '2021-02-22 21:41:09');
+) ENGINE = InnoDB;
 
 -- ----------------------------
 -- Table structure for transaction_reward
 -- ----------------------------
 DROP TABLE IF EXISTS `transaction_reward`;
 CREATE TABLE `transaction_reward`  (
-  `transaction_reward_information` text  NOT NULL,
-  `transaction_reward_type` varchar(255)  NOT NULL,
+  `transaction_reward_information` text NOT NULL,
+  `transaction_reward_type` varchar(255) NOT NULL,
   `transaction_reward_amount` decimal(65, 2) NOT NULL,
-  `transaction_id` varchar(255)  NOT NULL,
+  `transaction_id` varchar(255) NOT NULL,
   `member_id` bigint NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
@@ -733,25 +754,18 @@ CREATE TABLE `transaction_reward`  (
   INDEX `transaksi_id`(`transaction_id`) USING BTREE,
   CONSTRAINT `transaction_reward_ibfk_1` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `transaction_reward_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB ;
+) ENGINE = InnoDB;
 
--- ----------------------------
--- Records of transaction_reward
--- ----------------------------
-INSERT INTO `transaction_reward` VALUES ('Member registration on behalf of Andi Fajar Nugraha', 'Referral', 200.00, 'kvPTb6YBQx-202102220116031613999763411', 1, '2021-02-22 13:16:03', '2021-02-22 13:16:03');
-INSERT INTO `transaction_reward` VALUES ('Member registration on behalf of Andi Fajar Nugraha', 'Referral', 200.00, '4D2oveVHUC-202102220941091614030069324', 1, '2021-02-22 21:41:09', '2021-02-22 21:41:09');
-INSERT INTO `transaction_reward` VALUES ('Exchange reward $ 100 to 0.89090909090909 LBC', 'Exchange', -100.00, 'F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq202102230640131614062413609', 1, '2021-02-23 06:40:13', '2021-02-23 06:40:13');
-INSERT INTO `transaction_reward` VALUES ('Exchange reward $ 100 to 0.89090909090909 LBC', 'Exchange', -100.00, 'F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq202102230641361614062496801', 1, '2021-02-23 06:41:36', '2021-02-23 06:41:36');
-INSERT INTO `transaction_reward` VALUES ('Exchange reward $ 100 to 0.89090909090909 LBC', 'Exchange', -100.00, 'F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq202102230642471614062567019', 1, '2021-02-23 06:42:47', '2021-02-23 06:42:47');
 
 -- ----------------------------
 -- Table structure for transaction_reward_pin
 -- ----------------------------
 DROP TABLE IF EXISTS `transaction_reward_pin`;
 CREATE TABLE `transaction_reward_pin`  (
-  `transaction_reward_pin_information` text  NOT NULL,
+  `transaction_reward_pin_information` text NOT NULL,
+  `transaction_reward_pin_type` varchar(255) NULL DEFAULT NULL,
   `transaction_reward_pin_amount` decimal(65, 2) NOT NULL,
-  `transaction_id` varchar(255)  NOT NULL,
+  `transaction_id` varchar(255) NOT NULL,
   `member_id` bigint NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
@@ -759,15 +773,8 @@ CREATE TABLE `transaction_reward_pin`  (
   INDEX `bonus_pin_ibfk_1`(`transaction_id`) USING BTREE,
   CONSTRAINT `transaction_reward_pin_ibfk_1` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `transaction_reward_pin_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB ;
+) ENGINE = InnoDB;
 
--- ----------------------------
--- Records of transaction_reward_pin
--- ----------------------------
-INSERT INTO `transaction_reward_pin` VALUES ('Buy 02 PINs by fajar@gmail.com', 14.00, 'F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq202102220431441613968304145', 1, '2021-02-22 04:31:44', '2021-02-22 04:31:44');
-INSERT INTO `transaction_reward_pin` VALUES ('Buy 2 PINs by fajar@gmail.com', 14.00, 'F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq202102220435561613968556511', 1, '2021-02-22 04:35:56', '2021-02-22 04:35:56');
-INSERT INTO `transaction_reward_pin` VALUES ('Buy 10 PINs by fajar@gmail.com', 70.00, 'F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq202102220437521613968672475', 1, '2021-02-22 04:37:52', '2021-02-22 04:37:52');
-INSERT INTO `transaction_reward_pin` VALUES ('Exchange reward $ 10 to 0.072727272727273 LBC', -10.00, 'F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq202102230701551614063715001', 1, '2021-02-23 07:01:55', '2021-02-23 07:01:55');
 
 -- ----------------------------
 -- Table structure for user
@@ -775,17 +782,17 @@ INSERT INTO `transaction_reward_pin` VALUES ('Exchange reward $ 10 to 0.07272727
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
   `user_id` bigint NOT NULL AUTO_INCREMENT,
-  `user_nick` varchar(255)  NOT NULL,
-  `user_password` text  NOT NULL,
-  `user_name` text  NOT NULL,
-  `user_photo` text  NULL,
-  `remember_token` text  NULL,
+  `user_nick` varchar(255) NOT NULL,
+  `user_password` text NOT NULL,
+  `user_name` text NOT NULL,
+  `user_photo` text NULL,
+  `remember_token` text NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`) USING BTREE,
   UNIQUE INDEX `pengguna_uid`(`user_nick`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 ;
+) ENGINE = InnoDB AUTO_INCREMENT = 2;
 
 -- ----------------------------
 -- Records of user
@@ -793,12 +800,35 @@ CREATE TABLE `user`  (
 INSERT INTO `user` VALUES (1, 'administrator', '$2y$10$yjJhDISo1cbZ03jIA/PLFeCa1AhUBrhLI8bs3WeBQea93tEmNm8Ty', 'Administrator', NULL, NULL, '2021-01-14 00:00:00', '2021-02-02 04:45:59', NULL);
 
 -- ----------------------------
+-- Table structure for users
+-- ----------------------------
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users`  (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `two_factor_secret` text NULL,
+  `two_factor_recovery_codes` text NULL,
+  `remember_token` varchar(100) NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `users_email_unique`(`email`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1;
+
+-- ----------------------------
+-- Records of users
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for wallet
 -- ----------------------------
 DROP TABLE IF EXISTS `wallet`;
 CREATE TABLE `wallet`  (
   `wallet_id` bigint NOT NULL AUTO_INCREMENT,
-  `wallet_address` varchar(255)  NOT NULL,
+  `wallet_address` varchar(255) NOT NULL,
   `main` tinyint(1) NOT NULL DEFAULT 1,
   `member_id` bigint NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -807,12 +837,7 @@ CREATE TABLE `wallet`  (
   PRIMARY KEY (`wallet_id`) USING BTREE,
   UNIQUE INDEX `wallet_wallet_kode_idx`(`wallet_address`) USING BTREE,
   INDEX `wallet_ibfk_1`(`member_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 ;
+) ENGINE = InnoDB AUTO_INCREMENT = 1;
 
--- ----------------------------
--- Records of wallet
--- ----------------------------
-INSERT INTO `wallet` VALUES (2, 'F8Jm1woE86V49u5wztimuTN4rAs8o8R8aq', 1, 1, '2021-02-20 00:00:00', '2021-02-20 00:00:00', NULL);
-INSERT INTO `wallet` VALUES (3, 'FHzHgDHBPJw6Jphfs1xPfCTWHfAyiYiVe6', 1, 9, '2021-02-23 01:26:08', '2021-02-23 01:26:08', NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

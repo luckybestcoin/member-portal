@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Pin;
 use Carbon\Carbon;
 use App\Models\Pin;
 use App\Models\Rate;
+use App\Models\User;
 use App\Models\Member;
 use App\Models\rating;
 use Livewire\Component;
@@ -338,7 +339,7 @@ class Buy extends Component
                     TransactionRewardPin::insert($ins->toArray());
                 }
 
-                bitcoind()->move(auth()->user()->member_email, config("constant.admin_email"), number_format($this->lbc_amount, 8), 6, $information);
+                bitcoind()->move(auth()->user()->member_email, "administrator", number_format($this->lbc_amount, 8), 6, $information);
                 // bitcoind()->sendfrom(auth()->user()->member_email, config("constant.admin_address") , number_format((string)$this->lbc_amount, 4), $information);
             });
 
