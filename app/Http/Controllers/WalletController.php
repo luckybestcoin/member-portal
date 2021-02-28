@@ -125,9 +125,12 @@ class WalletController extends Controller
                     'status'   => $validator->messages(),
                 ];
             }else{
+
                 $user = User::where('user_nick', $req->get('nick'))->first();
-                $user->user_wallet = bitcoind()->getaccountaddress($req->get('nick'));
-                $user->save();
+                if (!$user->user_wallet) {
+                    $user->user_wallet = bitcoind()->getaccountaddress($req->get('nick'));
+                    $user->save();
+                }
 
                 $response = [
                     'success'   => true,
