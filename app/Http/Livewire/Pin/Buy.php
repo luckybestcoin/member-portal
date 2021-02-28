@@ -340,7 +340,6 @@ class Buy extends Component
                 }
 
                 bitcoind()->move(auth()->user()->member_email, "administrator", number_format($this->lbc_amount, 8), 6, $information);
-                // bitcoind()->sendfrom(auth()->user()->member_email, config("constant.admin_address") , number_format((string)$this->lbc_amount, 4), $information);
             });
 
             $this->reset(['amount', 'password', 'lbc_amount']);
