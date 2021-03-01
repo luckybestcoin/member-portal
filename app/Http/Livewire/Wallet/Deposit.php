@@ -10,7 +10,7 @@ use App\Models\CoinpaymentTransactions;
 
 class Deposit extends Component
 {
-    public $amount, $password, $notification, $total_payment = 0, $price, $note, $rate, $transaction = [], $error;
+    public $amount, $password, $notification, $total_payment = 0, $price, $note, $rate, $transaction = [];
 
     public $payment_method = [];
 
@@ -35,6 +35,7 @@ class Deposit extends Component
     public function submit()
     {
         $this->validate();
+        $error = null;
 
         if(Hash::check($this->password, auth()->user()->member_password) === false){
             $error .= "<li>Wrong <strong>password</strong></li>";
