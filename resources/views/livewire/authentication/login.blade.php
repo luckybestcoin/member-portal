@@ -3,7 +3,7 @@
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <img src="/images/logoatasbawah.png" alt="logo.png" style="height: 200px"><br>
+                <img src="/images/logoatasbawah.png" alt="logo.png" style="height: 100px"><br>
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
@@ -57,6 +57,15 @@
                 <p class="mb-0">
                     Have a referral code? <a href="javascript.void(0);" data-toggle="modal" data-target="#default-Modal"> <b class="f-w-600">Click here </b></a>
                 </p>
+                <hr>
+                <script type="text/javascript"> //<![CDATA[
+                    var tlJsHost = ((window.location.protocol == "https:") ? "https://secure.trust-provider.com/" : "http://www.trustlogo.com/");
+                    document.write(unescape("%3Cscript src='" + tlJsHost + "trustlogo/javascript/trustlogo.js' type='text/javascript'%3E%3C/script%3E"));
+                  //]]>
+                </script>
+                <script language="JavaScript" type="text/javascript">
+                    TrustLogo("https://www.positivessl.com/images/seals/positivessl_trust_seal_sm_124x32.png", "POSDV", "none");
+                </script>
             </div>
         <!-- /.card-body -->
         </div>
