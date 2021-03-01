@@ -35,8 +35,8 @@
                     </div>
                     <hr>
                     <div class="form-group form-primary">
-                        <input type="text" wire:model="username" class="form-control" placeholder="New Username" autocomplete="off">
-                        @error('username')
+                        <input type="text" wire:model="new_username" class="form-control" placeholder="New Username" autocomplete="off">
+                        @error('new_username')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
