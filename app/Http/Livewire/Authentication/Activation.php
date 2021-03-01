@@ -56,7 +56,7 @@ class Activation extends Component
         if(strlen($data->deleted_at) === 0 || $data->due_date){
             array_push($this->parent, [
                 'id' => $data->member_id,
-                'user' => $data->member_email,
+                'user' => $data->member_user,
                 'parent' => $data->member_parent,
                 'network' => $data->member_network,
                 'contract' => $data->contract_price,

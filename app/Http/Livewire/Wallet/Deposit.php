@@ -22,7 +22,7 @@ class Deposit extends Component
     public function mount()
     {
         $this->rate = new Rate();
-        $this->transaction = CoinpaymentTransactions::with('items')->where('buyer_email', auth()->user()->member_email)->orderBy('created_at', 'desc')->limit(30)->get();
+        $this->transaction = CoinpaymentTransactions::with('items')->where('buyer_name', auth()->user()->member_user)->orderBy('created_at', 'desc')->limit(30)->get();
     }
 
     public function updated()

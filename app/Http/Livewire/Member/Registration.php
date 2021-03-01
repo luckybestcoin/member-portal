@@ -136,7 +136,7 @@ class Registration extends Component
 
                 $transaction = new Transaction();
                 $transaction->transaction_id = $id;
-                $transaction->transaction_information = $information." by ".auth()->user()->member_email;
+                $transaction->transaction_information = $information." by ".auth()->user()->member_user;
                 $transaction->save();
 
                 $pin->transaction_pin_information = $information;
