@@ -64,7 +64,7 @@ class Main extends Component
                 ];
             }
 
-            bitcoind()->sendfrom(auth()->user()->member_user, $this->to_address, number_format($this->lbc_amount, 8), 1);
+            bitcoind()->sendfrom(auth()->user()->member_user, $this->to_address, $this->lbc_amount, 1);
 
             $this->reset(['to_address', 'password', 'lbc_amount']);
             $this->emit('done');
