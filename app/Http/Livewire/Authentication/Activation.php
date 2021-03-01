@@ -121,12 +121,12 @@ class Activation extends Component
 
             $transaction = new Transaction();
             $transaction->transaction_id = $id;
-            $transaction->transaction_information = $information." by ".$member->member_email;
+            $transaction->transaction_information = $information." by ".$member->member_user;
             $transaction->save();
 
-            $this->setParent(Member::with('parent')->with('rating')->with('invalid_left_turnover')->with('invalid_right_turnover')->select("member_id", "member_email", "member_parent", "member_position", "rating_id", "contract_price", "member_network", "due_date", "deleted_at",
+            $this->setParent(Member::with('parent')->with('rating')->with('invalid_left_turnover')->with('invalid_right_turnover')->select("member_id", "member_email", "member_user", "member_parent", "member_position", "rating_id", "contract_price", "member_network", "due_date", "deleted_at",
             DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_id, "ki")))=concat(member.member_id, "ki") ) left_turnover'),
-            DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_email is not null and left(a.member_network, length(concat(member.member_id, "ka")))=concat(member.member_id, "ka") ) right_turnover'))->where('member_id', $this->member_id)->first());
+            DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_id, "ka")))=concat(member.member_id, "ka") ) right_turnover'))->where('member_id', $this->member_id)->first());
 
             $data_rating = Rating::all();
 

@@ -52,7 +52,7 @@ class Main extends Component
                 $error .= "<li>LBC amount to be purchased cannot be less than 1</li>";
             }
 
-            if ($this->lbc_amount > bitcoind()->getbalance(auth()->user()->member_email)[0]){
+            if ($this->lbc_amount > bitcoind()->getbalance(auth()->user()->member_user)[0]){
                 $error .= "<li>Account has insufficient funds.</li>";
             }
 
@@ -64,7 +64,7 @@ class Main extends Component
                 ];
             }
 
-            bitcoind()->sendfrom(auth()->user()->member_email, $this->to_address, number_format($this->lbc_amount, 8), 1);
+            bitcoind()->sendfrom(auth()->user()->member_user, $this->to_address, number_format($this->lbc_amount, 8), 1);
 
             $this->reset(['to_address', 'password', 'lbc_amount']);
             $this->emit('done');
@@ -83,8 +83,8 @@ class Main extends Component
     public function render()
     {
         $rate = new Rate();
-        $this->balance = bitcoind()->getbalance(auth()->user()->member_email)[0];
-        $this->transaction = collect(bitcoind()->listtransactions(auth()->user()->member_email, 30)->result());
+        $this->balance = bitcoind()->getbalance(auth()->user()->member_user)[0];
+        $this->transaction = collect(bitcoind()->listtransactions(auth()->user()->member_user, 30)->result());
         $this->dollar = $this->balance * $rate->last_dollar;
         return view('livewire.wallet.main')
             ->extends('livewire.main', [

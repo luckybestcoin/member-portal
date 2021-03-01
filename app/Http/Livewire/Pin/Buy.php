@@ -35,7 +35,7 @@ class Buy extends Component
         if(strlen($data->deleted_at) === 0 || $data->due_date){
             array_push($this->parent, [
                 'id' => $data->member_id,
-                'user' => $data->member_email,
+                'user' => $data->member_user,
                 'parent' => $data->member_parent,
                 'network' => $data->member_network,
                 'contract' => $data->contract_price,
@@ -73,7 +73,7 @@ class Buy extends Component
                 $error .= "<li>Amount of PIN to be purchased cannot be less than 1</li>";
             }
 
-            if ($this->lbc_amount > bitcoind()->getbalance(auth()->user()->member_email)[0]){
+            if ($this->lbc_amount > bitcoind()->getbalance(auth()->user()->member_user)[0]){
                 $error .= "<li>Account has insufficient funds.</li>";
             }
 
@@ -92,7 +92,7 @@ class Buy extends Component
 
                 $transaksi = new Transaction();
                 $transaksi->transaction_id = $id;
-                $transaksi->transaction_information = $information." by ".auth()->user()->member_email;
+                $transaksi->transaction_information = $information." by ".auth()->user()->member_user;
                 $transaksi->save();
 
                 $pin = new TransactionPin();
@@ -107,7 +107,7 @@ class Buy extends Component
 
                 $type = 'Pin';
                 $income = new TransactionIncome();
-                $income->transaction_income_information = $information." by ".auth()->user()->member_email;
+                $income->transaction_income_information = $information." by ".auth()->user()->member_user;
                 $income->transaction_income_type = $type;
                 $income->transaction_income_amount = config("constant.pin_price_admin") * $this->amount;
                 $income->transaction_id = $id;
@@ -115,7 +115,7 @@ class Buy extends Component
 
                 if(strlen(trim(auth()->user()->member_parent)) == 0){
                     array_push($pembagian,[
-                        'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                        'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                         'transaction_reward_pin_amount' => 7 * $this->amount,
                         'transaction_id' => $id,
                         'member_id' => auth()->id(),
@@ -123,7 +123,7 @@ class Buy extends Component
                         'updated_at' => $now
                     ]);
                 }else{
-                    $this->setParent(Member::with('parent')->with('rating')->with('invalid_left_turnover')->with('invalid_right_turnover')->select("member_id", "member_parent", "member_position", "rating_id", "contract_price", "member_network", "due_date", "deleted_at",
+                    $this->setParent(Member::with('parent')->with('rating')->with('invalid_left_turnover')->with('invalid_right_turnover')->select("member_id", "member_parent", "member_email", "member_user", "member_position", "rating_id", "contract_price", "member_network", "due_date", "deleted_at",
                     DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_id, "ki")))=concat(member.member_id, "ki") ) left_turnover'),
                     DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_id, "ka")))=concat(member.member_id, "ka") ) right_turnover'))->where('member_id', auth()->id())->first());
 
@@ -140,7 +140,7 @@ class Buy extends Component
                                 array_push($pembagian,[
                                     'member_id' => $first->first()['id'],
                                     'transaction_id' => $id,
-                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                                     'transaction_reward_pin_amount' => 3.5 * $this->amount,
                                     'created_at' => $now,
                                     'updated_at' => $now
@@ -148,7 +148,7 @@ class Buy extends Component
                                 array_push($pembagian,[
                                     'member_id' => $second->first()['id'],
                                     'transaction_id' => $id,
-                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                                     'transaction_reward_pin_amount' => 1.75 * $this->amount,
                                     'created_at' => $now,
                                     'updated_at' => $now
@@ -156,7 +156,7 @@ class Buy extends Component
                                 array_push($pembagian,[
                                     'member_id' => $third->first()['id'],
                                     'transaction_id' => $id,
-                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                                     'transaction_reward_pin_amount' => 1.05 * $this->amount,
                                     'created_at' => $now,
                                     'updated_at' => $now
@@ -165,7 +165,7 @@ class Buy extends Component
                                     array_push($pembagian,[
                                         'member_id' => $founder->first()['id'],
                                         'transaction_id' => $id,
-                                        'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                                        'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                                         'transaction_reward_pin_amount' => 0.7 * $this->amount,
                                         'created_at' => $now,
                                         'updated_at' => $now
@@ -175,7 +175,7 @@ class Buy extends Component
                                 array_push($pembagian,[
                                     'member_id' => $first->first()['id'],
                                     'transaction_id' => $id,
-                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                                     'transaction_reward_pin_amount' => 3.5 * $this->amount,
                                     'created_at' => $now,
                                     'updated_at' => $now
@@ -183,7 +183,7 @@ class Buy extends Component
                                 array_push($pembagian,[
                                     'member_id' => $second->first()['id'],
                                     'transaction_id' => $id,
-                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                                     'transaction_reward_pin_amount' => 2.1 * $this->amount,
                                     'created_at' => $now,
                                     'updated_at' => $now
@@ -192,7 +192,7 @@ class Buy extends Component
                                     array_push($pembagian,[
                                         'member_id' => $founder->first()['id'],
                                         'transaction_id' => $id,
-                                        'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                                        'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                                         'transaction_reward_pin_amount' => 1.4 * $this->amount,
                                         'created_at' => $now,
                                         'updated_at' => $now
@@ -204,7 +204,7 @@ class Buy extends Component
                                 array_push($pembagian,[
                                     'member_id' => $first->first()['id'],
                                     'transaction_id' => $id,
-                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                                     'transaction_reward_pin_amount' => 3.5 * $this->amount,
                                     'created_at' => $now,
                                     'updated_at' => $now
@@ -212,7 +212,7 @@ class Buy extends Component
                                 array_push($pembagian,[
                                     'member_id' => $third->first()['id'],
                                     'transaction_id' => $id,
-                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                                     'transaction_reward_pin_amount' => 2.1 * $this->amount,
                                     'created_at' => $now,
                                     'updated_at' => $now
@@ -221,7 +221,7 @@ class Buy extends Component
                                     array_push($pembagian,[
                                         'member_id' => $founder->first()['id'],
                                         'transaction_id' => $id,
-                                        'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                                        'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                                         'transaction_reward_pin_amount' => 1.4 * $this->amount,
                                         'created_at' => $now,
                                         'updated_at' => $now
@@ -231,7 +231,7 @@ class Buy extends Component
                                 array_push($pembagian,[
                                     'member_id' => $first->first()['id'],
                                     'transaction_id' => $id,
-                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                                     'transaction_reward_pin_amount' => 3.5 * $this->amount,
                                     'created_at' => $now,
                                     'updated_at' => $now
@@ -240,7 +240,7 @@ class Buy extends Component
                                     array_push($pembagian,[
                                         'member_id' => $founder->first()['id'],
                                         'transaction_id' => $id,
-                                        'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                                        'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                                         'transaction_reward_pin_amount' => 3.5 * $this->amount,
                                         'created_at' => $now,
                                         'updated_at' => $now
@@ -254,7 +254,7 @@ class Buy extends Component
                                 array_push($pembagian,[
                                     'member_id' => $second->first()['id'],
                                     'transaction_id' => $id,
-                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                                     'transaction_reward_pin_amount' => 4.2 * $this->amount,
                                     'created_at' => $now,
                                     'updated_at' => $now
@@ -262,7 +262,7 @@ class Buy extends Component
                                 array_push($pembagian,[
                                     'member_id' => $third->first()['id'],
                                     'transaction_id' => $id,
-                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                                     'transaction_reward_pin_amount' => 1.75 * $this->amount,
                                     'created_at' => $now,
                                     'updated_at' => $now
@@ -271,7 +271,7 @@ class Buy extends Component
                                     array_push($pembagian,[
                                         'member_id' => $founder->first()['id'],
                                         'transaction_id' => $id,
-                                        'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                                        'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                                         'transaction_reward_pin_amount' => 1.05 * $this->amount,
                                         'created_at' => $now,
                                         'updated_at' => $now
@@ -281,7 +281,7 @@ class Buy extends Component
                                 array_push($pembagian,[
                                     'member_id' => $second->first()['id'],
                                     'transaction_id' => $id,
-                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                                     'transaction_reward_pin_amount' => 4.2 * $this->amount,
                                     'created_at' => $now,
                                     'updated_at' => $now
@@ -290,7 +290,7 @@ class Buy extends Component
                                     array_push($pembagian,[
                                         'member_id' => $founder->first()['id'],
                                         'transaction_id' => $id,
-                                        'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                                        'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                                         'transaction_reward_pin_amount' => 2.8 * $this->amount,
                                         'created_at' => $now,
                                         'updated_at' => $now
@@ -302,7 +302,7 @@ class Buy extends Component
                                 array_push($pembagian,[
                                     'member_id' => $third->first()['id'],
                                     'transaction_id' => $id,
-                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                                    'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                                     'transaction_reward_pin_amount' => 5.25 * $this->amount,
                                     'created_at' => $now,
                                     'updated_at' => $now
@@ -311,7 +311,7 @@ class Buy extends Component
                                     array_push($pembagian,[
                                         'member_id' => $founder->first()['id'],
                                         'transaction_id' => $id,
-                                        'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                                        'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                                         'transaction_reward_pin_amount' => 1.75 * $this->amount,
                                         'created_at' => $now,
                                         'updated_at' => $now
@@ -322,7 +322,7 @@ class Buy extends Component
                                     array_push($pembagian,[
                                         'member_id' => $founder->first()['id'],
                                         'transaction_id' => $id,
-                                        'transaction_reward_pin_information' => $information." by ".auth()->user()->member_email,
+                                        'transaction_reward_pin_information' => $information." by ".auth()->user()->member_user,
                                         'transaction_reward_pin_amount' => 7 * $this->amount,
                                         'created_at' => $now,
                                         'updated_at' => $now
@@ -339,7 +339,7 @@ class Buy extends Component
                     TransactionRewardPin::insert($ins->toArray());
                 }
 
-                bitcoind()->move(auth()->user()->member_email, "administrator", number_format($this->lbc_amount, 8), 6, $information);
+                bitcoind()->move(auth()->user()->member_user, "administrator", number_format($this->lbc_amount, 8), 6, $information);
             });
 
             $this->reset(['amount', 'password', 'lbc_amount']);

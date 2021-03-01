@@ -47,7 +47,7 @@ class Deposit extends Component
         $transaction['order_id'] = uniqid(); // invoice number
         $transaction['amountTotal'] = $this->rate->last_dollar * ($this->amount?:0);
         $transaction['note'] = $this->note;
-        $transaction['buyer_name'] = auth()->user()->member_name;
+        $transaction['buyer_name'] = auth()->user()->member_user;
         $transaction['buyer_email'] = auth()->user()->member_email;
         $transaction['redirect_url'] = url('/wallet/deposit'); // When Transaction was comleted
         $transaction['cancel_url'] = url('/wallet/deposit'); // When user click cancel link

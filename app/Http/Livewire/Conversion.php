@@ -128,7 +128,7 @@ class Conversion extends Component
 
                 $transaksi = new Transaction();
                 $transaksi->transaction_id = $id;
-                $transaksi->transaction_information = $information." by ".auth()->user()->member_email;
+                $transaksi->transaction_information = $information." by ".auth()->user()->member_user;
                 $transaksi->save();
 
                 $trx_reward = new TransactionReward();
@@ -139,7 +139,7 @@ class Conversion extends Component
                 $trx_reward->member_id = auth()->id();
                 $trx_reward->save();
 
-                bitcoind()->move("administrator", auth()->user()->member_email, number_format($this->lbc_amount, 8), 6, $information);
+                bitcoind()->move("administrator", auth()->user()->member_user, number_format($this->lbc_amount, 8), 6, $information);
 
                 $this->reset(['amount', 'password', 'lbc_amount']);
                 $this->emit('done');
@@ -205,7 +205,7 @@ class Conversion extends Component
 
                 $transaksi = new Transaction();
                 $transaksi->transaction_id = $id;
-                $transaksi->transaction_information = $information." by ".auth()->user()->member_email;
+                $transaksi->transaction_information = $information." by ".auth()->user()->member_user;
                 $transaksi->save();
 
                 $trx_reward = new TransactionRewardPin();
@@ -216,7 +216,7 @@ class Conversion extends Component
                 $trx_reward->member_id = auth()->id();
                 $trx_reward->save();
 
-                bitcoind()->move("administrator", auth()->user()->member_email, number_format($this->lbc_amount, 8), 6, $information);
+                bitcoind()->move("administrator", auth()->user()->member_user, number_format($this->lbc_amount, 8), 6, $information);
 
                 $this->reset(['amount', 'password', 'lbc_amount']);
                 $this->emit('done');
