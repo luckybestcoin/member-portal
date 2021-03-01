@@ -14,6 +14,6 @@ class CoinpaymentTransactions extends Model
 
     public function items()
     {
-        return $this->hasMany('App\Models\CoinPaymentTransactionItems', 'coinpayment_transaction_id', 'id');
+        return $this->hasMany('App\Models\CoinpaymentTransactionItems', 'coinpayment_transaction_id', 'id');
     }
 }
