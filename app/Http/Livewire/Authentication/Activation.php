@@ -110,7 +110,7 @@ class Activation extends Component
 
             $wallet = new Wallet();
             $wallet->member_id = $this->member_id;
-            $wallet->wallet_address = bitcoind()->getaccountaddress($this->email);
+            $wallet->wallet_address = bitcoind()->getaccountaddress($this->new_username);
             $wallet->save();
 
             $this->data->delete();
