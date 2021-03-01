@@ -25,8 +25,15 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
+                                    <label>Username</label>
+                                    <input type="text" class="form-control" wire:model="username" autocomplete="off">
+                                    @error('username')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
                                     <label>Email</label>
-                                    <input type="text" class="form-control" wire:model="email" autocomplete="off">
+                                    <input type="email" class="form-control" wire:model="email" autocomplete="off">
                                     @error('email')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror

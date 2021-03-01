@@ -35,6 +35,12 @@
                     </div>
                     <hr>
                     <div class="form-group form-primary">
+                        <input type="text" wire:model="username" class="form-control" placeholder="New Username" autocomplete="off">
+                        @error('username')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group form-primary">
                         <input type="password" wire:model="new_password" class="form-control" placeholder="New Password" autocomplete="off">
                         @error('new_password')
                         <span class="text-danger">{{ $message }}</span>

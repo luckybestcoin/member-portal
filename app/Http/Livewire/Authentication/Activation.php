@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Hash;
 
 class Activation extends Component
 {
-    public $name, $email, $phone_number, $contract_price, $member_id, $new_user_id, $new_password, $token, $data, $agree;
+    public $name, $email, $phone_number, $new_username, $contract_price, $member_id, $new_user_id, $new_password, $token, $data, $agree;
     public $notification;
 
     protected $queryString = ['token'];
@@ -27,6 +27,7 @@ class Activation extends Component
         'name' => 'required',
         'email' => 'required',
         'phone_number' => 'required',
+        'new_username' => 'required',
         'new_password' => 'required',
         'agree' => 'required'
     ];
@@ -85,6 +86,10 @@ class Activation extends Component
         $this->validate();
         $error = null;
 
+        if (Member::where('member_user', $this->new_username)->count() > 0){
+            $error .= "<li>The username <strong>".$this->new_username."</strong> is already registered</li>";
+        }
+
         if (Referral::where('referral_token', $this->token)->count() === 0) {
             $error .= '<li>Invalid referral code!!!</li>';
         }
@@ -99,6 +104,7 @@ class Activation extends Component
 
         DB::transaction(function () {
             $member = Member::findOrFail($this->member_id);
+            $member->member_user = $this->new_username;
             $member->member_password = Hash::make($this->new_password);
             $member->save();
 
