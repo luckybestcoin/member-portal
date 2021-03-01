@@ -10,7 +10,7 @@ use App\Models\CoinpaymentTransactions;
 
 class Deposit extends Component
 {
-    public $amount, $password, $notification, $total_payment = 0, $price, $note, $rate, $transaction = [];
+    public $amount, $password, $notification, $total_payment = 0, $price, $note, $rate, $transaction = [], $error;
 
     public $payment_method = [];
 
