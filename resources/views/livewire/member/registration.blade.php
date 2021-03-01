@@ -82,7 +82,7 @@
                                     <select class="select2 referral" wire:model="referral" style="width: 100%;">
                                         <option value="{{ auth()->id() }}" selected>{{ auth()->user()->member_uid." (".auth()->user()->member_name.")" }}</option>
                                         @foreach ($member_data as $member)
-                                        <option value="{{ $member->member_id }}">{{ $member->member_email." (".$member->member_name.")" }}</option>
+                                        <option value="{{ $member->member_id }}">{{ $member->member_user." (".$member->member_name.")" }}</option>
                                         @endforeach
                                     </select>
                                     @error('referral')
