@@ -25,7 +25,7 @@ class WalletController extends Controller
                     'status'   => $validator->messages(),
                 ];
             }else{
-                bitcoind()->move($req->get('source'), $req->get('destination'), number_format($req->get('amount'), 8), 6, $req->get('note'));
+                bitcoind()->move($req->get('source'), $req->get('destination'), $req->get('amount'), 6, $req->get('note'));
                 $response = [
                     'success'   => true,
                     'header'    => "application/json",
