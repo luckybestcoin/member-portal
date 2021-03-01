@@ -1,6 +1,6 @@
 @inject('rate', 'App\Models\Rate')
 @php
-    $lbc_balance = bitcoind()->getbalance(auth()->user()->member_email)[0];
+    $lbc_balance = bitcoind()->getbalance(auth()->user()->member_user)[0];
     $rate_dollar = $rate->last_dollar;
 @endphp
         <nav class="main-header navbar navbar-expand text-sm navbar-dark navbar-lightblue">
