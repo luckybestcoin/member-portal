@@ -38,7 +38,6 @@ class Login extends Component
     public function updated()
     {
         $this->reset('notification');
-        $this->validate();
     }
 
     public function referral()
