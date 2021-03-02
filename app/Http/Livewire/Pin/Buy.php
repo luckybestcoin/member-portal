@@ -128,6 +128,7 @@ class Buy extends Component
 
                     $parent = collect($this->parent);
                     dd($parent);
+                    return;
                     $founder = $parent->where('founder', 1);
                     $first = $parent->where('rating', 1);
                     $second = $parent->where('rating', 2);
