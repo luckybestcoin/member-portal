@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <label>{{ $data->member_name }}</label>
+                    <label>{{ $data->member_user }}</label>
                 </div>
                 <div class="col-md-6">
                     <div class="card">
