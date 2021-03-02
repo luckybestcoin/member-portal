@@ -61,22 +61,22 @@ class Buy extends Component
         $this->amount = (float)$this->amount;
         $this->reset('notification');
 
-        // try {
+        try {
             $this->lbc_amount = ($this->amount?: 0) * $this->pin_price;
 
             if(Hash::check($this->password, auth()->user()->member_password) === false){
                 $error .= "<li>Wrong <strong>password</strong></li>";
             }
 
-            if ($this->amount <= 0) {
+            if($this->amount <= 0) {
                 $error .= "<li>Amount of PIN to be purchased cannot be less than 1</li>";
             }
 
-            if ($this->lbc_amount > bitcoind()->getbalance(auth()->user()->member_user)[0]){
+            if($this->lbc_amount > bitcoind()->getbalance(auth()->user()->member_user)[0]){
                 $error .= "<li>Account has insufficient funds.</li>";
             }
 
-            if ($error) {
+            if($error) {
                 $this->reset(['amount', 'password']);
                 return $this->notification = [
                     'tipe' => 'danger',
@@ -133,7 +133,7 @@ class Buy extends Component
                     $third = $parent->where('rating', 3);
 
                     if($first->count() > 0){
-                        if($second->count() > 0->count() > 0) {
+                        if($second->count() > 0) {
                             if($third->count() > 0){
                                 array_push($pembagian,[
                                     'member_id' => $first->first()['id'],
@@ -159,7 +159,7 @@ class Buy extends Component
                                     'created_at' => $now,
                                     'updated_at' => $now
                                 ]);
-                                if ($founder) {
+                                if($founder) {
                                     array_push($pembagian,[
                                         'member_id' => $founder->first()['id'],
                                         'transaction_id' => $id,
@@ -186,7 +186,7 @@ class Buy extends Component
                                     'created_at' => $now,
                                     'updated_at' => $now
                                 ]);
-                                if ($founder) {
+                                if($founder) {
                                     array_push($pembagian,[
                                         'member_id' => $founder->first()['id'],
                                         'transaction_id' => $id,
@@ -215,7 +215,7 @@ class Buy extends Component
                                     'created_at' => $now,
                                     'updated_at' => $now
                                 ]);
-                                if ($founder) {
+                                if($founder) {
                                     array_push($pembagian,[
                                         'member_id' => $founder->first()['id'],
                                         'transaction_id' => $id,
@@ -234,7 +234,7 @@ class Buy extends Component
                                     'created_at' => $now,
                                     'updated_at' => $now
                                 ]);
-                                if ($founder) {
+                                if($founder) {
                                     array_push($pembagian,[
                                         'member_id' => $founder->first()['id'],
                                         'transaction_id' => $id,
@@ -265,7 +265,7 @@ class Buy extends Component
                                     'created_at' => $now,
                                     'updated_at' => $now
                                 ]);
-                                if ($founder) {
+                                if($founder) {
                                     array_push($pembagian,[
                                         'member_id' => $founder->first()['id'],
                                         'transaction_id' => $id,
@@ -284,7 +284,7 @@ class Buy extends Component
                                     'created_at' => $now,
                                     'updated_at' => $now
                                 ]);
-                                if ($founder) {
+                                if($founder) {
                                     array_push($pembagian,[
                                         'member_id' => $founder->first()['id'],
                                         'transaction_id' => $id,
@@ -305,7 +305,7 @@ class Buy extends Component
                                     'created_at' => $now,
                                     'updated_at' => $now
                                 ]);
-                                if ($founder) {
+                                if($founder) {
                                     array_push($pembagian,[
                                         'member_id' => $founder->first()['id'],
                                         'transaction_id' => $id,
@@ -316,7 +316,7 @@ class Buy extends Component
                                     ]);
                                 }
                             }else{
-                                if ($founder) {
+                                if($founder) {
                                     array_push($pembagian,[
                                         'member_id' => $founder->first()['id'],
                                         'transaction_id' => $id,
@@ -346,12 +346,12 @@ class Buy extends Component
                 'tipe' => 'success',
                 'pesan' => 'PIN purchase was successful!!!'
             ];
-		// } catch(\Exception $e){
-        //     return $this->notification = [
-        //         'tipe' => 'danger',
-        //         'pesan' => $e->getMessage()
-        //     ];
-        // }
+		} catch(\Exception $e){
+            return $this->notification = [
+                'tipe' => 'danger',
+                'pesan' => $e->getMessage()
+            ];
+        }
     }
 
     public function updated()
