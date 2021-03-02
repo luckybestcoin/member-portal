@@ -127,13 +127,13 @@ class Buy extends Component
                     DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_id, "ka")))=concat(member.member_id, "ka") ) right_turnover'))->where('member_id', auth()->id())->first());
 
                     $parent = collect($this->parent);
-                    dd($parent);
-                    return;
                     $founder = $parent->where('founder', 1);
                     $first = $parent->where('rating', 1);
                     $second = $parent->where('rating', 2);
                     $third = $parent->where('rating', 3);
 
+                    dd($first);
+                    return;
                     if($first){
                         if ($second) {
                             if($third){
