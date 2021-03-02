@@ -44,7 +44,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Password</label>
-                                            <input type="password" class="form-control" wire:model="password" autocomplete="off">
+                                            <input type="password" class="form-control" wire:model.defer="password" autocomplete="off">
                                             @error('password')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -83,7 +83,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Password</label>
-                                            <input type="password" class="form-control" wire:model="password" autocomplete="off">
+                                            <input type="password" class="form-control" wire:model.defer="password" autocomplete="off">
                                             @error('password')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
