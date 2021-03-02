@@ -9,7 +9,7 @@
                 <form wire:submit.prevent="submit" class="mb-3">
                     <div class="form-group form-primary">
                         <div class="input-group">
-                            <input type="text" wire:model="email" class="form-control" placeholder="Email Address" autocomplete="off">
+                            <input type="text" wire:model.lazy="email" class="form-control" placeholder="Email Address" autocomplete="off">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-envelope"></span>
@@ -22,7 +22,7 @@
                     </div>
                     <div class="form-group form-primary">
                         <div class="input-group">
-                            <input type="password" wire:model="password" class="form-control" placeholder="Password" autocomplete="off">
+                            <input type="password" wire:model.lazy="password" class="form-control" placeholder="Password" autocomplete="off">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>
@@ -56,7 +56,7 @@
                 <p class="mb-0">
                     Have a referral code? <a href="javascript.void(0);" data-toggle="modal" data-target="#default-Modal"> <b class="f-w-600">Click here </b></a>
                 </p>
-                {{-- <br>
+                <br>
                 <script type="text/javascript"> //<![CDATA[
                     var tlJsHost = ((window.location.protocol == "https:") ? "https://secure.trust-provider.com/" : "http://www.trustlogo.com/");
                     document.write(unescape("%3Cscript src='" + tlJsHost + "trustlogo/javascript/trustlogo.js' type='text/javascript'%3E%3C/script%3E"));
@@ -64,7 +64,7 @@
                 </script>
                 <script language="JavaScript" type="text/javascript">
                     TrustLogo("https://www.positivessl.com/images/seals/positivessl_trust_seal_sm_124x32.png", "POSDV", "none");
-                </script> --}}
+                </script>
                 <hr>
                 <div class="text-center" style="font-size: 0.8rem">
                     <small><strong>Powered by PT. Digital Global Gemilang</strong></small>
