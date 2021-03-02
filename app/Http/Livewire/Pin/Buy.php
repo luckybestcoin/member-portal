@@ -132,11 +132,9 @@ class Buy extends Component
                     $second = $parent->where('rating', 2);
                     $third = $parent->where('rating', 3);
 
-                    if($first){
-                        dd($first);
-                        return;
-                        if ($second) {
-                            if($third){
+                    if($first->count() > 0){
+                        if($second->count() > 0->count() > 0) {
+                            if($third->count() > 0){
                                 array_push($pembagian,[
                                     'member_id' => $first->first()['id'],
                                     'transaction_id' => $id,
@@ -200,7 +198,7 @@ class Buy extends Component
                                 }
                             }
                         }else{
-                            if($third){
+                            if($third->count() > 0){
                                 array_push($pembagian,[
                                     'member_id' => $first->first()['id'],
                                     'transaction_id' => $id,
@@ -249,8 +247,8 @@ class Buy extends Component
                             }
                         }
                     }else {
-                        if($second){
-                            if($third){
+                        if($second->count() > 0){
+                            if($third->count() > 0){
                                 array_push($pembagian,[
                                     'member_id' => $second->first()['id'],
                                     'transaction_id' => $id,
@@ -298,7 +296,7 @@ class Buy extends Component
                                 }
                             }
                         }else{
-                            if($third){
+                            if($third->count() > 0){
                                 array_push($pembagian,[
                                     'member_id' => $third->first()['id'],
                                     'transaction_id' => $id,
