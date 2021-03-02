@@ -85,7 +85,7 @@ class Buy extends Component
             }
 
             DB::transaction(function () {
-                $information = "Buy ".$this->amount." PIN".($this->amount == 1?: 's');
+                $information = "Buy ".$this->amount." PIN".($this->amount == 1? '': 's');
 
                 $id = auth()->user()->wallet->wallet_address.date('Ymdhis').round(microtime(true) * 1000);
 
