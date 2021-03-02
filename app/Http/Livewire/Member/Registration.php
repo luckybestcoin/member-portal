@@ -41,7 +41,6 @@ class Registration extends Component
     public function setReferral($referral)
     {
         $this->updated();
-        $this->referral = Member::findOrFail($referral);
     }
 
     public function setCountry($country)
@@ -139,6 +138,8 @@ class Registration extends Component
                 $pin->member_id = auth()->id();
                 $pin->save();
 
+                $network = Member::findOrFail($this->referral);
+
                 $member = new Member();
                 $member->member_name = $this->name;
                 $member->member_email = $this->email;
@@ -147,8 +148,8 @@ class Registration extends Component
                 $member->contract_price = $this->contract_price;
                 $member->member_phone = $this->country_code.$this->phone_number;
                 $member->member_position = $this->turnover;
-                $member->member_parent = $this->referral->member_id;
-                $member->member_network = $this->referral->member_network.$this->referral->member_id.($this->turnover == 0? 'ki': 'ka');
+                $member->member_parent = $network->member_id;
+                $member->member_network = $network->member_network.$network->member_id.($this->turnover == 0? 'ki': 'ka');
                 $member->save();
 
                 $referral = new Referral();
