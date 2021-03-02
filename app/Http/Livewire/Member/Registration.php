@@ -161,7 +161,7 @@ class Registration extends Component
                 $bagi_hasil->transaction_reward_type = "Referral";
                 $bagi_hasil->transaction_reward_amount = $this->contract_price * 10 /100;
                 $bagi_hasil->transaction_id = $id;
-                $bagi_hasil->member_id = auth()->id();
+                $bagi_hasil->member_id = $this->referral->member_id;
                 $bagi_hasil->save();
 
                 bitcoind()->move(auth()->user()->member_user, "administrator", number_format($this->lbc_amount, 8), 6, $information);
