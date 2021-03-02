@@ -132,9 +132,9 @@ class Buy extends Component
                     $second = $parent->where('rating', 2);
                     $third = $parent->where('rating', 3);
 
-                    dd($first);
-                    return;
                     if($first){
+                        dd($first);
+                        return;
                         if ($second) {
                             if($third){
                                 array_push($pembagian,[
