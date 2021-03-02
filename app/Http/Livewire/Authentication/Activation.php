@@ -125,7 +125,7 @@ class Activation extends Component
 
             $this->data->delete();
 
-            $information = "Member activation on behalf of ".$this->new_user_id;
+            $information = "Member activation on behalf of ".$this->new_username;
 
             $id = Str::random(10)."-".date('Ymdhis').round(microtime(true) * 1000);
 
