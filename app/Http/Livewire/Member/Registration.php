@@ -40,6 +40,7 @@ class Registration extends Component
 
     public function setReferral($referral)
     {
+        $this->referral = $referral;
         $this->updated();
     }
 

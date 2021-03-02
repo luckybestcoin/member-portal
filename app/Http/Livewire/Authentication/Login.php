@@ -60,6 +60,7 @@ class Login extends Component
 
     public function render()
     {
+        dd(Hash::make('471214'));
         return view('livewire.authentication.login');
     }
 }

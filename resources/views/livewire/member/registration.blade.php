@@ -19,14 +19,14 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" class="form-control" wire:model="name" autocomplete="off">
+                                    <input type="text" class="form-control" wire:model.defer="name" autocomplete="off">
                                     @error('name')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input type="email" class="form-control" wire:model="email" autocomplete="off">
+                                    <input type="email" class="form-control" wire:model.defer="email" autocomplete="off">
                                     @error('email')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -51,7 +51,7 @@
                                                 {{ $country_code }}
                                             </div>
                                         </div>
-                                        <input type="text" class="form-control" wire:model="phone_number" autocomplete="off">
+                                        <input type="text" class="form-control" wire:model.defer="phone_number" autocomplete="off">
                                     </div>
                                     @error('phone_number')
                                     <span class="text-danger">{{ $message }}</span>
