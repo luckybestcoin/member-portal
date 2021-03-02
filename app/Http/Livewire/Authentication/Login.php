@@ -19,7 +19,7 @@ class Login extends Component
         'password' => 'required',
     ];
 
-    public function submit()
+    public function login()
     {
         $this->validate();
 

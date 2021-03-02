@@ -6,10 +6,10 @@
                 <img src="/images/logoatasbawah.png" alt="logo.png" style="height: 150px"><br>
             </div>
             <div class="card-body">
-                <form wire:submit.prevent="submit" class="mb-3">
+                <form wire:submit.prevent="login" class="mb-3">
                     <div class="form-group form-primary">
                         <div class="input-group">
-                            <input type="text" wire:model.lazy="email" class="form-control" placeholder="Email Address" autocomplete="off">
+                            <input type="text" wire:model="email" class="form-control" placeholder="Email Address" autocomplete="off">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-envelope"></span>
@@ -22,7 +22,7 @@
                     </div>
                     <div class="form-group form-primary">
                         <div class="input-group">
-                            <input type="password" wire:model.lazy="password" class="form-control" placeholder="Password" autocomplete="off">
+                            <input type="password" wire:model="password" class="form-control" placeholder="Password" autocomplete="off">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>
