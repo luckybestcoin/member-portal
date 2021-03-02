@@ -111,7 +111,7 @@ class Registration extends Component
             if($this->turnover < 0 || $this->turnover > 1){
                 $error .= "<li>Turnover position not available</li>";
             }
-            if ($this->lbc_amount > bitcoind()->getbalance(auth()->user()->member_email)[0]){
+            if ($this->lbc_amount > bitcoind()->getbalance(auth()->user()->member_user)[0]){
                 $error .= "<li>Account has insufficient funds.</li>";
             }
             if ($pin->balance < $this->contract_pin) {
