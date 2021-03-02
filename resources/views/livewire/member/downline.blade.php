@@ -71,10 +71,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <div class="alert alert-info">
-
-                    </div>
+                <div class="col-md-12 text-center">
+                    <a href="/member" class="btn btn-primary">Reset</a>
                 </div>
             </div>
         </div>
