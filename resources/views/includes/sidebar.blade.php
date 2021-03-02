@@ -2,7 +2,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar elevation-1 sidebar-light-primary">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link text-sm">
+            <a href="/" class="brand-link text-sm">
                 <img src="/images/luckybestcoin.png" alt="{{ config("app.name") }}" class="brand-image ">
             </a>
 
