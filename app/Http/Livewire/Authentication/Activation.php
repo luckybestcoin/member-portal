@@ -131,7 +131,7 @@ class Activation extends Component
 
             $transaction = new Transaction();
             $transaction->transaction_id = $id;
-            $transaction->transaction_information = $information." by ".$member->member_user;
+            $transaction->transaction_information = $information;
             $transaction->save();
 
             $this->setParent(Member::with('parent')->with('rating')->with('invalid_left_turnover')->with('invalid_right_turnover')->select("member_id", "member_email", "member_user", "member_parent", "member_position", "rating_id", "contract_price", "member_network", "due_date", "deleted_at",
