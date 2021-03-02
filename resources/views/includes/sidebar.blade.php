@@ -15,7 +15,7 @@
                     </div>
                     <div class="info">
                         <a href="#" class="d-block">
-                        {{ auth()->user()->member_name }}
+                        {{ auth()->user()->member_user }}
                         </a>
                     </div>
                 </div>

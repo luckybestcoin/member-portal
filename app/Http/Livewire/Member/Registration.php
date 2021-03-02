@@ -101,7 +101,7 @@ class Registration extends Component
 
         $this->lbc_amount = $this->contract_price/$this->rate->last_dollar;
 
-        try{
+        // try{
             if($this->turnover < 0 || $this->turnover > 1){
                 $error .= "<li>Turnover position not available</li>";
             }
@@ -184,12 +184,12 @@ class Registration extends Component
                 'pesan' => 'New member registration is successful. An email has been sent to '.$this->email
             ];
             return $this->reset(['name', 'email', 'country', 'contract', 'phone_number', 'turnover', 'lbc_amount']);
-        } catch(\Exception $e){
-            return $this->notification = [
-                'tipe' => 'danger',
-                'pesan' => $e->getMessage()
-            ];
-        }
+        // } catch(\Exception $e){
+        //     return $this->notification = [
+        //         'tipe' => 'danger',
+        //         'pesan' => $e->getMessage()
+        //     ];
+        // }
     }
 
     public function render()

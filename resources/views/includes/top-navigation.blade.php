@@ -19,7 +19,7 @@
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item  d-none d-sm-inline-block">
+                <li class="nav-item">
                     <a href="#" class="nav-link badge-pill badge badge-warning text-dark"><h6><strong>LBC : {{ $lbc_balance }} = $ {{ number_format($lbc_balance * $rate_dollar, 2) }}</strong></h6></a>
                 </li>
                 <li class="nav-item dropdown">

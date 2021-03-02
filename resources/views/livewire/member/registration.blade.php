@@ -104,6 +104,10 @@
                 <div class="col-md-4">
                     @include('includes.information')
                 </div>
+                <div class="col-md-12">
+                    @include('includes.error-validation')
+                    @include('includes.notification')
+                </div>
             </div>
         </div>
     </section>
