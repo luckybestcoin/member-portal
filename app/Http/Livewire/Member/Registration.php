@@ -5,20 +5,14 @@ namespace App\Http\Livewire\Member;
 use Carbon\Carbon;
 use App\Models\Rate;
 use App\Models\Member;
-use App\Models\Reward;
 use App\Models\Country;
-use App\Models\Referal;
 use Livewire\Component;
 use App\Models\Contract;
 use App\Models\Referral;
-use App\Models\Peringkat;
-use App\Models\Achievement;
 use App\Models\Transaction;
 use Illuminate\Support\Str;
-use App\Mail\RegistrasiEmail;
 use App\Models\TransactionPin;
 use App\Models\TransactionReward;
-use App\Models\TransactionBalance;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
@@ -157,10 +151,10 @@ class Registration extends Component
                 $member->member_network = auth()->user()->member_network.auth()->id().($this->turnover == 0? 'ki': 'ka');
                 $member->save();
 
-                $referal = new Referral();
-                $referal->referral_token = Str::random(40).$member->member_id;
-                $referal->member_id = $member->member_id;
-                $referal->save();
+                $referral = new Referral();
+                $referral->referral_token = Str::random(40).$member->member_id;
+                $referral->member_id = $member->member_id;
+                $referral->save();
 
                 $bagi_hasil = new TransactionReward();
                 $bagi_hasil->transaction_reward_information = $information;
@@ -173,7 +167,7 @@ class Registration extends Component
                 bitcoind()->move(auth()->user()->member_user, "administrator", number_format($this->lbc_amount, 8), 6, $information);
 
                 Mail::send('email.registrasi', [
-                    'token' => $referal->referal_token,
+                    'token' => $referral->referral_token,
                     'name' => $this->name,
                     'contract' => $this->contract,
                     'email' => $this->email
