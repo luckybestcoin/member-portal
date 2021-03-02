@@ -170,7 +170,7 @@ class Registration extends Component
                 $bagi_hasil->member_id = auth()->id();
                 $bagi_hasil->save();
 
-                bitcoind()->move(auth()->user()->member_email, "administrator", number_format($this->lbc_amount, 8), 6, $information);
+                bitcoind()->move(auth()->user()->member_user, "administrator", number_format($this->lbc_amount, 8), 6, $information);
 
                 Mail::send('email.registrasi', [
                     'token' => $referal->referal_token,
