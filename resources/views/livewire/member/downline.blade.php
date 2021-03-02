@@ -23,9 +23,9 @@
                                 <tbody>
                                     @foreach ($data->left_child as $item)
                                     <tr>
-                                        <td class="text-nowrap">{{ $item->member_user }}</td>
+                                        <td class="text-nowrap"><a href="/member?key={{ $item->member_id }}">{{ $item->member_user }}</a></td>
                                         <td class="text-nowrap">{{ $item->member_name }}</td>
-                                        <td class="text-right text-nowrap">{!! $item->contract->contract_name."<br>".number_format($item->contract_price, 2) !!}</td>
+                                        <td class="text-right text-nowrap">{!! number_format($item->contract_price, 2) !!}</td>
                                         <td class="text-right text-nowrap">{{ number_format($item->left_turnover - $item->invalid_left_turnover->sum('invalid_turnover_amount'), 2) }}</td>
                                         <td class="text-right text-nowrap">{{ number_format($item->right_turnover - $item->invalid_right_turnover->sum('invalid_turnover_amount'), 2) }}</td>
                                     </tr>
@@ -56,9 +56,9 @@
                                 <tbody>
                                     @foreach ($data->right_child as $item)
                                     <tr>
-                                        <td class="text-nowrap">{{ $item->member_user }}</td>
+                                        <td class="text-nowrap"><a href="/member?key={{ $item->member_id }}">{{ $item->member_user }}</a></td>
                                         <td class="text-nowrap">{{ $item->member_name }}</td>
-                                        <td class="text-right text-nowrap">{!! $item->contract->contract_name."<br>".number_format($item->contract_price, 2) !!}</td>
+                                        <td class="text-right text-nowrap">{!! number_format($item->contract_price, 2) !!}</td>
                                         <td class="text-right text-nowrap">{{ number_format($item->left_turnover - $item->invalid_left_turnover->sum('invalid_turnover_amount'), 2) }}</td>
                                         <td class="text-right text-nowrap">{{ number_format($item->right_turnover - $item->invalid_right_turnover->sum('invalid_turnover_amount'), 2) }}</td>
                                     </tr>
