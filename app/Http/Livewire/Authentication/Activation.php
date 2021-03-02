@@ -18,10 +18,10 @@ use Illuminate\Support\Facades\Hash;
 
 class Activation extends Component
 {
-    public $name, $email, $phone_number, $new_username, $contract_price, $member_id, $new_user_id, $new_password, $token, $data, $agree;
+    public $name, $email, $phone_number, $new_username, $contract_price, $member_id, $new_user_id, $kode, $new_password, $token, $data, $agree;
     public $notification;
 
-    protected $queryString = ['token'];
+    protected $queryString = ['token', 'kode'];
 
     protected $rules = [
         'name' => 'required',
@@ -36,6 +36,16 @@ class Activation extends Component
     {
         if ($this->token) {
             $this->data = Referral::where('referral_token', $this->token)->first();
+            if($this->data && $this->data->member){
+                $this->member_id = $this->data->member_id;
+                $this->name = $this->data->member->member_name;
+                $this->email = $this->data->member->member_email;
+                $this->phone_number = $this->data->member->member_phone;
+                $this->contract_price = $this->data->member->contract_price;
+            }
+        }
+        if ($this->kode) {
+            $this->data = Referral::where('referral_token', $this->kode)->first();
             if($this->data && $this->data->member){
                 $this->member_id = $this->data->member_id;
                 $this->name = $this->data->member->member_name;
