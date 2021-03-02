@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Pin;
 use Carbon\Carbon;
 use App\Models\Pin;
 use App\Models\Rate;
-use App\Models\User;
 use App\Models\Member;
 use App\Models\rating;
 use Livewire\Component;
@@ -62,7 +61,7 @@ class Buy extends Component
         $this->amount = (float)$this->amount;
         $this->reset('notification');
 
-        try {
+        // try {
             $this->lbc_amount = ($this->amount?: 0) * $this->pin_price;
 
             if(Hash::check($this->password, auth()->user()->member_password) === false){
@@ -348,12 +347,12 @@ class Buy extends Component
                 'tipe' => 'success',
                 'pesan' => 'PIN purchase was successful!!!'
             ];
-		} catch(\Exception $e){
-            return $this->notification = [
-                'tipe' => 'danger',
-                'pesan' => $e->getMessage()
-            ];
-        }
+		// } catch(\Exception $e){
+        //     return $this->notification = [
+        //         'tipe' => 'danger',
+        //         'pesan' => $e->getMessage()
+        //     ];
+        // }
     }
 
     public function updated()
@@ -362,7 +361,6 @@ class Buy extends Component
         $this->pin_price = config("constant.pin_price")/$this->rate->last_dollar;
         $this->reset('notification');
         $this->lbc_amount = ($this->amount?: 0) * $this->pin_price;
-        $this->validate();
     }
 
     public function render()
