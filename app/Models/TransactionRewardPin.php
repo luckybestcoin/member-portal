@@ -7,10 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TransactionRewardPin extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table = 'transaction_reward_pin';
-    protected $primaryKey = null;
-    public $incrementing = false;
+    protected $primaryKey = "transaction_reward_pin_id";
 
     protected $fillable = array('transaction_pin_information', 'transaction_reward_pin_amount', 'transaction_id', 'member_id', 'created_at', 'created_at');
 

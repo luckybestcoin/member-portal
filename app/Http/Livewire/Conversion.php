@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use Carbon\Carbon;
 use App\Models\Rate;
+use App\Models\Member;
 use Livewire\Component;
 use App\Models\Transaction;
 use App\Models\TransactionReward;
@@ -12,7 +14,7 @@ use Illuminate\Support\Facades\Hash;
 
 class Conversion extends Component
 {
-    public $rate, $type, $amount, $percent, $lbc_amount, $lbc_price, $tx_fee, $password, $notification, $trx_reward, $trx_pinfee, $exchange = false;
+    public $rate, $type, $amount, $percent, $lbc_amount, $lbc_price, $tx_fee, $password, $notification, $trx_reward, $trx_pinfee, $conversion = false;
     public $reward, $fee;
 
     protected $rules = [
@@ -56,15 +58,15 @@ class Conversion extends Component
 
     private function check()
     {
-        $this->exchange = false;
+        $this->conversion = false;
         if ($this->type == 'pinfee') {
             if (TransactionRewardPin::where('transaction_reward_pin_amount', '<', 0)->where('created_at', 'like', date('Y-m-d').'%')->where('member_id', auth()->id())->get()->count() > 0) {
                 dd('tes');
-                $this->exchange = true;
+                $this->conversion = true;
             }
         } else {
             if (TransactionReward::where('transaction_reward_amount', '<', 0)->where('created_at', 'like', date('Y-m-d').'%')->where('member_id', auth()->id())->get()->count() > 0) {
-                $this->exchange = true;
+                $this->conversion = true;
             }
         }
     }
@@ -95,7 +97,7 @@ class Conversion extends Component
             }
 
             if (TransactionReward::where('transaction_reward_type', 'Conversion')->where('created_at', 'like', date('Y-m-d').'%')->where('member_id', auth()->id())->get()->count() > 0) {
-                $error .= "<li>You have made a reward exchange today</li>";
+                $error .= "<li>You have made a reward conversion today</li>";
             }
 
             if ($this->amount > $this->trx_reward->balance) {
@@ -110,7 +112,7 @@ class Conversion extends Component
                 $error .= "<li>Min. Reward to Conversion $ ". number_format(auth()->user()->contract->contract_reward_exchange_min, 2)."</li>";
             }
 
-            if ($this->lbc_amount > bitcoind()->getbalance(config("constant.admin_email"))[0]){
+            if ($this->lbc_amount > bitcoind()->getbalance("administrator")[0]){
                 $error .= "<li>For some reason, this transaction cannot be made. Please contact the administrator</li>";
             }
 
@@ -139,13 +141,19 @@ class Conversion extends Component
                 $trx_reward->member_id = auth()->id();
                 $trx_reward->save();
 
+                if((auth()->user()->contract_price * 3) - ($trx_reward->converted * -1) - $this->amount < auth()->user()->contract->contract_reward_exchange_min){
+                    $member = Member::findOrFail(auth()->id());
+                    $member->due_date = Carbon::now()->addDays(5)->format('Y-m-d');
+                    $member->save();
+                }
+
                 bitcoind()->move("administrator", auth()->user()->member_user, number_format($this->lbc_amount, 8), 6, $information);
 
                 $this->reset(['amount', 'password', 'lbc_amount']);
                 $this->emit('done');
                 return $this->notification = [
                     'tipe' => 'success',
-                    'pesan' => 'Dollar exchange to LBC has been successful!!!'
+                    'pesan' => 'Dollar conversion to LBC has been successful!!!'
                 ];
             });
 		} catch(\Exception $e){
@@ -172,7 +180,7 @@ class Conversion extends Component
             }
 
             if (TransactionRewardPin::where('transaction_reward_pin_type', 'Conversion')->where('created_at', 'like', date('Y-m-d').'%')->where('member_id', auth()->id())->get()->count() > 0) {
-                $error .= "<li>You have made a pin fee exchange today</li>";
+                $error .= "<li>You have made a pin fee conversion today</li>";
             }
 
             if ($this->amount > $this->trx_pinfee->balance) {
@@ -187,7 +195,7 @@ class Conversion extends Component
                 $error .= "<li>Min. Pin Fee to Conversion $ ". number_format(auth()->user()->contract->contract_pin_reward_exchange_fee, 2)."</li>";
             }
 
-            if ($this->lbc_amount > bitcoind()->getbalance(config("constant.admin_email"))[0]){
+            if ($this->lbc_amount > bitcoind()->getbalance("administrator")[0]){
                 $error .= "<li>For some reason, this transaction cannot be made. Please contact the administrator</li>";
             }
 
@@ -222,7 +230,7 @@ class Conversion extends Component
                 $this->emit('done');
                 return $this->notification = [
                     'tipe' => 'success',
-                    'pesan' => 'Dollar exchange to LBC has been successful!!!'
+                    'pesan' => 'Dollar conversion to LBC has been successful!!!'
                 ];
             });
 		} catch(\Exception $e){

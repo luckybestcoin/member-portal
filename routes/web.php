@@ -46,6 +46,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/profile', \App\Http\Livewire\Profile::class)->name('profile');
     Route::get('/conversion', \App\Http\Livewire\Conversion::class)->name('conversion');
     Route::get('/achievement', \App\Http\Livewire\AchievementHistory::class)->name('achievement');
+    Route::get('/extension', \App\Http\Livewire\Extension::class)->name('extension');
 
     Route::get('/rate', [RateController::class, 'dollar']);
 
