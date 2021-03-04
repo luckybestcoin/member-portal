@@ -14,7 +14,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label>LBC Amount</label>
-                                    <input type="number" step="any" class="form-control" wire:model="amount" autocomplete="off">
+                                    <input type="number" step="any" class="form-control" wire:model.defer="amount" autocomplete="off">
                                     @error('amount')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
