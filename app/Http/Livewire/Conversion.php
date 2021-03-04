@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Hash;
 
 class Conversion extends Component
 {
-    public $rate, $type, $amount, $percent, $lbc_amount, $lbc_price, $tx_fee, $password, $notification, $trx_reward, $trx_pinfee, $conversion = false;
+    public $rate, $type, $amount, $percent, $lbc_amount, $lbc_price, $tx_fee, $password, $notification, $trx_reward, $trx_pinfee, $trx_exchange, $conversion = false;
     public $reward, $fee;
 
     protected $rules = [
@@ -29,6 +29,7 @@ class Conversion extends Component
     {
         $this->trx_reward = new TransactionReward();
         $this->trx_pinfee = new TransactionRewardPin();
+        $this->trx_exchange = new TransactionExchange();
         $this->rate = new Rate();
         $this->check();
     }
@@ -86,12 +87,15 @@ class Conversion extends Component
     {
         $this->validate();
         $error = null;
-        $this->amount = (float)$this->amount;
         $this->reset('notification');
 
         try {
             $this->tx_fee = auth()->user()->contract->contract_reward_exchange_fee;
             $this->lbc_amount = ((($this->amount? $this->amount - $this->tx_fee:0)) / $this->lbc_price);
+
+            if ((auth()->user()->contract_price * 3) <= $trx_exchange->total) {
+                $error .= "<li>Your conversion has reached the limit, please extend it</strong></li>";
+            }
 
             if(Hash::check($this->password, auth()->user()->member_password) === false){
                 $error .= "<li>Wrong <strong>password</strong></li>";

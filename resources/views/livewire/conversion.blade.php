@@ -117,7 +117,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="small-box bg-success">
+                    <div class="small-box bg-purple">
                         <div class="inner">
                             <h3>$ {{ number_format($reward, 2) }}</h3>
                             <p>Reward</p>
@@ -126,11 +126,21 @@
                             <i class="fa fa-gift"></i>
                         </div>
                     </div>
-                    <div class="small-box bg-danger">
+                    <div class="small-box bg-maroon">
                         <div class="inner">
                             <h3>$ {{ number_format($fee, 2) }}</h3>
 
                             <p>Pin Fee</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-ticket-alt"></i>
+                        </div>
+                    </div>
+                    <div class="small-box bg-lime">
+                        <div class="inner">
+                            <h3>$ {{ number_format((auth()->user()->contract_price * 3) - $trx_exchange->total) }}</h3>
+
+                            <p>Remaining Reward Conversion</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-ticket-alt"></i>
