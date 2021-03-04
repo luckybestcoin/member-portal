@@ -191,7 +191,7 @@ class Activation extends Component
                                         $reward = $member->contract_price;
                                     }
                                     array_push($bonus,[
-                                        'transaction_reward_information' => $pairing." left side registration",
+                                        'transaction_reward_information' => $pairing." left side by ".$this->new_username,
                                         'transaction_reward_type' => "Turnover Growth",
                                         'transaction_reward_amount' => $reward * 5 /100,
                                         'transaction_id' => $id,
@@ -209,7 +209,7 @@ class Activation extends Component
                                         $reward = $member->contract_price;
                                     }
                                     array_push($bonus,[
-                                        'transaction_reward_information' => $pairing." right side registration",
+                                        'transaction_reward_information' => $pairing." right side by ".$this->new_username,
                                         'transaction_reward_type' => "Turnover Growth",
                                         'transaction_reward_amount' => $reward * 5 /100,
                                         'transaction_id' => $id,
