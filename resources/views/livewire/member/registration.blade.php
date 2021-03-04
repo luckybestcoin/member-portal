@@ -84,7 +84,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Turnover</label>
-                                    <select class="form-control" wire:model="turnover">
+                                    <select class="form-control" wire:model.defer="turnover">
                                         <option value=""></option>
                                         <option value="0">Left Side</option>
                                         <option value="1">Right Side</option>
