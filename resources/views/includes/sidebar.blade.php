@@ -11,11 +11,18 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="/images/user.png" alt="User Image">
+                        <img src="/images/user.png" alt="User Image" class="mt-2">
                     </div>
                     <div class="info">
                         <a href="#" class="d-block">
                         {{ auth()->user()->member_user }}
+                        <br>
+                        @php
+                            $rating = auth()->user()->rating? auth()->user()->rating->rating_order: 0
+                        @endphp
+                        @for ($i = 0; $i < $rating; $i++)
+                        <img src="/images/medal.png" style="height: 20px; width: 20px">
+                        @endfor
                         </a>
                     </div>
                 </div>
