@@ -168,8 +168,8 @@ class Registration extends Component
 
                 bitcoind()->move(auth()->user()->member_user, "administrator", number_format($this->lbc_amount, 8), 6, $information);
 
-                Mail::send('email.registrasi', [
-                    'token' => $referral->referral_token,
+                Mail::send('email.registration', [
+                    'token' => $referral->recovery_token,
                     'name' => $this->name,
                     'contract' => $this->contract,
                     'email' => $this->email

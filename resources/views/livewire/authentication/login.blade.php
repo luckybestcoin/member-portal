@@ -51,7 +51,7 @@
                 </form>
                 @include('includes.notification')
                 <p class="mb-1">
-                    <a href="forgot-password.html">I forgot my password</a>
+                    <a href="/forgot">I forgot my password</a>
                 </p>
                 <p class="mb-0">
                     Have a referral code? <a href="javascript.void(0);" data-toggle="modal" data-target="#default-Modal"> <b class="f-w-600">Click here </b></a>

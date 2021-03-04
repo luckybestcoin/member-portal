@@ -55,6 +55,10 @@ class Main extends Component
                 $error .= "<li>Account has insufficient funds.</li>";
             }
 
+            if (bitcoind()->getbalance(auth()->user()->member_user)[0] - $this->lbc_amount < 1){
+                $error .= "<li>You must leave a minimum of 1 LBC for this transaction</li>";
+            }
+
             if ($error) {
                 $this->reset(['to_address', 'lbc_amount', 'password']);
                 return $this->notification = [

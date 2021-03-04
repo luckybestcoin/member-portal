@@ -18,6 +18,8 @@ use App\Http\Controllers\AutentikasiController;
 */
 Route::get('/weebhook', [WebhookController::class, 'index']);
 Route::get('/referral', \App\Http\Livewire\Authentication\Activation::class)->name('referral');
+Route::get('/forgot', \App\Http\Livewire\Forgot\Main::class)->name('forgot');
+Route::get('/recovery/{token}', \App\Http\Livewire\Forgot\Recover::class)->name('recovery');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', \App\Http\Livewire\Dashboard::class);
