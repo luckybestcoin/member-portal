@@ -18,14 +18,14 @@
                         <div class="card-body">
                             <div class="tab-content" id="custom-tabs-one-tabContent">
                                 <div class="tab-pane fade {{ $type == 'pinfee'? '': 'show active' }}" id="custom-tabs-one-reward" role="tabpanel" aria-labelledby="custom-tabs-one-reward-tab">
-                                    @if ($exchange)
+                                    @if ($conversion)
                                     <div class="text-center text-danger">
-                                        <h3>You cannot exchange your reward more than once on the same day!!!</h3>
+                                        <h3>You cannot do this action more than once on the same day!!!</h3>
                                     </div>
                                     @else
                                     <form wire:submit.prevent="reward">
                                         <div class="form-group">
-                                            <label>Amount Reward to Exchange</label>
+                                            <label>Amount Reward to Convert</label>
                                             <div class="input-group">
                                                 <input type="number" step="any" class="form-control" wire:model="amount" autocomplete="off">
                                                 <div class="input-group-append">
@@ -57,14 +57,14 @@
                                     @endif
                                 </div>
                                 <div class="tab-pane fade {{ $type == 'pinfee'? 'show active': '' }}" id="custom-tabs-one-pinfee" role="tabpanel" aria-labelledby="custom-tabs-one-pinfee-tab">
-                                    @if ($exchange)
+                                    @if ($conversion)
                                     <div class="text-center text-red">
-                                        <h3>You cannot exchange your reward more than once on the same day!!!</h3>
+                                        <h3>You cannot do this action more than once on the same day!!!</h3>
                                     </div>
                                     @else
                                     <form wire:submit.prevent="pinfee">
                                         <div class="form-group">
-                                            <label>Amount Pin Fee to Exchange</label>
+                                            <label>Amount Pin Fee to Convert</label>
                                             <div class="input-group">
                                                 <input type="number" step="any" class="form-control" wire:model="amount" autocomplete="off">
                                                 <div class="input-group-append">
@@ -104,13 +104,13 @@
                                 1 LBC = $ {{ number_format($lbc_price, 2) }}
                             </li>
                             <hr>
-                            <li>Reward Exchange TxFee $ {{ auth()->user()->contract->contract_reward_exchange_fee }}</li>
-                            <li>Min. Reward Exchange $ {{ number_format(auth()->user()->contract->contract_reward_exchange_min, 2) }}</li>
-                            <li>Max. Reward Exchange $ {{ number_format(auth()->user()->contract->contract_reward_exchange_max, 2) }}</li>
+                            <li>Reward Conversion TxFee $ {{ auth()->user()->contract->contract_reward_exchange_fee }}</li>
+                            <li>Min. Reward Conversion $ {{ number_format(auth()->user()->contract->contract_reward_exchange_min, 2) }}</li>
+                            <li>Max. Reward Conversion $ {{ number_format(auth()->user()->contract->contract_reward_exchange_max, 2) }}</li>
                             <hr>
-                            <li>Pin Fee Exchange TxFee $ {{ auth()->user()->contract->contract_pin_reward_exchange_fee }}</li>
-                            <li>Min. Pin Fee Exchange $ {{ number_format(auth()->user()->contract->contract_pin_reward_exchange_min, 2) }}</li>
-                            <li>Max. Pin Fee Exchange $ {{ number_format(auth()->user()->contract->contract_pin_reward_exchange_max, 2) }}</li>
+                            <li>Pin Fee Conversion TxFee $ {{ auth()->user()->contract->contract_pin_reward_exchange_fee }}</li>
+                            <li>Min. Pin Fee Conversion $ {{ number_format(auth()->user()->contract->contract_pin_reward_exchange_min, 2) }}</li>
+                            <li>Max. Pin Fee Conversion $ {{ number_format(auth()->user()->contract->contract_pin_reward_exchange_max, 2) }}</li>
                         </ul>
                     </div>
                 </div>
