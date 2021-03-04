@@ -19,7 +19,7 @@ class Main extends Component
 
     public function updated()
     {
-        $this->validate();
+        // $this->validate();
     }
 
     public function mount()
@@ -39,7 +39,6 @@ class Main extends Component
         $this->validate();
 
         $error = null;
-        $this->lbc_amount = (float)$this->lbc_amount;
         $this->reset('notification');
 
         try {

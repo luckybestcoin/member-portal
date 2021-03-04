@@ -20,9 +20,8 @@ class TransactionIncome extends Model
         return $this->belongsTo(Transaction::class, 'transaction_id');
     }
 
-    public function getBalanceAttribute()
+    public function getTotalAttribute()
     {
-        $pin = 0;
-        return $balance = $this->select('transaction_exchange_amount')->where('member_id', auth()->id())->get()->sum('transaction_exchange_amount');
+        return $total = $this->select('transaction_exchange_amount')->where('member_id', auth()->id())->get()->sum('transaction_exchange_amount');
     }
 }

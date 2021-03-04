@@ -93,14 +93,14 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>To Address</label>
-                                <input type="text" class="form-control" wire:model="to_address" autocomplete="off">
+                                <input type="text" class="form-control" wire:model.defer="to_address" autocomplete="off">
                                 @error('to_address')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label>LBC Amount</label>
-                                <input type="number" class="form-control" wire:model="lbc_amount" autocomplete="off">
+                                <input type="number" step="any" class="form-control" wire:model.defer="lbc_amount" autocomplete="off">
                                 @error('lbc_amount')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -108,7 +108,7 @@
                             <hr>
                             <div class="form-group">
                                 <label>Password</label>
-                                <input type="password" class="form-control" wire:model="password" autocomplete="off">
+                                <input type="password" class="form-control" wire:model.defer="password" autocomplete="off">
                                 @error('password')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
