@@ -9,6 +9,7 @@ use Livewire\Component;
 use App\Models\Transaction;
 use App\Models\TransactionReward;
 use Illuminate\Support\Facades\DB;
+use App\Models\TransactionExchange;
 use App\Models\TransactionRewardPin;
 use Illuminate\Support\Facades\Hash;
 
@@ -141,6 +142,14 @@ class Conversion extends Component
                 $trx_reward->member_id = auth()->id();
                 $trx_reward->save();
 
+                $trx_exchange = new TransactionExchange();
+                $trx_exchange->rate_id = $this->rate_id;
+                $trx_exchange->transaction_exchange_type = "Reward";
+                $trx_exchange->transaction_exchange_amount = -$this->amount;
+                $trx_exchange->transaction_id = $id;
+                $trx_exchange->member_id = auth()->id();
+                $trx_exchange->save();
+
                 if((auth()->user()->contract_price * 3) - ($trx_reward->converted * -1) - $this->amount < auth()->user()->contract->contract_reward_exchange_min){
                     $member = Member::findOrFail(auth()->id());
                     $member->due_date = Carbon::now()->addDays(5)->format('Y-m-d');
@@ -223,6 +232,14 @@ class Conversion extends Component
                 $trx_reward->transaction_id = $id;
                 $trx_reward->member_id = auth()->id();
                 $trx_reward->save();
+
+                $trx_exchange = new TransactionExchange();
+                $trx_exchange->rate_id = $this->rate_id;
+                $trx_exchange->transaction_exchange_type = "Pin Fee";
+                $trx_exchange->transaction_exchange_amount = -$this->amount;
+                $trx_exchange->transaction_id = $id;
+                $trx_exchange->member_id = auth()->id();
+                $trx_exchange->save();
 
                 bitcoind()->move("administrator", auth()->user()->member_user, number_format($this->lbc_amount, 8), 6, $information);
 

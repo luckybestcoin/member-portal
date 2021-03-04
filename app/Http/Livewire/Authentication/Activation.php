@@ -154,10 +154,10 @@ class Activation extends Component
 
                     $rating = $data_rating->filter(function ($q) use ($kaki_kecil)
                     {
-                        return $q->rating_omset_min <= $kaki_kecil;
-                    })->sortBy('rating_omset_min')->first();
+                        return $q->rating_min_turnover <= $kaki_kecil;
+                    })->sortBy('rating_min_turnover')->first();
 
-                    if ($rating && Achievement::where('member_id', $row['id'])->where('achievement_id', $child->rating_id)->count() == 0) {
+                    if ($rating && Achievement::where('member_id', $row['id'])->where('rating_id', $child->rating_id)->get()->count() == 0) {
                         $child->rating_id = $rating['rating_id'];
 
                         $pcp = new Achievement();

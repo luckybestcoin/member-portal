@@ -2,12 +2,10 @@
 
 namespace App\Http\Livewire\Authentication;
 
-use App\Models\Referal;
 use Livewire\Component;
 use App\Models\Referral;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
 
 class Login extends Component
 {
