@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : Localhost 57
+ Source Server         : LBC
  Source Server Type    : MySQL
- Source Server Version : 50724
- Source Host           : localhost:3306
+ Source Server Version : 80020
+ Source Host           : mysql-do-user-8702993-0.b.db.ondigitalocean.com:25060
  Source Schema         : lbc-system
 
  Target Server Type    : MySQL
- Target Server Version : 50724
+ Target Server Version : 80020
  File Encoding         : 65001
 
- Date: 04/03/2021 09:33:35
+ Date: 04/03/2021 09:23:51
 */
 
 SET NAMES utf8mb4;
@@ -22,117 +22,115 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `achievement`;
 CREATE TABLE `achievement`  (
-  `achievement_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `rating_id` bigint(20) NULL DEFAULT NULL,
-  `member_id` bigint(20) NULL DEFAULT NULL,
-  `process` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `achievement_id` bigint NOT NULL AUTO_INCREMENT,
+  `rating_id` bigint NULL DEFAULT NULL,
+  `member_id` bigint NULL DEFAULT NULL,
+  `process` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`achievement_id`) USING BTREE,
   INDEX `peringkat_id`(`rating_id`) USING BTREE,
   INDEX `anggota_id`(`member_id`) USING BTREE,
-  CONSTRAINT `achievement_ibfk_1` FOREIGN KEY (`rating_id`) REFERENCES `rating` (`rating_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `achievement_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 74 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `"achievement_ibfk_1"` FOREIGN KEY () REFERENCES `"rating"` () ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `"achievement_ibfk_2"` FOREIGN KEY () REFERENCES `"member"` () ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 74 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for coinpayment_transaction_items
 -- ----------------------------
 DROP TABLE IF EXISTS `coinpayment_transaction_items`;
 CREATE TABLE `coinpayment_transaction_items`  (
-  `coinpayment_transaction_id` bigint(20) NOT NULL,
-  `description` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `coinpayment_transaction_id` bigint NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `price` decimal(10, 2) NOT NULL,
   `qty` decimal(10, 2) NOT NULL,
   `subtotal` decimal(10, 2) NOT NULL,
-  `currency_code` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `type` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `state` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `currency_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `state` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`) USING BTREE,
   INDEX `coinpayment_transaction_id`(`coinpayment_transaction_id`) USING BTREE,
-  CONSTRAINT `coinpayment_transaction_items_ibfk_1` FOREIGN KEY (`coinpayment_transaction_id`) REFERENCES `coinpayment_transactions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `"coinpayment_transaction_items_ibfk_1"` FOREIGN KEY () REFERENCES `"coinpayment_transactions"` () ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of coinpayment_transaction_items
 -- ----------------------------
-INSERT INTO `coinpayment_transaction_items` VALUES (3, 'Lucky Best Coin', 12.50, 2.00, 25.00, 'USD', NULL, NULL, '2021-03-01 12:59:45', '2021-03-01 12:59:45', 1);
-INSERT INTO `coinpayment_transaction_items` VALUES (4, 'Lucky Best Coin', 12.50, 800.00, 10000.00, 'USD', NULL, NULL, '2021-03-03 15:44:34', '2021-03-03 15:44:34', 2);
+INSERT INTO `coinpayment_transaction_items` VALUES (3, 'Lucky Best Coin', 12.50, 2.00, 25.00, 'USD', NULL, NULL, '2021-03-01 12:59:45', '2021-03-01 12:59:45');
+INSERT INTO `coinpayment_transaction_items` VALUES (4, 'Lucky Best Coin', 12.50, 800.00, 10000.00, 'USD', NULL, NULL, '2021-03-03 15:44:34', '2021-03-03 15:44:34');
 
 -- ----------------------------
 -- Table structure for coinpayment_transactions
 -- ----------------------------
 DROP TABLE IF EXISTS `coinpayment_transactions`;
 CREATE TABLE `coinpayment_transactions`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `uuid` char(36) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `txn_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `order_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `buyer_name` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `buyer_email` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `currency_code` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `time_expires` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `address` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `uuid` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `txn_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `order_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `buyer_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `buyer_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `currency_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `time_expires` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `amount_total_fiat` decimal(10, 2) NULL DEFAULT NULL,
-  `amount` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `amountf` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `coin` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `confirms_needed` int(11) NULL DEFAULT NULL,
-  `payment_address` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `qrcode_url` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
-  `received` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `receivedf` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `recv_confirms` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `status` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `status_text` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `status_url` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
-  `timeout` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `checkout_url` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
-  `redirect_url` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
-  `cancel_url` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
-  `type` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `payload` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `amount` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `amountf` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `coin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `confirms_needed` int NULL DEFAULT NULL,
+  `payment_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `qrcode_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `received` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `receivedf` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `recv_confirms` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `status_text` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `status_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `timeout` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `checkout_url` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `redirect_url` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `cancel_url` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `coinpayment_transactions_uuid_unique`(`uuid`) USING BTREE,
   UNIQUE INDEX `coinpayment_transactions_txn_id_unique`(`txn_id`) USING BTREE,
   UNIQUE INDEX `coinpayment_transactions_order_id_unique`(`order_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of coinpayment_transactions
 -- ----------------------------
-INSERT INTO `coinpayment_transactions` VALUES (3, '523a7f77-3901-4f92-9b54-c909eaf1df18', 'CPFC5JJMBKSUW23YEZYHVBBPWM', '603ce3b36ebb5', 'andifajarlah@gmail.com', 'andifajarlah@gmail.com', 'USD', '1614689984', 'bnb16mqe68ncdq7klv4eprrukp969qwsyk66f8a52f', 25.00, '10015000', '0.10015000', 'BNB', 10, 'bnb16mqe68ncdq7klv4eprrukp969qwsyk66f8a52f', 'https://www.coinpayments.net/qrgen.php?id=CPFC5JJMBKSUW23YEZYHVBBPWM&key=785716bddc5106859423c50f30d5f8c0', '0', '0.00000000', '0', '0', 'Waiting for buyer funds...', 'https://www.coinpayments.net/index.php?cmd=status&id=CPFC5JJMBKSUW23YEZYHVBBPWM&key=785716bddc5106859423c50f30d5f8c0', '86400', 'https://member.luckybestcoin.com/coinpayment/make/eyJpdiI6Ikkzc2hyM1FCdHZ3eVJYV1g0YlAyQXc9PSIsInZhbHVlIjoiRkVnQVR1MzFndmhoaVRRclpNSHROZktHWGliQi9ER2xMYTQxZ2YrOFhkSHFjK1dadEt5eTlRWWgwNE5CWTgxMWdvY21aMkMrMkR4WGpKc2lnNmJvQzYvSitoNWdIaFYrcTFmZG5UQWV6TkZmMjhtYlpDWmltQWxRZi9vMlNNa3BGQTF5L2xobVAwVisxL1Q4RVg0N0x5V2lLWTd3QnY4aHZrS0VzQk9zbzQ2YzEwT2V4d21oODV0bzdsQ0dXTTR6QldOTGdxYW16QmhtMzl0N08rQlJ1UVhOWFpqaWdHcDFaUWtzcjNQRHRsWm5yaSs2S2ZDb0VubFBpcmpNMEdUMzUwenRhQndHMlNZM0oxcE5sa3hUUGUzY1R4cU5tNU95M3VoWHdRamFJQ1I1ZVd1QjlzKzdQRGpReFNlUUVMWHZvT1ZmcHhHYWdremNJVHlMK29qMEFmRS9IS1ZYcWRMNko0THRHVHJxZ0NHVHJWYlZtM284eWxKZjlkN3hyWUVBUFAwZ21aTHFBTlBpaGFIQzZMRFR2QUVlaWxJNTkyOEJmMUMwdnJ0c01VMjJjaDBDbG9LSWh3NXFmV2xPYjUzYlFwVVJEdFMxcitOQm5nQWRrTG1ZemdGaDlPQkl2a2RXNTViYlR3M3A1Z2lPUnFOanhRMkxpcjVhTnRHZVgrY0xUemNLUzA5dDBwVmV3NUd3ZmpEWkZ3K05uenZVU1lWMkU3VndWWWhQMHVGQ3Q2anB0L1gydVZndWlXS1p0VG1ZczZUYldUTnR2RysxMFduNkl5NXJmMmdrb2I5UFE1dWVxWmVZdmdkQklJVVFaRjhaQnM2ekI5bmR3UXAwaGk5ck9zRGRnbUswcnBlMVlNVkN6Y1dGV09keXBGSENoV3h6bFJQcnVhMks1NE1kUk9GNWFndWpRTzBXeXFoT2o3cTU5bTZteEJ1WVdSeWZaRHRtMVU0UmxRPT0iLCJtYWMiOiIyMmIxZWY0ODQzZGQxNjc1NDk4M2Q3NjA4ODM2NGVjZDlhMzYzZWU2YTQ5Y2ViOTlkM2M4ZDgwNzE2NGIyZTc4In0=', 'https://member.luckybestcoin.com/wallet/deposit', 'https://member.luckybestcoin.com/wallet/deposit', 'coins', '{`foo`:{`bar`:`baz`}}', '2021-03-01 12:59:45', '2021-03-01 12:59:45');
-INSERT INTO `coinpayment_transactions` VALUES (4, '2b5f5ab6-400f-4e9c-96e9-58b6fdfb7d0a', 'CPFC6KD7PLG3NB3U34Q48Z3FDJ', '603faeab2ea48', 'PapaOnline', 'aliassebatik@gmail.com', 'USD', '1614883473', '3P4BdwWJspLyr2zvgu98ZH1QCCxPtYkpH7', 10000.00, '19666000', '0.19666000', 'BTC', 2, '3P4BdwWJspLyr2zvgu98ZH1QCCxPtYkpH7', 'https://www.coinpayments.net/qrgen.php?id=CPFC6KD7PLG3NB3U34Q48Z3FDJ&key=efe79055e70d39d2d8cb3dad137a9599', '0', '0.00000000', '0', '0', 'Waiting for buyer funds...', 'https://www.coinpayments.net/index.php?cmd=status&id=CPFC6KD7PLG3NB3U34Q48Z3FDJ&key=efe79055e70d39d2d8cb3dad137a9599', '97200', 'https://member.luckybestcoin.com/coinpayment/make/eyJpdiI6Ijc2bGl3cTBMNXhNSEs2cml1Sm1kZXc9PSIsInZhbHVlIjoicnRrUkxNa0FHOHZsZld5dU8zdzhGSm1yV1dyZklQTUtLZk9tb0QxWGpTYmNURXd4cm8xZmR6NjBEcVZ2N0VMTU10b0xIZjNEZ3orUUR5WDBVTVE1MkROK0R2UlFhM3YzTEpiNEJHc05nbWE4ZG9MYytBbGNsZklYZGloSnp2UmNHYms3cjhoaW9NWU9GYVNaVmN2dlRteVRHdmdILytJSXlRbU1GYkhEWlMra1lvSm9TUjlnY1Z1U01qQ1piT0tvdmpxeElJWnJNMnBWSVRyQnplK0xhdnNobEJzV0Y1anR3aThzOENtSnh0amZsM0hRdjZjZ0V6QWVpanpSYUpWVDduaUhnTGRDOGtpa1RxT1h5ekZjd1lzRVQwNktBVGZpcGF1WVVOK0JiRG1TMmdFTFdaK2lEWXoxcXh0L2JmUFhEa3R1MG56TDVSK3ZCYzdIMDV1dnVTVmJNYTBkOEl0eWxPRGltb3Flam5nblhQYXo0UGRKNnNncFFxR3lTeGZBWXZ2S3RMZVloMWZvQ1N4akN2cERyRUlSM0lrNUgxUmVPUHZydEVOenZ0VVFYYlpaVVNDc2NxMzFHV1FXZ09sVDdjeWFsYXRkOCszMVJ1YWQxUmVOaDBlZ2g1NWd4UmFWYVoraG8ydURGWDhGeFdFVG9QdXR0SDkxQU9veU1uRkJldHJFanBOc1RlZEFGRzg2RTdhSEZMUFpaVUFMUmhkL1ZxY0dLSkZIOXhPaStkMFRCTFRJY0FLQ09ndnVCdFhVbHdENTRyaEJzeTJWaHhkaEZMTDlOSXdHTm5neHFEZ2dEb1BSYUhCVjA0RHB1d0Y5U3AxdC9oUUQ2TVpEcEpBV1BXY3FEdmVPODhoaXEzclg5KytXSFR1dEs4a3dJWXlXZG5IV2ovMXdiS3U5ODkva0FjNWtoWEdVUEJJUUxGZk9NWlN1S3NSVlAxaFBKT3ZLTTlGdzNWT0pYZ1FaY3J3cHZ3RlRmcWg4eHZ3YndOSkJzVjRNNFRUL1N6cHJTU3dhIiwibWFjIjoiNmE2ZDdjZDczNjc5ODdiODEyMjZlNjlhNjc1NmFiOWZiYmZkYTc4NjA4NDcyYzNiY2UzYWMwNGYxMjczY2Q0MSJ9', 'https://member.luckybestcoin.com/wallet/deposit', 'https://member.luckybestcoin.com/wallet/deposit', 'coins', '{`foo`:{`bar`:`baz`}}', '2021-03-03 15:44:34', '2021-03-03 15:44:34');
+INSERT INTO `coinpayment_transactions` VALUES (3, '523a7f77-3901-4f92-9b54-c909eaf1df18', 'CPFC5JJMBKSUW23YEZYHVBBPWM', '603ce3b36ebb5', 'andifajarlah@gmail.com', 'andifajarlah@gmail.com', 'USD', '1614689984', 'bnb16mqe68ncdq7klv4eprrukp969qwsyk66f8a52f', 25.00, '10015000', '0.10015000', 'BNB', 10, 'bnb16mqe68ncdq7klv4eprrukp969qwsyk66f8a52f', 'https://www.coinpayments.net/qrgen.php?id=CPFC5JJMBKSUW23YEZYHVBBPWM&key=785716bddc5106859423c50f30d5f8c0', '0', '0.00000000', '0', '0', 'Waiting for buyer funds...', 'https://www.coinpayments.net/index.php?cmd=status&id=CPFC5JJMBKSUW23YEZYHVBBPWM&key=785716bddc5106859423c50f30d5f8c0', '86400', 'https://member.luckybestcoin.com/coinpayment/make/eyJpdiI6Ikkzc2hyM1FCdHZ3eVJYV1g0YlAyQXc9PSIsInZhbHVlIjoiRkVnQVR1MzFndmhoaVRRclpNSHROZktHWGliQi9ER2xMYTQxZ2YrOFhkSHFjK1dadEt5eTlRWWgwNE5CWTgxMWdvY21aMkMrMkR4WGpKc2lnNmJvQzYvSitoNWdIaFYrcTFmZG5UQWV6TkZmMjhtYlpDWmltQWxRZi9vMlNNa3BGQTF5L2xobVAwVisxL1Q4RVg0N0x5V2lLWTd3QnY4aHZrS0VzQk9zbzQ2YzEwT2V4d21oODV0bzdsQ0dXTTR6QldOTGdxYW16QmhtMzl0N08rQlJ1UVhOWFpqaWdHcDFaUWtzcjNQRHRsWm5yaSs2S2ZDb0VubFBpcmpNMEdUMzUwenRhQndHMlNZM0oxcE5sa3hUUGUzY1R4cU5tNU95M3VoWHdRamFJQ1I1ZVd1QjlzKzdQRGpReFNlUUVMWHZvT1ZmcHhHYWdremNJVHlMK29qMEFmRS9IS1ZYcWRMNko0THRHVHJxZ0NHVHJWYlZtM284eWxKZjlkN3hyWUVBUFAwZ21aTHFBTlBpaGFIQzZMRFR2QUVlaWxJNTkyOEJmMUMwdnJ0c01VMjJjaDBDbG9LSWh3NXFmV2xPYjUzYlFwVVJEdFMxcitOQm5nQWRrTG1ZemdGaDlPQkl2a2RXNTViYlR3M3A1Z2lPUnFOanhRMkxpcjVhTnRHZVgrY0xUemNLUzA5dDBwVmV3NUd3ZmpEWkZ3K05uenZVU1lWMkU3VndWWWhQMHVGQ3Q2anB0L1gydVZndWlXS1p0VG1ZczZUYldUTnR2RysxMFduNkl5NXJmMmdrb2I5UFE1dWVxWmVZdmdkQklJVVFaRjhaQnM2ekI5bmR3UXAwaGk5ck9zRGRnbUswcnBlMVlNVkN6Y1dGV09keXBGSENoV3h6bFJQcnVhMks1NE1kUk9GNWFndWpRTzBXeXFoT2o3cTU5bTZteEJ1WVdSeWZaRHRtMVU0UmxRPT0iLCJtYWMiOiIyMmIxZWY0ODQzZGQxNjc1NDk4M2Q3NjA4ODM2NGVjZDlhMzYzZWU2YTQ5Y2ViOTlkM2M4ZDgwNzE2NGIyZTc4In0=', 'https://member.luckybestcoin.com/wallet/deposit', 'https://member.luckybestcoin.com/wallet/deposit', 'coins', '{\"foo\":{\"bar\":\"baz\"}}', '2021-03-01 12:59:45', '2021-03-01 12:59:45');
+INSERT INTO `coinpayment_transactions` VALUES (4, '2b5f5ab6-400f-4e9c-96e9-58b6fdfb7d0a', 'CPFC6KD7PLG3NB3U34Q48Z3FDJ', '603faeab2ea48', 'PapaOnline', 'aliassebatik@gmail.com', 'USD', '1614883473', '3P4BdwWJspLyr2zvgu98ZH1QCCxPtYkpH7', 10000.00, '19666000', '0.19666000', 'BTC', 2, '3P4BdwWJspLyr2zvgu98ZH1QCCxPtYkpH7', 'https://www.coinpayments.net/qrgen.php?id=CPFC6KD7PLG3NB3U34Q48Z3FDJ&key=efe79055e70d39d2d8cb3dad137a9599', '0', '0.00000000', '0', '0', 'Waiting for buyer funds...', 'https://www.coinpayments.net/index.php?cmd=status&id=CPFC6KD7PLG3NB3U34Q48Z3FDJ&key=efe79055e70d39d2d8cb3dad137a9599', '97200', 'https://member.luckybestcoin.com/coinpayment/make/eyJpdiI6Ijc2bGl3cTBMNXhNSEs2cml1Sm1kZXc9PSIsInZhbHVlIjoicnRrUkxNa0FHOHZsZld5dU8zdzhGSm1yV1dyZklQTUtLZk9tb0QxWGpTYmNURXd4cm8xZmR6NjBEcVZ2N0VMTU10b0xIZjNEZ3orUUR5WDBVTVE1MkROK0R2UlFhM3YzTEpiNEJHc05nbWE4ZG9MYytBbGNsZklYZGloSnp2UmNHYms3cjhoaW9NWU9GYVNaVmN2dlRteVRHdmdILytJSXlRbU1GYkhEWlMra1lvSm9TUjlnY1Z1U01qQ1piT0tvdmpxeElJWnJNMnBWSVRyQnplK0xhdnNobEJzV0Y1anR3aThzOENtSnh0amZsM0hRdjZjZ0V6QWVpanpSYUpWVDduaUhnTGRDOGtpa1RxT1h5ekZjd1lzRVQwNktBVGZpcGF1WVVOK0JiRG1TMmdFTFdaK2lEWXoxcXh0L2JmUFhEa3R1MG56TDVSK3ZCYzdIMDV1dnVTVmJNYTBkOEl0eWxPRGltb3Flam5nblhQYXo0UGRKNnNncFFxR3lTeGZBWXZ2S3RMZVloMWZvQ1N4akN2cERyRUlSM0lrNUgxUmVPUHZydEVOenZ0VVFYYlpaVVNDc2NxMzFHV1FXZ09sVDdjeWFsYXRkOCszMVJ1YWQxUmVOaDBlZ2g1NWd4UmFWYVoraG8ydURGWDhGeFdFVG9QdXR0SDkxQU9veU1uRkJldHJFanBOc1RlZEFGRzg2RTdhSEZMUFpaVUFMUmhkL1ZxY0dLSkZIOXhPaStkMFRCTFRJY0FLQ09ndnVCdFhVbHdENTRyaEJzeTJWaHhkaEZMTDlOSXdHTm5neHFEZ2dEb1BSYUhCVjA0RHB1d0Y5U3AxdC9oUUQ2TVpEcEpBV1BXY3FEdmVPODhoaXEzclg5KytXSFR1dEs4a3dJWXlXZG5IV2ovMXdiS3U5ODkva0FjNWtoWEdVUEJJUUxGZk9NWlN1S3NSVlAxaFBKT3ZLTTlGdzNWT0pYZ1FaY3J3cHZ3RlRmcWg4eHZ3YndOSkJzVjRNNFRUL1N6cHJTU3dhIiwibWFjIjoiNmE2ZDdjZDczNjc5ODdiODEyMjZlNjlhNjc1NmFiOWZiYmZkYTc4NjA4NDcyYzNiY2UzYWMwNGYxMjczY2Q0MSJ9', 'https://member.luckybestcoin.com/wallet/deposit', 'https://member.luckybestcoin.com/wallet/deposit', 'coins', '{\"foo\":{\"bar\":\"baz\"}}', '2021-03-03 15:44:34', '2021-03-03 15:44:34');
 
 -- ----------------------------
 -- Table structure for contract
 -- ----------------------------
 DROP TABLE IF EXISTS `contract`;
 CREATE TABLE `contract`  (
-  `contract_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `contract_name` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `contract_id` bigint NOT NULL AUTO_INCREMENT,
+  `contract_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `contract_price` decimal(65, 2) NOT NULL,
-  `contract_pin` tinyint(4) NOT NULL,
+  `contract_pin` tinyint NOT NULL,
   `contract_reward_exchange_fee` decimal(60, 2) NULL DEFAULT NULL,
   `contract_reward_exchange_min` decimal(60, 2) NULL DEFAULT NULL,
   `contract_reward_exchange_max` decimal(60, 2) NULL DEFAULT NULL,
   `contract_pin_reward_exchange_fee` decimal(60, 2) NULL DEFAULT NULL,
   `contract_pin_reward_exchange_min` decimal(60, 2) NULL DEFAULT NULL,
   `contract_pin_reward_exchange_max` decimal(60, 2) NULL DEFAULT NULL,
-  `user_id` bigint(20) NOT NULL,
+  `user_id` bigint NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`contract_id`) USING BTREE,
   INDEX `pengguna_id`(`user_id`) USING BTREE,
-  CONSTRAINT `contract_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `"contract_ibfk_1"` FOREIGN KEY () REFERENCES `"user"` () ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of contract
@@ -150,17 +148,17 @@ INSERT INTO `contract` VALUES (7, 'CROWN', 10000.00, 9, 7.00, 500.00, 10000.00, 
 -- ----------------------------
 DROP TABLE IF EXISTS `country`;
 CREATE TABLE `country`  (
-  `country_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `country_name` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `country_code` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `user_id` bigint(20) NULL DEFAULT NULL,
+  `country_id` bigint NOT NULL AUTO_INCREMENT,
+  `country_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `country_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `user_id` bigint NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`country_id`) USING BTREE,
   INDEX `pengguna_id`(`user_id`) USING BTREE,
-  CONSTRAINT `country_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 197 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `"country_ibfk_1"` FOREIGN KEY () REFERENCES `"user"` () ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 197 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of country
@@ -367,70 +365,70 @@ INSERT INTO `country` VALUES (196, 'Zimbabwe', '263', 1, NULL, NULL, NULL);
 -- ----------------------------
 DROP TABLE IF EXISTS `failed_jobs`;
 CREATE TABLE `failed_jobs`  (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `connection` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `queue` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `payload` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `exception` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `failed_jobs_uuid_unique`(`uuid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for holiday
 -- ----------------------------
 DROP TABLE IF EXISTS `holiday`;
 CREATE TABLE `holiday`  (
-  `holiday_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `holiday_date` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `holiday_information` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `user_id` bigint(20) NOT NULL,
+  `holiday_id` bigint NOT NULL AUTO_INCREMENT,
+  `holiday_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `holiday_information` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `pengguna_id` bigint NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   PRIMARY KEY (`holiday_id`) USING BTREE,
   UNIQUE INDEX `hari_besar_hari_besar_tanggal_idx`(`holiday_date`) USING BTREE,
-  INDEX `user_id`(`user_id`) USING BTREE,
-  CONSTRAINT `holiday_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+  INDEX `pengguna_id`(`pengguna_id`) USING BTREE,
+  CONSTRAINT `"holiday_ibfk_1"` FOREIGN KEY () REFERENCES `"user"` () ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for invalid_turnover
 -- ----------------------------
 DROP TABLE IF EXISTS `invalid_turnover`;
 CREATE TABLE `invalid_turnover`  (
-  `invalid_turnover_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `invalid_turnover_id` bigint NOT NULL AUTO_INCREMENT,
   `invalid_turnover_amount` decimal(65, 2) NOT NULL,
   `invalid_turnover_position` tinyint(1) NOT NULL,
-  `invalid_turnover_from` bigint(20) NULL DEFAULT NULL,
-  `member_id` bigint(20) NOT NULL,
+  `invalid_turnover_from` bigint NULL DEFAULT NULL,
+  `member_id` bigint NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`invalid_turnover_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for member
 -- ----------------------------
 DROP TABLE IF EXISTS `member`;
 CREATE TABLE `member`  (
-  `member_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `member_user` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `member_password` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `member_name` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `member_email` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `member_phone` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `member_network` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `member_parent` bigint(20) NULL DEFAULT NULL,
-  `member_position` smallint(6) NULL DEFAULT NULL,
-  `contract_id` bigint(20) NOT NULL,
+  `member_id` bigint NOT NULL AUTO_INCREMENT,
+  `member_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `member_password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `member_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `member_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `member_phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `member_network` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `member_parent` bigint NULL DEFAULT NULL,
+  `member_position` smallint NULL DEFAULT NULL,
+  `contract_id` bigint NOT NULL,
   `contract_price` decimal(65, 2) NOT NULL,
-  `country_id` bigint(20) NOT NULL,
+  `country_id` bigint NOT NULL,
   `due_date` date NULL DEFAULT NULL,
-  `extension` int(11) NOT NULL DEFAULT 1,
-  `rating_id` bigint(20) NULL DEFAULT NULL,
-  `remember_token` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `extension` int NOT NULL DEFAULT 1,
+  `rating_id` bigint NULL DEFAULT NULL,
+  `remember_token` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -438,9 +436,9 @@ CREATE TABLE `member`  (
   INDEX `anggota_paket_id_fkey`(`contract_price`) USING BTREE,
   INDEX `anggota_peringkat_id_fkey`(`rating_id`) USING BTREE,
   INDEX `paket_id`(`contract_id`) USING BTREE,
-  CONSTRAINT `anggota_peringkat_id_fkey` FOREIGN KEY (`rating_id`) REFERENCES `rating` (`rating_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `member_ibfk_1` FOREIGN KEY (`contract_id`) REFERENCES `contract` (`contract_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 149 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `"anggota_peringkat_id_fkey"` FOREIGN KEY () REFERENCES `"rating"` () ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `"member_ibfk_1"` FOREIGN KEY () REFERENCES `"contract"` () ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 55 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of member
@@ -516,7 +514,7 @@ INSERT INTO `member` VALUES (72, 'HAMZAH01', '$2y$10$paRufz.cOtb5tcsnyDktO.0/8op
 INSERT INTO `member` VALUES (73, NULL, NULL, 'Nengah Suta Antara', 'sutaantara14@gmail.com', '6282339912622', '6ka20ki60ki', 60, 0, 1, 100.00, 65, NULL, 1, NULL, NULL, '2021-03-03 10:52:32', '2021-03-03 10:52:32', NULL);
 INSERT INTO `member` VALUES (74, 'HAMZAH02', '$2y$10$dc5zbcoDHyxPWeJ52.ky2.XmmHcIIZEC1a9PQbi.xsgdve9K7MUVK', 'Hamzah Djamallulail', 'hamzahlbc2@gmail.com', '6281907553999', '3ki12ka25ki41ki72ki', 72, 0, 5, 2000.00, 65, NULL, 1, NULL, NULL, '2021-03-03 11:06:18', '2021-03-03 23:19:30', NULL);
 INSERT INTO `member` VALUES (75, NULL, NULL, 'Sulham', 'sulham027@gmailcom', '6287851669851', '7ki34ki67ki69ki', 69, 0, 4, 1000.00, 65, NULL, 1, NULL, NULL, '2021-03-03 11:17:03', '2021-03-03 11:17:03', NULL);
-INSERT INTO `member` VALUES (76, 'Rinjanilombok', '$2y$10$0bMrF7oxTVUaJULLO.7y2.vmN5x6q8bE/t/GzF6.FYsYGc28ONH2q', 'SAGGAP', 'saggafzianzian@gmail.com', '6281805442233', '7ki34ki67ki69ka', 69, 1, 4, 1000.00, 65, NULL, 1, NULL, NULL, '2021-03-03 11:23:02', '2021-03-03 23:50:02', NULL);
+INSERT INTO `member` VALUES (76, 'Rinjanilombok', '$2y$10$z4XmW9Y6Wy4uaHeBPY37J.RxfOGYYT8.OODaxOOFJLK.Xi0VYxZ3W', 'SAGGAP', 'saggafzianzian@gmail.com', '6281805442233', '7ki34ki67ki69ka', 69, 1, 4, 1000.00, 65, NULL, 1, NULL, NULL, '2021-03-03 11:23:02', '2021-03-04 01:20:12', NULL);
 INSERT INTO `member` VALUES (77, NULL, NULL, 'Gede Eka Puja Dyatmika', 'gedeekapuja@gmail.com', '62081338544538', '6ki17ka', 17, 1, 4, 1000.00, 65, NULL, 1, NULL, NULL, '2021-03-03 11:28:24', '2021-03-03 11:28:24', NULL);
 INSERT INTO `member` VALUES (78, 'Leadersaok', '$2y$10$7GeY6uTC.PDQ.BYmJJ8a3utyxz4QWeV5j.gVSz2y2USzzZBfuPSWW', 'Sulhamna', 'sulham027@gmail.com', '6287851669851', '7ki34ki67ki69ki', 69, 0, 4, 1000.00, 65, NULL, 1, NULL, NULL, '2021-03-03 11:41:25', '2021-03-03 12:39:57', NULL);
 INSERT INTO `member` VALUES (79, 'Hafizib7', '$2y$10$jiMz/guGhy3gkIwq5kiEfecpb259cmjbQSY70tnbF/tMWJCav.IdK', 'HAFIZ IBRAHIM', 'hafiz.ibam7@gmail.com', '6285337454858', '7ka26ki33ki35ki36ki', 36, 0, 3, 500.00, 65, NULL, 1, NULL, NULL, '2021-03-03 11:42:11', '2021-03-03 23:19:05', NULL);
@@ -539,7 +537,7 @@ INSERT INTO `member` VALUES (95, 'ALWANUL04', '$2y$10$13sXJInaEfcl3I9vXk3rS.92d4
 INSERT INTO `member` VALUES (96, 'NURDIN198601', '$2y$10$FKhuxPQJsMWafcXFV6/DQ.mzRzGRjPNtAYHMuVDjyAJwL8EsTeFUe', 'Nurdin', 'muhammadnizar3334@gmail.com', '6281946576108', '8ki48ki91ka', 91, 1, 3, 500.00, 65, NULL, 1, NULL, NULL, '2021-03-03 13:14:23', '2021-03-03 13:37:02', NULL);
 INSERT INTO `member` VALUES (97, 'MAJID02', '$2y$10$MEaQtdhLGoCTtDwzmlnsLuSxwLLEkBwxOVrOpZgExEhtJcXqreWyG', 'Lalu Abdul Majid', 'halil123haji@gmail.com', '6285237052949', '8ka58ka66ka93ka', 93, 1, 1, 100.00, 65, NULL, 1, NULL, NULL, '2021-03-03 13:17:30', '2021-03-03 23:23:05', NULL);
 INSERT INTO `member` VALUES (98, 'JAWARASASAK01', '$2y$10$N6/KxWTy3Mf7JlFi/nM9Uuko0wcsFZs42NPnjrPoOnaLE41Fq6OtG', 'Haji murgasih', 'hjmurgasih@gmail.com', '6281775000727', '8ki48ki91ka96ka', 96, 1, 1, 100.00, 65, NULL, 1, NULL, NULL, '2021-03-03 13:23:19', '2021-03-03 23:35:40', NULL);
-INSERT INTO `member` VALUES (99, 'MYUNUS01', '$2y$10$uQ6m534zwHy73clmvq.jj.TmyI9UKJQ1tpJ8fcn/KSnNRvlr9JES6', 'MUHAMMAD YUNUS', 'myunusyuan@gmail.com', '6281929050299', '8ka58ki95ka', 95, 1, 4, 1000.00, 65, NULL, 1, NULL, NULL, '2021-03-03 13:26:38', '2021-03-03 14:10:31', NULL);
+INSERT INTO `member` VALUES (99, 'MYUNUS01', '$2y$10$uc7kUdt.Z4Ir9.N8.AHuC.CVz7V2BN7hyXyY36F2yf2FocgEDM5iW', 'MUHAMMAD YUNUS', 'myunusyuan@gmail.com', '6281929050299', '8ka58ki95ka', 95, 1, 4, 1000.00, 65, NULL, 1, NULL, NULL, '2021-03-03 13:26:38', '2021-03-04 01:19:30', NULL);
 INSERT INTO `member` VALUES (100, 'MYUNUS02', '$2y$10$R/nIQ4K44tzj1XrDaq1I1ukKrb78a1KuDbctu91D.08u/QESq/CbS', 'Muhammad Yunus', 'yunusyuan01@gmail.com', '6281929050299', '8ka58ki95ka99ka', 99, 1, 1, 100.00, 65, NULL, 1, NULL, NULL, '2021-03-03 13:38:49', '2021-03-03 13:43:26', NULL);
 INSERT INTO `member` VALUES (101, 'MAJID03', '$2y$10$hViWPnW5knQOVY/qzynf0el2ywEzSOT.3klcMZAsN1GqbLCaTW8H6', 'Lalu Abdul Majid', 'lalupanjipparawangsa@gmail.com', '6287865593118', '8ka58ka66ka93ki', 93, 0, 3, 500.00, 65, NULL, 1, NULL, NULL, '2021-03-03 13:42:52', '2021-03-03 22:45:08', NULL);
 INSERT INTO `member` VALUES (102, 'JAWARASASAK02', '$2y$10$ofF7xX4xJfnfE2OIujYfquc6GBlKyNxUprw5VrOGByyrwL4FzbFjm', 'Haji murgasih', 'satryasasak@gmail.com', '6281775000727', '8ki48ki91ka96ka98ka', 98, 1, 1, 100.00, 65, NULL, 1, NULL, NULL, '2021-03-03 13:49:12', '2021-03-03 23:34:58', NULL);
@@ -569,7 +567,7 @@ INSERT INTO `member` VALUES (125, 'Yantosukses', '$2y$10$fpdig8kW2xElhiM0URj2B.o
 INSERT INTO `member` VALUES (126, 'Yantosukses01', '$2y$10$BAHQqzNUzM9m9DvyFSL8D.suwW7eDznwXvHYsN2zb2NsZWEu4h4tu', 'Zeyb Yoyantho Manafe', 'ya.ntho.manafe@gmail.com', '6281339007050', '5ka15ka16ka19ki117ki121ka123ki124ka', 124, 1, 4, 1000.00, 65, NULL, 1, NULL, NULL, '2021-03-03 16:30:38', '2021-03-03 16:31:44', NULL);
 INSERT INTO `member` VALUES (127, 'Fadilla', '$2y$10$keTV4yEKGBin9ollexNbTO8ZxydFYUhDG0SOOIV6RUHywNrGZC5Vu', 'Fadilla Gina Pattiselanno', 'fg.xpressindonesia@gmail.com', '6282144235990', '5ka15ka16ki112ki113ka116ki', 116, 0, 5, 2000.00, 65, NULL, 1, NULL, NULL, '2021-03-03 16:32:59', '2021-03-03 16:34:15', NULL);
 INSERT INTO `member` VALUES (128, 'Chicka', '$2y$10$2t1WO.EsG13GYrxtr/kWPOaM412jbelddvFb6YseLCqpNp9solTLq', 'Chickateta Janelle Wilson', 'fgx.pressindonesia@gmail.com', '6282144235990', '5ka15ka16ki112ki113ka116ka', 116, 1, 5, 2000.00, 65, NULL, 1, NULL, NULL, '2021-03-03 16:36:26', '2021-03-03 16:37:59', NULL);
-INSERT INTO `member` VALUES (129, 'Palugada', '$2y$10$.9tql4PRh/pTscl3VPY1l.Tb6UYXB9mH6/0UmRGK1GsZ2KNWQ7uTO', 'I Ketut Arantika', 'iketutarantikabali@gmail.com', '6282236421591', '5ka15ka16ka19ka118ka', 118, 1, 4, 1000.00, 65, NULL, 1, NULL, NULL, '2021-03-03 16:43:12', '2021-03-03 23:29:45', NULL);
+INSERT INTO `member` VALUES (129, 'Palugada', '$2y$10$iRjpbeD1.Czq0VCychxl6e1V7h4XSB.q4wCoWznskBgLV/h0.Ebpy', 'I Ketut Arantika', 'iketutarantikabali@gmail.com', '6282236421591', '5ka15ka16ka19ka118ka', 118, 1, 4, 1000.00, 65, NULL, 1, NULL, NULL, '2021-03-03 16:43:12', '2021-03-04 01:20:02', NULL);
 INSERT INTO `member` VALUES (130, 'alias', '$2y$10$x928Gp8khimzp7pPkgTAL./tVC0MzBJ6PaPGz74hOIJjup0RD4BGe', 'alias', 'al.iassebatik@gmail.com', '6282353468257', '5ki14ka', 14, 1, 3, 500.00, 65, NULL, 1, NULL, NULL, '2021-03-03 16:51:19', '2021-03-03 16:53:16', NULL);
 INSERT INTO `member` VALUES (131, NULL, NULL, 'i wayan suardana', 'upixbase180@gmail.com', '6281338778051', '5ki14ki', 14, 0, 4, 1000.00, 65, NULL, 1, NULL, NULL, '2021-03-03 17:10:14', '2021-03-03 17:10:14', NULL);
 INSERT INTO `member` VALUES (132, 'Pang5', '$2y$10$pn7K7XMR6OZvEBXJaTCf8.i7bQE56JXJ0xZY.eQMfP/ryXhZenzPy', 'MIRWAN', 'mirwanbone@gmail.com', '6285213731988', '5ki14ki39ki', 39, 0, 1, 100.00, 65, NULL, 1, NULL, NULL, '2021-03-03 19:35:59', '2021-03-03 20:36:39', NULL);
@@ -595,11 +593,11 @@ INSERT INTO `member` VALUES (148, NULL, NULL, 'Nurasiah', 'huminiji543@gmail.com
 -- ----------------------------
 DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE `migrations`  (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `migration` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `batch` int(11) NOT NULL,
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `batch` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of migrations
@@ -616,30 +614,30 @@ INSERT INTO `migrations` VALUES (6, '2020_11_30_030150_create_coinpayment_transa
 -- ----------------------------
 DROP TABLE IF EXISTS `model_has_permissions`;
 CREATE TABLE `model_has_permissions`  (
-  `permission_id` int(10) UNSIGNED NOT NULL,
-  `model_type` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `model_id` bigint(20) NOT NULL,
+  `permission_id` int UNSIGNED NOT NULL,
+  `model_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `model_id` bigint NOT NULL,
   PRIMARY KEY (`permission_id`, `model_type`, `model_id`) USING BTREE,
   INDEX `model_has_permissions_model_id_model_type_index`(`model_type`) USING BTREE,
   INDEX `izin_pengguna_fk`(`model_id`) USING BTREE,
-  CONSTRAINT `model_has_permissions_ibfk_1` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  CONSTRAINT `model_has_permissions_ibfk_2` FOREIGN KEY (`model_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `"model_has_permissions_ibfk_1"` FOREIGN KEY () REFERENCES `"permissions"` () ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `"model_has_permissions_ibfk_2"` FOREIGN KEY () REFERENCES `"user"` () ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for model_has_roles
 -- ----------------------------
 DROP TABLE IF EXISTS `model_has_roles`;
 CREATE TABLE `model_has_roles`  (
-  `role_id` int(10) UNSIGNED NOT NULL,
-  `model_type` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `model_id` bigint(20) NOT NULL,
+  `role_id` int UNSIGNED NOT NULL,
+  `model_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `model_id` bigint NOT NULL,
   PRIMARY KEY (`role_id`, `model_type`, `model_id`) USING BTREE,
   INDEX `model_has_roles_model_id_model_type_index`(`model_type`) USING BTREE,
   INDEX `level_pengguna_fk`(`model_id`) USING BTREE,
-  CONSTRAINT `model_has_roles_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  CONSTRAINT `model_has_roles_ibfk_2` FOREIGN KEY (`model_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `"model_has_roles_ibfk_1"` FOREIGN KEY () REFERENCES `"roles"` () ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `"model_has_roles_ibfk_2"` FOREIGN KEY () REFERENCES `"user"` () ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of model_has_roles
@@ -651,59 +649,57 @@ INSERT INTO `model_has_roles` VALUES (1, 'App\\Models\\User', 1);
 -- ----------------------------
 DROP TABLE IF EXISTS `password_resets`;
 CREATE TABLE `password_resets`  (
-  `email` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `token` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`) USING BTREE,
   INDEX `password_resets_email_index`(`email`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for payment_method
 -- ----------------------------
 DROP TABLE IF EXISTS `payment_method`;
 CREATE TABLE `payment_method`  (
-  `payment_method_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT ' ',
-  `payment_method_name` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `payment_method_abbrevation` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `payment_method_id` bigint NOT NULL AUTO_INCREMENT COMMENT ' ',
+  `payment_method_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `payment_method_abbrevation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `payment_method_price` decimal(60, 10) NULL DEFAULT NULL,
-  `user_id` bigint(20) NULL DEFAULT NULL,
+  `user_id` bigint NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`payment_method_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for permissions
 -- ----------------------------
 DROP TABLE IF EXISTS `permissions`;
 CREATE TABLE `permissions`  (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(191) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `guard_name` varchar(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `guard_name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `permissions_name_unique`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for rate
 -- ----------------------------
 DROP TABLE IF EXISTS `rate`;
 CREATE TABLE `rate`  (
-  `rate_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `rate_id` bigint NOT NULL AUTO_INCREMENT,
   `rate_price` decimal(65, 2) NOT NULL,
-  `rate_currency` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `user_id` bigint(20) NOT NULL,
+  `rate_currency` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `user_id` bigint NOT NULL,
   `created_at` timestamp(6) NOT NULL,
   `updated_at` timestamp(6) NOT NULL,
   PRIMARY KEY (`rate_id`) USING BTREE,
   INDEX `pengguna_id`(`user_id`) USING BTREE,
-  CONSTRAINT `rate_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `"rate_ibfk_1"` FOREIGN KEY () REFERENCES `"user"` () ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of rate
@@ -715,20 +711,20 @@ INSERT INTO `rate` VALUES (1, 12.50, 'USD', 1, '2021-03-01 00:00:00.000000', '20
 -- ----------------------------
 DROP TABLE IF EXISTS `rating`;
 CREATE TABLE `rating`  (
-  `rating_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `rating_name` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `rating_id` bigint NOT NULL AUTO_INCREMENT,
+  `rating_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `rating_min_turnover` decimal(65, 2) NOT NULL,
   `rating_reward` decimal(65, 2) NOT NULL,
   `rating_order` tinyint(1) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
+  `user_id` bigint NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`rating_id`) USING BTREE,
   UNIQUE INDEX `rating_order`(`rating_order`) USING BTREE,
   INDEX `pengguna_id`(`user_id`) USING BTREE,
-  CONSTRAINT `rating_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `"rating_ibfk_1"` FOREIGN KEY () REFERENCES `"user"` () ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of rating
@@ -743,17 +739,17 @@ INSERT INTO `rating` VALUES (4, 'Platinum', 3500000.00, 35000.00, 4, 1, '2021-01
 -- ----------------------------
 DROP TABLE IF EXISTS `referral`;
 CREATE TABLE `referral`  (
-  `referral_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `referral_token` varchar(300) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `member_id` bigint(20) NULL DEFAULT NULL,
+  `referral_id` bigint NOT NULL AUTO_INCREMENT,
+  `referral_token` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `member_id` bigint NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`referral_id`) USING BTREE,
   UNIQUE INDEX `referal_ibfk_1`(`member_id`) USING BTREE,
   UNIQUE INDEX `referal_token`(`referral_token`) USING BTREE,
-  CONSTRAINT `referral_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 149 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `"referral_ibfk_1"` FOREIGN KEY () REFERENCES `"member"` () ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 55 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of referral
@@ -908,27 +904,27 @@ INSERT INTO `referral` VALUES (148, 'eUnrnWXe1FF0gjqrW2TrpHOvTGwKzTm2K7v8cSRl148
 -- ----------------------------
 DROP TABLE IF EXISTS `role_has_permissions`;
 CREATE TABLE `role_has_permissions`  (
-  `permission_id` int(10) UNSIGNED NOT NULL,
-  `role_id` int(10) UNSIGNED NOT NULL,
+  `permission_id` int UNSIGNED NOT NULL,
+  `role_id` int UNSIGNED NOT NULL,
   PRIMARY KEY (`permission_id`, `role_id`) USING BTREE,
   INDEX `role_has_permissions_role_id_foreign`(`role_id`) USING BTREE,
-  CONSTRAINT `role_has_permissions_ibfk_1` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  CONSTRAINT `role_has_permissions_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `"role_has_permissions_ibfk_1"` FOREIGN KEY () REFERENCES `"permissions"` () ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `"role_has_permissions_ibfk_2"` FOREIGN KEY () REFERENCES `"roles"` () ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for roles
 -- ----------------------------
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles`  (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(191) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `guard_name` varchar(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `guard_name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `roles_name_unique`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of roles
@@ -942,12 +938,12 @@ INSERT INTO `roles` VALUES (3, 'guest', 'web', '2019-04-24 03:38:59', '2019-04-2
 -- ----------------------------
 DROP TABLE IF EXISTS `transaction`;
 CREATE TABLE `transaction`  (
-  `transaction_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `transaction_information` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `transaction_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `transaction_information` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`transaction_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of transaction
@@ -1292,143 +1288,159 @@ INSERT INTO `transaction` VALUES ('ZmIgfZ5vHT-202103031157381614772658590', 'Mem
 -- ----------------------------
 DROP TABLE IF EXISTS `transaction_exchange`;
 CREATE TABLE `transaction_exchange`  (
-  `transaction_exchange_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `transaction_exchange_id` bigint NOT NULL AUTO_INCREMENT,
   `transaction_exchange_amount` decimal(65, 30) NOT NULL,
-  `rate_id` bigint(20) NOT NULL,
-  `member_id` bigint(20) NOT NULL,
-  `transaction_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `transaction_exchange_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `rate_id` bigint NOT NULL,
+  `member_id` bigint NOT NULL,
+  `transaction_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`transaction_exchange_id`) USING BTREE,
-  INDEX `member_id`(`member_id`) USING BTREE,
+  INDEX `wallet_id`(`member_id`) USING BTREE,
   INDEX `kurs_id`(`rate_id`) USING BTREE,
   INDEX `transaction_id`(`transaction_id`) USING BTREE,
-  CONSTRAINT `transaction_exchange_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `transaction_exchange_ibfk_2` FOREIGN KEY (`rate_id`) REFERENCES `rate` (`rate_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `transaction_exchange_ibfk_3` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `"transaction_exchange_ibfk_1"` FOREIGN KEY () REFERENCES `"wallet"` () ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `"transaction_exchange_ibfk_2"` FOREIGN KEY () REFERENCES `"rate"` () ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `"transaction_exchange_ibfk_3"` FOREIGN KEY () REFERENCES `"transaction"` () ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for transaction_extension
 -- ----------------------------
 DROP TABLE IF EXISTS `transaction_extension`;
 CREATE TABLE `transaction_extension`  (
-  `transaction_extension_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `member_id` bigint(20) NOT NULL,
-  `transaction_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `member_id` bigint NOT NULL,
+  `transaction_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`transaction_extension_id`) USING BTREE,
   INDEX `reinvest_pengguna_id_fkey`(`member_id`) USING BTREE,
   INDEX `reinvest_ibfk_1`(`transaction_id`) USING BTREE,
-  CONSTRAINT `transaction_extension_ibfk_1` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `transaction_extension_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `"transaction_extension_ibfk_1"` FOREIGN KEY () REFERENCES `"transaction"` () ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `"transaction_extension_ibfk_2"` FOREIGN KEY () REFERENCES `"member"` () ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for transaction_income
 -- ----------------------------
 DROP TABLE IF EXISTS `transaction_income`;
 CREATE TABLE `transaction_income`  (
-  `transaction_income_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `transaction_income_information` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `transaction_income_type` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `transaction_income_information` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `transaction_income_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `transaction_income_amount` decimal(65, 2) NOT NULL,
-  `transaction_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `transaction_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
-  PRIMARY KEY (`transaction_income_id`) USING BTREE,
   INDEX `pendapatan_ibfk_1`(`transaction_id`) USING BTREE,
-  CONSTRAINT `transaction_income_ibfk_1` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 63 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `"transaction_income_ibfk_1"` FOREIGN KEY () REFERENCES `"transaction"` () ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of transaction_income
 -- ----------------------------
-INSERT INTO `transaction_income` VALUES (1, 'Buy 2 PINs by GAJAHMADA', 'Pin', 6.00, 'LRT32GhF8zU1mUmigGhkGdMwzWB3S9EErS202103010359301614614370946', '2021-03-01 15:59:30', '2021-03-01 15:59:30');
-INSERT INTO `transaction_income` VALUES (2, 'Buy 2 PINs by andifajarlah@gmail.com', 'Pin', 6.00, 'LgC2aTGMnzK8346Yek5CLYTZMqqErAmG2o202103010942201614634940463', '2021-03-01 21:42:20', '2021-03-01 21:42:20');
-INSERT INTO `transaction_income` VALUES (3, 'Buy 2 PINs by SuperTeam', 'Pin', 6.00, 'LZopbUVfTGB25Au9qTDXATf8RQWKTzTgG3202103020634051614666845210', '2021-03-02 06:34:05', '2021-03-02 06:34:05');
-INSERT INTO `transaction_income` VALUES (4, 'Buy 2 PINs by SemutMerah', 'Pin', 6.00, 'LPg6nL9E5JJvmQKs4Umu1eAkCgQHSZZtdE202103020639151614667155052', '2021-03-02 06:39:15', '2021-03-02 06:39:15');
-INSERT INTO `transaction_income` VALUES (5, 'Buy 50 PINs by PapaOnline', 'Pin', 150.00, 'LKM2CwHXfr9DMG9u6UVBGQi7yPbUsdiptq202103020710361614669036878', '2021-03-02 07:10:36', '2021-03-02 07:10:36');
-INSERT INTO `transaction_income` VALUES (6, 'Buy 1 PIN1 by andifajarlah@gmail.com', 'Pin', 3.00, 'LgC2aTGMnzK8346Yek5CLYTZMqqErAmG2o202103020728551614670135184', '2021-03-02 07:28:55', '2021-03-02 07:28:55');
-INSERT INTO `transaction_income` VALUES (7, 'Buy 1 PIN1 by Team01', 'Pin', 3.00, 'LbiGwgCCKqQ28zaxD8XBnFE4GJuL26vXhf202103020741481614670908152', '2021-03-02 07:41:48', '2021-03-02 07:41:48');
-INSERT INTO `transaction_income` VALUES (8, 'Buy 1 PIN by Super01', 'Pin', 3.00, 'LbxwFuyhgp5ZekWKnAYhBJutyqzSfwJdyZ202103020747231614671243399', '2021-03-02 07:47:23', '2021-03-02 07:47:23');
-INSERT INTO `transaction_income` VALUES (9, 'Buy 1 PIN by Team02', 'Pin', 3.00, 'LcPyodtbasnKpDnzR25ZkxsooLVsrPi6SX202103020818201614673100792', '2021-03-02 08:18:20', '2021-03-02 08:18:20');
-INSERT INTO `transaction_income` VALUES (10, 'Buy 2 PINs by GUNTURTKER', 'Pin', 6.00, 'LiUsE4KiMYVVb9P9V3Fjh3wVqp6Lg6Uudz202103020825351614673535525', '2021-03-02 08:25:35', '2021-03-02 08:25:35');
-INSERT INTO `transaction_income` VALUES (11, 'Buy 1 PIN by Super01', 'Pin', 3.00, 'LbxwFuyhgp5ZekWKnAYhBJutyqzSfwJdyZ202103021049251614682165833', '2021-03-02 10:49:25', '2021-03-02 10:49:25');
-INSERT INTO `transaction_income` VALUES (12, 'Buy 1 PIN by Team01', 'Pin', 3.00, 'LbiGwgCCKqQ28zaxD8XBnFE4GJuL26vXhf202103021134191614684859703', '2021-03-02 11:34:19', '2021-03-02 11:34:19');
-INSERT INTO `transaction_income` VALUES (13, 'Buy 1 PIN by Team02', 'Pin', 3.00, 'LcPyodtbasnKpDnzR25ZkxsooLVsrPi6SX202103021140551614685255520', '2021-03-02 11:40:55', '2021-03-02 11:40:55');
-INSERT INTO `transaction_income` VALUES (14, 'Buy 2 PINs by Super02', 'Pin', 6.00, 'LXdFdSMJRR1JCCShJEqpPAB76oZvsSoprH202103021155391614686139568', '2021-03-02 11:55:39', '2021-03-02 11:55:39');
-INSERT INTO `transaction_income` VALUES (15, 'Buy 2 PINs by JENDRAL', 'Pin', 6.00, 'LcNXV3akXw2zn9YpEmvXGrTxvHw9HvgYfe202103021231341614688294146', '2021-03-02 12:31:34', '2021-03-02 12:31:34');
-INSERT INTO `transaction_income` VALUES (16, 'Buy 5 PINs by SemutMerah', 'Pin', 15.00, 'LPg6nL9E5JJvmQKs4Umu1eAkCgQHSZZtdE202103020136351614692195119', '2021-03-02 13:36:35', '2021-03-02 13:36:35');
-INSERT INTO `transaction_income` VALUES (17, 'Buy 1 PIN by SM01202102', 'Pin', 3.00, 'LLb92Q63wTMejnPvcBvrXYAEpNDKJf6DPc202103020155051614693305549', '2021-03-02 13:55:05', '2021-03-02 13:55:05');
-INSERT INTO `transaction_income` VALUES (18, 'Buy 1 PIN by mzwfam03', 'Pin', 3.00, 'LXSETreKycM2GuxdYHqVGaxN1Bi9ubCrzx202103020300241614697224268', '2021-03-02 15:00:24', '2021-03-02 15:00:24');
-INSERT INTO `transaction_income` VALUES (19, 'Buy 1 PIN by SM_Team06', 'Pin', 3.00, 'LYDY2RHDWKjQX7JmnN38zNUFv9UyJrYcxx202103020317521614698272273', '2021-03-02 15:17:52', '2021-03-02 15:17:52');
-INSERT INTO `transaction_income` VALUES (20, 'Buy 2 PINs by Taoke_01', 'Pin', 6.00, 'LZixkF6XJcTeumkbdrdMwDWbBqSrcFh9Ax202103020339581614699598012', '2021-03-02 15:39:58', '2021-03-02 15:39:58');
-INSERT INTO `transaction_income` VALUES (21, 'Buy 2 PINs by PapaOnline2', 'Pin', 6.00, 'LZ8TTybYwEuLJr8XUeXStDHkwsyDZMh78J202103020355561614700556599', '2021-03-02 15:55:56', '2021-03-02 15:55:56');
-INSERT INTO `transaction_income` VALUES (22, 'Buy 2 PINs by MUHAMMAD', 'Pin', 6.00, 'LL7YGtiTEzAFnGS4mZmS7LjxD6WN3HXNSM202103020610131614708613998', '2021-03-02 18:10:14', '2021-03-02 18:10:14');
-INSERT INTO `transaction_income` VALUES (23, 'Buy 1 PIN by SM01202102', 'Pin', 3.00, 'LLb92Q63wTMejnPvcBvrXYAEpNDKJf6DPc202103020753101614714790174', '2021-03-02 19:53:10', '2021-03-02 19:53:10');
-INSERT INTO `transaction_income` VALUES (24, 'Buy 6 PINs by sugihmotah01', 'Pin', 18.00, 'Lez4EB4tXTv2myKBj8m17U5D645dCU6vi3202103021103431614726223871', '2021-03-02 23:03:43', '2021-03-02 23:03:43');
-INSERT INTO `transaction_income` VALUES (25, 'Buy 2 PINs by GUNTURTKER', 'Pin', 6.00, 'LiUsE4KiMYVVb9P9V3Fjh3wVqp6Lg6Uudz202103021116081614726968602', '2021-03-02 23:16:08', '2021-03-02 23:16:08');
-INSERT INTO `transaction_income` VALUES (26, 'Buy 2 PINs by Excellent', 'Pin', 6.00, 'Ld4vDctx6kKfSfxNXHS3LdFJcZw3QEgt9r202103021154311614729271611', '2021-03-02 23:54:31', '2021-03-02 23:54:31');
-INSERT INTO `transaction_income` VALUES (27, 'Buy 2 PINs by Excellent', 'Pin', 6.00, 'Ld4vDctx6kKfSfxNXHS3LdFJcZw3QEgt9r202103031220041614730804801', '2021-03-03 00:20:04', '2021-03-03 00:20:04');
-INSERT INTO `transaction_income` VALUES (28, 'Buy 1 PIN by GAJAHMADA', 'Pin', 3.00, 'LRT32GhF8zU1mUmigGhkGdMwzWB3S9EErS202103030110461614733846803', '2021-03-03 01:10:46', '2021-03-03 01:10:46');
-INSERT INTO `transaction_income` VALUES (29, 'Buy 2 PINs by Excellent', 'Pin', 6.00, 'Ld4vDctx6kKfSfxNXHS3LdFJcZw3QEgt9r202103030201011614736861715', '2021-03-03 02:01:01', '2021-03-03 02:01:01');
-INSERT INTO `transaction_income` VALUES (30, 'Buy 4 PINs by Excellent', 'Pin', 12.00, 'Ld4vDctx6kKfSfxNXHS3LdFJcZw3QEgt9r202103030251231614739883728', '2021-03-03 02:51:23', '2021-03-03 02:51:23');
-INSERT INTO `transaction_income` VALUES (31, 'Buy 2 PINs by GUNTURTKER', 'Pin', 6.00, 'LiUsE4KiMYVVb9P9V3Fjh3wVqp6Lg6Uudz202103030334201614742460962', '2021-03-03 03:34:20', '2021-03-03 03:34:20');
-INSERT INTO `transaction_income` VALUES (32, 'Buy 1 PIN by GAJAHMADA', 'Pin', 3.00, 'LRT32GhF8zU1mUmigGhkGdMwzWB3S9EErS202103030527291614749249916', '2021-03-03 05:27:29', '2021-03-03 05:27:29');
-INSERT INTO `transaction_income` VALUES (33, 'Buy 1 PIN by GAJAHMADA', 'Pin', 3.00, 'LRT32GhF8zU1mUmigGhkGdMwzWB3S9EErS202103030534171614749657857', '2021-03-03 05:34:17', '2021-03-03 05:34:17');
-INSERT INTO `transaction_income` VALUES (34, 'Buy 1 PIN by GUNTURTKER', 'Pin', 3.00, 'LiUsE4KiMYVVb9P9V3Fjh3wVqp6Lg6Uudz202103030731401614756700674', '2021-03-03 07:31:40', '2021-03-03 07:31:40');
-INSERT INTO `transaction_income` VALUES (35, 'Buy 5 PINs by GUNTURTKER', 'Pin', 15.00, 'LiUsE4KiMYVVb9P9V3Fjh3wVqp6Lg6Uudz202103030757471614758267410', '2021-03-03 07:57:47', '2021-03-03 07:57:47');
-INSERT INTO `transaction_income` VALUES (36, 'Buy 5 PINs by GUNTURTKER', 'Pin', 15.00, 'LiUsE4KiMYVVb9P9V3Fjh3wVqp6Lg6Uudz202103030923171614763397679', '2021-03-03 09:23:17', '2021-03-03 09:23:17');
-INSERT INTO `transaction_income` VALUES (37, 'Buy 2 PINs by SM_Team08', 'Pin', 6.00, 'LP1uDoFryaCH2E52mvDJHBVoAbiVNYswc7202103030931591614763919051', '2021-03-03 09:31:59', '2021-03-03 09:31:59');
-INSERT INTO `transaction_income` VALUES (38, 'Buy 2 PINs by Chikofam_a', 'Pin', 6.00, 'Ld33ppYQrwqUE15gnXTLHdz9VqipaLTpY9202103030957261614765446225', '2021-03-03 09:57:26', '2021-03-03 09:57:26');
-INSERT INTO `transaction_income` VALUES (39, 'Buy 1 PIN by MUHAMMAD', 'Pin', 3.00, 'LL7YGtiTEzAFnGS4mZmS7LjxD6WN3HXNSM202103031028561614767336824', '2021-03-03 10:28:56', '2021-03-03 10:28:56');
-INSERT INTO `transaction_income` VALUES (40, 'Buy 3 PINs by MUHAMMAD', 'Pin', 9.00, 'LL7YGtiTEzAFnGS4mZmS7LjxD6WN3HXNSM202103031040461614768046633', '2021-03-03 10:40:46', '2021-03-03 10:40:46');
-INSERT INTO `transaction_income` VALUES (41, 'Buy 3 PINs by HAMZAH01', 'Pin', 9.00, 'LUFmGttBKkhFRwepo6UmEGpzcC2YEdKLTT202103031103001614769380684', '2021-03-03 11:03:00', '2021-03-03 11:03:00');
-INSERT INTO `transaction_income` VALUES (42, 'Buy 1 PIN by GAJAHMADA', 'Pin', 3.00, 'LRT32GhF8zU1mUmigGhkGdMwzWB3S9EErS202103031111511614769911732', '2021-03-03 11:11:51', '2021-03-03 11:11:51');
-INSERT INTO `transaction_income` VALUES (43, 'Buy 2 PINs by smteam$', 'Pin', 6.00, 'LTk2NPsX8g87XtKK1zPnfiwTbPuxisrZ2M202103031114291614770069895', '2021-03-03 11:14:29', '2021-03-03 11:14:29');
-INSERT INTO `transaction_income` VALUES (44, 'Buy 1 PIN by Taoke_01', 'Pin', 3.00, 'LZixkF6XJcTeumkbdrdMwDWbBqSrcFh9Ax202103031135281614771328153', '2021-03-03 11:35:28', '2021-03-03 11:35:28');
-INSERT INTO `transaction_income` VALUES (45, 'Buy 1 PIN by smteam$', 'Pin', 3.00, 'LTk2NPsX8g87XtKK1zPnfiwTbPuxisrZ2M202103031139171614771557705', '2021-03-03 11:39:17', '2021-03-03 11:39:17');
-INSERT INTO `transaction_income` VALUES (46, 'Buy 2 PINs by Rinjanilombok', 'Pin', 6.00, 'LKNeS1rKPLxMP6Ds6GCMtDiLu797xmtWhq202103031140191614771619644', '2021-03-03 11:40:19', '2021-03-03 11:40:19');
-INSERT INTO `transaction_income` VALUES (47, 'Buy 1 PIN by SM_Team06', 'Pin', 3.00, 'LYDY2RHDWKjQX7JmnN38zNUFv9UyJrYcxx202103031156071614772567928', '2021-03-03 11:56:07', '2021-03-03 11:56:07');
-INSERT INTO `transaction_income` VALUES (48, 'Buy 2 PINs by Leadersaok', 'Pin', 6.00, 'LdohLK3nrjSQwMDMEgESwfjYj3Hkm2Ba7U202103031207071614773227758', '2021-03-03 12:07:07', '2021-03-03 12:07:07');
-INSERT INTO `transaction_income` VALUES (49, 'Buy 1 PIN by Taoke_03', 'Pin', 3.00, 'Ldi2KqndFMhM3efjNdWw9SXjuYrrFUvtoa202103031219011614773941214', '2021-03-03 12:19:01', '2021-03-03 12:19:01');
-INSERT INTO `transaction_income` VALUES (50, 'Buy 1 PIN by datudahe', 'Pin', 3.00, 'LLRUFBs79xnPDn5sgs1PRewDQUdMLP3nzU202103031229401614774580157', '2021-03-03 12:29:40', '2021-03-03 12:29:40');
-INSERT INTO `transaction_income` VALUES (51, 'Buy 2 PINs by smteam#', 'Pin', 6.00, 'LNNLp6x358fT2FnHQMmgJBqH11XdRNcAqp202103031230251614774625351', '2021-03-03 12:30:25', '2021-03-03 12:30:25');
-INSERT INTO `transaction_income` VALUES (52, 'Buy 2 PINs by LBC_SMzaini', 'Pin', 6.00, 'LTzePTd2ME4fnd8oWtTowreyt6RETazFGa202103031250211614775821683', '2021-03-03 12:50:21', '2021-03-03 12:50:21');
-INSERT INTO `transaction_income` VALUES (53, 'Buy 5 PINs by GUNTURTKER', 'Pin', 15.00, 'LiUsE4KiMYVVb9P9V3Fjh3wVqp6Lg6Uudz202103030104081614776648542', '2021-03-03 13:04:08', '2021-03-03 13:04:08');
-INSERT INTO `transaction_income` VALUES (54, 'Buy 5 PINs by GUNTURTKER', 'Pin', 15.00, 'LiUsE4KiMYVVb9P9V3Fjh3wVqp6Lg6Uudz202103030135211614778521844', '2021-03-03 13:35:21', '2021-03-03 13:35:21');
-INSERT INTO `transaction_income` VALUES (55, 'Buy 1 PIN by Excellent', 'Pin', 3.00, 'Ld4vDctx6kKfSfxNXHS3LdFJcZw3QEgt9r202103030156331614779793010', '2021-03-03 13:56:33', '2021-03-03 13:56:33');
-INSERT INTO `transaction_income` VALUES (56, 'Buy 1 PIN by Rinjanilombok', 'Pin', 3.00, 'LKNeS1rKPLxMP6Ds6GCMtDiLu797xmtWhq202103030158531614779933910', '2021-03-03 13:58:53', '2021-03-03 13:58:53');
-INSERT INTO `transaction_income` VALUES (57, 'Buy 2 PINs by Ihsan1997', 'Pin', 6.00, 'LNkKo5fqvzVwasMZDSyVYX2WSH58JRtnDT202103030219261614781166239', '2021-03-03 14:19:26', '2021-03-03 14:19:26');
-INSERT INTO `transaction_income` VALUES (58, 'Buy 1 PIN by Excellent', 'Pin', 3.00, 'Ld4vDctx6kKfSfxNXHS3LdFJcZw3QEgt9r202103030226251614781585938', '2021-03-03 14:26:25', '2021-03-03 14:26:25');
-INSERT INTO `transaction_income` VALUES (59, 'Buy 1 PIN by Excellent', 'Pin', 3.00, 'Ld4vDctx6kKfSfxNXHS3LdFJcZw3QEgt9r202103030313331614784413864', '2021-03-03 15:13:33', '2021-03-03 15:13:33');
-INSERT INTO `transaction_income` VALUES (60, 'Buy 11 PINs by Excellent', 'Pin', 33.00, 'Ld4vDctx6kKfSfxNXHS3LdFJcZw3QEgt9r202103030328381614785318146', '2021-03-03 15:28:38', '2021-03-03 15:28:38');
-INSERT INTO `transaction_income` VALUES (61, 'Buy 50 PINs by PapaOnline', 'Pin', 150.00, 'LKM2CwHXfr9DMG9u6UVBGQi7yPbUsdiptq202103030423001614788580043', '2021-03-03 16:23:00', '2021-03-03 16:23:00');
-INSERT INTO `transaction_income` VALUES (62, 'Buy 2 PINs by sugihmotah01', 'Pin', 6.00, 'Lez4EB4tXTv2myKBj8m17U5D645dCU6vi3202103031150271614815427575', '2021-03-03 23:50:27', '2021-03-03 23:50:27');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by GAJAHMADA', 'Pin', 6.00, 'LRT32GhF8zU1mUmigGhkGdMwzWB3S9EErS202103010359301614614370946', '2021-03-01 15:59:30', '2021-03-01 15:59:30');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by andifajarlah@gmail.com', 'Pin', 6.00, 'LgC2aTGMnzK8346Yek5CLYTZMqqErAmG2o202103010942201614634940463', '2021-03-01 21:42:20', '2021-03-01 21:42:20');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by SuperTeam', 'Pin', 6.00, 'LZopbUVfTGB25Au9qTDXATf8RQWKTzTgG3202103020634051614666845210', '2021-03-02 06:34:05', '2021-03-02 06:34:05');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by SemutMerah', 'Pin', 6.00, 'LPg6nL9E5JJvmQKs4Umu1eAkCgQHSZZtdE202103020639151614667155052', '2021-03-02 06:39:15', '2021-03-02 06:39:15');
+INSERT INTO `transaction_income` VALUES ('Buy 50 PINs by PapaOnline', 'Pin', 150.00, 'LKM2CwHXfr9DMG9u6UVBGQi7yPbUsdiptq202103020710361614669036878', '2021-03-02 07:10:36', '2021-03-02 07:10:36');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN1 by andifajarlah@gmail.com', 'Pin', 3.00, 'LgC2aTGMnzK8346Yek5CLYTZMqqErAmG2o202103020728551614670135184', '2021-03-02 07:28:55', '2021-03-02 07:28:55');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN1 by Team01', 'Pin', 3.00, 'LbiGwgCCKqQ28zaxD8XBnFE4GJuL26vXhf202103020741481614670908152', '2021-03-02 07:41:48', '2021-03-02 07:41:48');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by Super01', 'Pin', 3.00, 'LbxwFuyhgp5ZekWKnAYhBJutyqzSfwJdyZ202103020747231614671243399', '2021-03-02 07:47:23', '2021-03-02 07:47:23');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by Team02', 'Pin', 3.00, 'LcPyodtbasnKpDnzR25ZkxsooLVsrPi6SX202103020818201614673100792', '2021-03-02 08:18:20', '2021-03-02 08:18:20');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by GUNTURTKER', 'Pin', 6.00, 'LiUsE4KiMYVVb9P9V3Fjh3wVqp6Lg6Uudz202103020825351614673535525', '2021-03-02 08:25:35', '2021-03-02 08:25:35');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by Super01', 'Pin', 3.00, 'LbxwFuyhgp5ZekWKnAYhBJutyqzSfwJdyZ202103021049251614682165833', '2021-03-02 10:49:25', '2021-03-02 10:49:25');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by Team01', 'Pin', 3.00, 'LbiGwgCCKqQ28zaxD8XBnFE4GJuL26vXhf202103021134191614684859703', '2021-03-02 11:34:19', '2021-03-02 11:34:19');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by Team02', 'Pin', 3.00, 'LcPyodtbasnKpDnzR25ZkxsooLVsrPi6SX202103021140551614685255520', '2021-03-02 11:40:55', '2021-03-02 11:40:55');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by Super02', 'Pin', 6.00, 'LXdFdSMJRR1JCCShJEqpPAB76oZvsSoprH202103021155391614686139568', '2021-03-02 11:55:39', '2021-03-02 11:55:39');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by JENDRAL', 'Pin', 6.00, 'LcNXV3akXw2zn9YpEmvXGrTxvHw9HvgYfe202103021231341614688294146', '2021-03-02 12:31:34', '2021-03-02 12:31:34');
+INSERT INTO `transaction_income` VALUES ('Buy 5 PINs by SemutMerah', 'Pin', 15.00, 'LPg6nL9E5JJvmQKs4Umu1eAkCgQHSZZtdE202103020136351614692195119', '2021-03-02 13:36:35', '2021-03-02 13:36:35');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by SM01202102', 'Pin', 3.00, 'LLb92Q63wTMejnPvcBvrXYAEpNDKJf6DPc202103020155051614693305549', '2021-03-02 13:55:05', '2021-03-02 13:55:05');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by mzwfam03', 'Pin', 3.00, 'LXSETreKycM2GuxdYHqVGaxN1Bi9ubCrzx202103020300241614697224268', '2021-03-02 15:00:24', '2021-03-02 15:00:24');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by SM_Team06', 'Pin', 3.00, 'LYDY2RHDWKjQX7JmnN38zNUFv9UyJrYcxx202103020317521614698272273', '2021-03-02 15:17:52', '2021-03-02 15:17:52');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by Taoke_01', 'Pin', 6.00, 'LZixkF6XJcTeumkbdrdMwDWbBqSrcFh9Ax202103020339581614699598012', '2021-03-02 15:39:58', '2021-03-02 15:39:58');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by PapaOnline2', 'Pin', 6.00, 'LZ8TTybYwEuLJr8XUeXStDHkwsyDZMh78J202103020355561614700556599', '2021-03-02 15:55:56', '2021-03-02 15:55:56');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by MUHAMMAD', 'Pin', 6.00, 'LL7YGtiTEzAFnGS4mZmS7LjxD6WN3HXNSM202103020610131614708613998', '2021-03-02 18:10:14', '2021-03-02 18:10:14');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by SM01202102', 'Pin', 3.00, 'LLb92Q63wTMejnPvcBvrXYAEpNDKJf6DPc202103020753101614714790174', '2021-03-02 19:53:10', '2021-03-02 19:53:10');
+INSERT INTO `transaction_income` VALUES ('Buy 6 PINs by sugihmotah01', 'Pin', 18.00, 'Lez4EB4tXTv2myKBj8m17U5D645dCU6vi3202103021103431614726223871', '2021-03-02 23:03:43', '2021-03-02 23:03:43');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by GUNTURTKER', 'Pin', 6.00, 'LiUsE4KiMYVVb9P9V3Fjh3wVqp6Lg6Uudz202103021116081614726968602', '2021-03-02 23:16:08', '2021-03-02 23:16:08');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by Excellent', 'Pin', 6.00, 'Ld4vDctx6kKfSfxNXHS3LdFJcZw3QEgt9r202103021154311614729271611', '2021-03-02 23:54:31', '2021-03-02 23:54:31');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by Excellent', 'Pin', 6.00, 'Ld4vDctx6kKfSfxNXHS3LdFJcZw3QEgt9r202103031220041614730804801', '2021-03-03 00:20:04', '2021-03-03 00:20:04');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by GAJAHMADA', 'Pin', 3.00, 'LRT32GhF8zU1mUmigGhkGdMwzWB3S9EErS202103030110461614733846803', '2021-03-03 01:10:46', '2021-03-03 01:10:46');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by Excellent', 'Pin', 6.00, 'Ld4vDctx6kKfSfxNXHS3LdFJcZw3QEgt9r202103030201011614736861715', '2021-03-03 02:01:01', '2021-03-03 02:01:01');
+INSERT INTO `transaction_income` VALUES ('Buy 4 PINs by Excellent', 'Pin', 12.00, 'Ld4vDctx6kKfSfxNXHS3LdFJcZw3QEgt9r202103030251231614739883728', '2021-03-03 02:51:23', '2021-03-03 02:51:23');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by GUNTURTKER', 'Pin', 6.00, 'LiUsE4KiMYVVb9P9V3Fjh3wVqp6Lg6Uudz202103030334201614742460962', '2021-03-03 03:34:20', '2021-03-03 03:34:20');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by GAJAHMADA', 'Pin', 3.00, 'LRT32GhF8zU1mUmigGhkGdMwzWB3S9EErS202103030527291614749249916', '2021-03-03 05:27:29', '2021-03-03 05:27:29');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by GAJAHMADA', 'Pin', 3.00, 'LRT32GhF8zU1mUmigGhkGdMwzWB3S9EErS202103030534171614749657857', '2021-03-03 05:34:17', '2021-03-03 05:34:17');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by GUNTURTKER', 'Pin', 3.00, 'LiUsE4KiMYVVb9P9V3Fjh3wVqp6Lg6Uudz202103030731401614756700674', '2021-03-03 07:31:40', '2021-03-03 07:31:40');
+INSERT INTO `transaction_income` VALUES ('Buy 5 PINs by GUNTURTKER', 'Pin', 15.00, 'LiUsE4KiMYVVb9P9V3Fjh3wVqp6Lg6Uudz202103030757471614758267410', '2021-03-03 07:57:47', '2021-03-03 07:57:47');
+INSERT INTO `transaction_income` VALUES ('Buy 5 PINs by GUNTURTKER', 'Pin', 15.00, 'LiUsE4KiMYVVb9P9V3Fjh3wVqp6Lg6Uudz202103030923171614763397679', '2021-03-03 09:23:17', '2021-03-03 09:23:17');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by SM_Team08', 'Pin', 6.00, 'LP1uDoFryaCH2E52mvDJHBVoAbiVNYswc7202103030931591614763919051', '2021-03-03 09:31:59', '2021-03-03 09:31:59');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by Chikofam_a', 'Pin', 6.00, 'Ld33ppYQrwqUE15gnXTLHdz9VqipaLTpY9202103030957261614765446225', '2021-03-03 09:57:26', '2021-03-03 09:57:26');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by MUHAMMAD', 'Pin', 3.00, 'LL7YGtiTEzAFnGS4mZmS7LjxD6WN3HXNSM202103031028561614767336824', '2021-03-03 10:28:56', '2021-03-03 10:28:56');
+INSERT INTO `transaction_income` VALUES ('Buy 3 PINs by MUHAMMAD', 'Pin', 9.00, 'LL7YGtiTEzAFnGS4mZmS7LjxD6WN3HXNSM202103031040461614768046633', '2021-03-03 10:40:46', '2021-03-03 10:40:46');
+INSERT INTO `transaction_income` VALUES ('Buy 3 PINs by HAMZAH01', 'Pin', 9.00, 'LUFmGttBKkhFRwepo6UmEGpzcC2YEdKLTT202103031103001614769380684', '2021-03-03 11:03:00', '2021-03-03 11:03:00');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by GAJAHMADA', 'Pin', 3.00, 'LRT32GhF8zU1mUmigGhkGdMwzWB3S9EErS202103031111511614769911732', '2021-03-03 11:11:51', '2021-03-03 11:11:51');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by smteam$', 'Pin', 6.00, 'LTk2NPsX8g87XtKK1zPnfiwTbPuxisrZ2M202103031114291614770069895', '2021-03-03 11:14:29', '2021-03-03 11:14:29');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by Taoke_01', 'Pin', 3.00, 'LZixkF6XJcTeumkbdrdMwDWbBqSrcFh9Ax202103031135281614771328153', '2021-03-03 11:35:28', '2021-03-03 11:35:28');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by smteam$', 'Pin', 3.00, 'LTk2NPsX8g87XtKK1zPnfiwTbPuxisrZ2M202103031139171614771557705', '2021-03-03 11:39:17', '2021-03-03 11:39:17');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by Rinjanilombok', 'Pin', 6.00, 'LKNeS1rKPLxMP6Ds6GCMtDiLu797xmtWhq202103031140191614771619644', '2021-03-03 11:40:19', '2021-03-03 11:40:19');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by SM_Team06', 'Pin', 3.00, 'LYDY2RHDWKjQX7JmnN38zNUFv9UyJrYcxx202103031156071614772567928', '2021-03-03 11:56:07', '2021-03-03 11:56:07');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by Leadersaok', 'Pin', 6.00, 'LdohLK3nrjSQwMDMEgESwfjYj3Hkm2Ba7U202103031207071614773227758', '2021-03-03 12:07:07', '2021-03-03 12:07:07');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by Taoke_03', 'Pin', 3.00, 'Ldi2KqndFMhM3efjNdWw9SXjuYrrFUvtoa202103031219011614773941214', '2021-03-03 12:19:01', '2021-03-03 12:19:01');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by datudahe', 'Pin', 3.00, 'LLRUFBs79xnPDn5sgs1PRewDQUdMLP3nzU202103031229401614774580157', '2021-03-03 12:29:40', '2021-03-03 12:29:40');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by smteam#', 'Pin', 6.00, 'LNNLp6x358fT2FnHQMmgJBqH11XdRNcAqp202103031230251614774625351', '2021-03-03 12:30:25', '2021-03-03 12:30:25');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by LBC_SMzaini', 'Pin', 6.00, 'LTzePTd2ME4fnd8oWtTowreyt6RETazFGa202103031250211614775821683', '2021-03-03 12:50:21', '2021-03-03 12:50:21');
+INSERT INTO `transaction_income` VALUES ('Buy 5 PINs by GUNTURTKER', 'Pin', 15.00, 'LiUsE4KiMYVVb9P9V3Fjh3wVqp6Lg6Uudz202103030104081614776648542', '2021-03-03 13:04:08', '2021-03-03 13:04:08');
+INSERT INTO `transaction_income` VALUES ('Buy 5 PINs by GUNTURTKER', 'Pin', 15.00, 'LiUsE4KiMYVVb9P9V3Fjh3wVqp6Lg6Uudz202103030135211614778521844', '2021-03-03 13:35:21', '2021-03-03 13:35:21');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by Excellent', 'Pin', 3.00, 'Ld4vDctx6kKfSfxNXHS3LdFJcZw3QEgt9r202103030156331614779793010', '2021-03-03 13:56:33', '2021-03-03 13:56:33');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by Rinjanilombok', 'Pin', 3.00, 'LKNeS1rKPLxMP6Ds6GCMtDiLu797xmtWhq202103030158531614779933910', '2021-03-03 13:58:53', '2021-03-03 13:58:53');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by Ihsan1997', 'Pin', 6.00, 'LNkKo5fqvzVwasMZDSyVYX2WSH58JRtnDT202103030219261614781166239', '2021-03-03 14:19:26', '2021-03-03 14:19:26');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by Excellent', 'Pin', 3.00, 'Ld4vDctx6kKfSfxNXHS3LdFJcZw3QEgt9r202103030226251614781585938', '2021-03-03 14:26:25', '2021-03-03 14:26:25');
+INSERT INTO `transaction_income` VALUES ('Buy 1 PIN by Excellent', 'Pin', 3.00, 'Ld4vDctx6kKfSfxNXHS3LdFJcZw3QEgt9r202103030313331614784413864', '2021-03-03 15:13:33', '2021-03-03 15:13:33');
+INSERT INTO `transaction_income` VALUES ('Buy 11 PINs by Excellent', 'Pin', 33.00, 'Ld4vDctx6kKfSfxNXHS3LdFJcZw3QEgt9r202103030328381614785318146', '2021-03-03 15:28:38', '2021-03-03 15:28:38');
+INSERT INTO `transaction_income` VALUES ('Buy 50 PINs by PapaOnline', 'Pin', 150.00, 'LKM2CwHXfr9DMG9u6UVBGQi7yPbUsdiptq202103030423001614788580043', '2021-03-03 16:23:00', '2021-03-03 16:23:00');
+INSERT INTO `transaction_income` VALUES ('Buy 2 PINs by sugihmotah01', 'Pin', 6.00, 'Lez4EB4tXTv2myKBj8m17U5D645dCU6vi3202103031150271614815427575', '2021-03-03 23:50:27', '2021-03-03 23:50:27');
+
+-- ----------------------------
+-- Table structure for transaction_payment
+-- ----------------------------
+DROP TABLE IF EXISTS `transaction_payment`;
+CREATE TABLE `transaction_payment`  (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `from_currency` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `entered_amount` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `to_currency` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `amount` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `gateway_id` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `gateway_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `status` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for transaction_pin
 -- ----------------------------
 DROP TABLE IF EXISTS `transaction_pin`;
 CREATE TABLE `transaction_pin`  (
-  `transaction_pin_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `transaction_pin_information` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `transaction_pin_amount` int(11) NOT NULL,
-  `transaction_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `member_id` bigint(20) NOT NULL,
+  `transaction_pin_id` bigint NOT NULL AUTO_INCREMENT,
+  `transaction_pin_information` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `transaction_pin_amount` int NOT NULL,
+  `transaction_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `member_id` bigint NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`transaction_pin_id`) USING BTREE,
   INDEX `pin_pengguna_id_fkey`(`member_id`) USING BTREE,
   INDEX `pin_ibfk_1`(`transaction_id`) USING BTREE,
-  CONSTRAINT `transaction_pin_ibfk_1` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `transaction_pin_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 198 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `"transaction_pin_ibfk_1"` FOREIGN KEY () REFERENCES `"transaction"` () ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `"transaction_pin_ibfk_2"` FOREIGN KEY () REFERENCES `"member"` () ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of transaction_pin
@@ -1636,21 +1648,21 @@ INSERT INTO `transaction_pin` VALUES (197, 'Member registration on behalf of hum
 -- ----------------------------
 DROP TABLE IF EXISTS `transaction_reward`;
 CREATE TABLE `transaction_reward`  (
-  `transaction_reward_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `transaction_reward_information` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `transaction_reward_type` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `transaction_reward_id` bigint NOT NULL AUTO_INCREMENT,
+  `transaction_reward_information` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `transaction_reward_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `transaction_reward_amount` decimal(65, 2) NOT NULL,
-  `transaction_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `member_id` bigint(20) NOT NULL,
+  `transaction_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `member_id` bigint NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`transaction_reward_id`) USING BTREE,
   INDEX `bagi_hasil_pengguna_id_fkey`(`member_id`) USING BTREE,
   INDEX `transaksi_id`(`transaction_id`) USING BTREE,
-  CONSTRAINT `transaction_reward_ibfk_1` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `transaction_reward_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 257 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `"transaction_reward_ibfk_1"` FOREIGN KEY () REFERENCES `"transaction"` () ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `"transaction_reward_ibfk_2"` FOREIGN KEY () REFERENCES `"member"` () ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of transaction_reward
@@ -1917,21 +1929,21 @@ INSERT INTO `transaction_reward` VALUES (256, 'Member registration on behalf of 
 -- ----------------------------
 DROP TABLE IF EXISTS `transaction_reward_pin`;
 CREATE TABLE `transaction_reward_pin`  (
-  `transaction_reward_pin_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `transaction_reward_pin_information` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `transaction_reward_pin_type` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `transaction_reward_pin_id` bigint NOT NULL AUTO_INCREMENT,
+  `transaction_reward_pin_information` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `transaction_reward_pin_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `transaction_reward_pin_amount` decimal(65, 2) NOT NULL,
-  `transaction_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `member_id` bigint(20) NOT NULL,
+  `transaction_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `member_id` bigint NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`transaction_reward_pin_id`) USING BTREE,
   INDEX `bonus_pin_pengguna_id_fkey`(`member_id`) USING BTREE,
   INDEX `bonus_pin_ibfk_1`(`transaction_id`) USING BTREE,
-  CONSTRAINT `transaction_reward_pin_ibfk_1` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `transaction_reward_pin_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 93 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `"transaction_reward_pin_ibfk_1"` FOREIGN KEY () REFERENCES `"transaction"` () ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `"transaction_reward_pin_ibfk_2"` FOREIGN KEY () REFERENCES `"member"` () ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of transaction_reward_pin
@@ -2006,19 +2018,19 @@ INSERT INTO `transaction_reward_pin` VALUES (92, 'Buy 2 PINs by sugihmotah01', N
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
-  `user_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_nick` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `user_password` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `user_name` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `user_photo` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
-  `user_wallet` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `remember_token` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `user_id` bigint NOT NULL AUTO_INCREMENT,
+  `user_nick` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `user_password` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `user_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `user_photo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `user_wallet` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `remember_token` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`) USING BTREE,
   UNIQUE INDEX `pengguna_uid`(`user_nick`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
@@ -2030,17 +2042,17 @@ INSERT INTO `user` VALUES (1, 'administrator', '$2y$10$zmh8Q8LInBS1p3eYvYhIQeLMz
 -- ----------------------------
 DROP TABLE IF EXISTS `wallet`;
 CREATE TABLE `wallet`  (
-  `wallet_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `wallet_address` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `wallet_id` bigint NOT NULL AUTO_INCREMENT,
+  `wallet_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `main` tinyint(1) NOT NULL DEFAULT 1,
-  `member_id` bigint(20) NOT NULL,
+  `member_id` bigint NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`wallet_id`) USING BTREE,
   UNIQUE INDEX `wallet_wallet_kode_idx`(`wallet_address`) USING BTREE,
   INDEX `wallet_ibfk_1`(`member_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 141 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 52 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of wallet

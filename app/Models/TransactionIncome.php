@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TransactionIncome extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table = 'transaction_income';
     protected $primaryKey = null;
     public $incrementing = false;
