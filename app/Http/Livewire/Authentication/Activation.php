@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Hash;
 
 class Activation extends Component
 {
-    public $name, $email, $phone_number, $new_username, $contract_price, $member_id, $new_user_id, $kode, $new_password, $token, $data, $agree;
+    public $name, $email, $phone_number, $new_username, $contract_price, $member_id, $new_user_id, $kode, $new_password, $token, $data, $agree, $eye = "fa-eye-slash", $type = "password";
     public $notification;
 
     protected $queryString = ['token', 'kode'];
@@ -31,6 +31,17 @@ class Activation extends Component
         'new_password' => 'required',
         'agree' => 'required'
     ];
+
+    public function showhide()
+    {
+        if ($this->type == 'password') {
+            $this->eye = "fa-eye";
+            $this->type = "text";
+        }else{
+            $this->eye = "fa-eye-slash";
+            $this->type = "password";
+        }
+    }
 
     public function mount()
     {
@@ -88,7 +99,6 @@ class Activation extends Component
     public function updated()
     {
         $this->reset('notification');
-        $this->validate();
     }
 
     public function submit()

@@ -41,7 +41,12 @@
                         @enderror
                     </div>
                     <div class="form-group form-primary">
-                        <input type="password" wire:model.defer="new_password" class="form-control" placeholder="New Password" autocomplete="off">
+                        <div class="input-group" >
+                            <input type="{{ $type }}" wire:model.defer="new_password" class="form-control" placeholder="New Password" autocomplete="off">
+                            <div class="input-group-append">
+                                <a href="javascript:void(0)" wire:click="showhide" class="input-group-text" id="basic-addon2"><i class="fa {{ $eye }}" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
                         @error('new_password')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
