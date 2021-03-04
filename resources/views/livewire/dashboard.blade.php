@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div class="row">
                 <!-- ./col -->
-                <div class="col-lg-3 col-6">
+                <div class="col-lg-4 col-6">
                     <!-- small box -->
                     <div class="small-box bg-navy">
                         <div class="inner">
@@ -18,7 +18,7 @@
                     </div>
                 </div>
                   <!-- ./col -->
-                <div class="col-lg-3 col-6">
+                <div class="col-lg-4 col-6">
                   <!-- small box -->
                     <div class="small-box bg-purple">
                         <div class="inner">
@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-3 col-6">
+                <div class="col-lg-4 col-6">
                     <!-- small box -->
                     <div class="small-box bg-maroon">
                         <div class="inner">
@@ -45,21 +45,6 @@
                             <i class="fa fa-ticket-alt"></i>
                         </div>
                         <a href="/exchange?type=pinfee" class="small-box-footer">Exchange <i class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-lime">
-                        <div class="inner">
-                            <h3>$ {{ number_format((auth()->user()->contract_price * 3) - $conversion) }}</h3>
-
-                            <p>Remaining Reward Conversion</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-maximize"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">&nbsp;</a>
                     </div>
                 </div>
 
