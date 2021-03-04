@@ -123,6 +123,7 @@ class Extension extends Component
                             return $q->rating_min_turnover <= $kaki_kecil;
                         })->sortBy('rating_min_turnover')->first();
 
+                        $child->rating_id = null;
                         if ($rating && strlen($child->member_parent) > 1 && Achievement::where('member_id', $row['id'])->where('rating_id', $rating->rating_id)->get()->count() == 0) {
                             $child->rating_id = $rating['rating_id'];
 
