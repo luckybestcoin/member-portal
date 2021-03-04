@@ -98,6 +98,8 @@
                           </div>
                         </div>
                     </div>
+                    @include('includes.error-validation')
+                    @include('includes.notification')
                     <div class="alert alert-info">
                         <ul>
                             <li>

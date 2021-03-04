@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class TransactionIncome extends Model
+class TransactionExchange extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = 'transaction_exchange';

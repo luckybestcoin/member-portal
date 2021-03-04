@@ -341,7 +341,6 @@ class Buy extends Component
             });
 
             $this->reset(['amount', 'password', 'lbc_amount']);
-            $this->emit('done');
             return $this->notification = [
                 'tipe' => 'success',
                 'pesan' => 'PIN purchase was successful!!!'

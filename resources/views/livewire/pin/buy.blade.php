@@ -12,6 +12,9 @@
                                 <div class="form-group">
                                     <label>Amount of PIN to be Purchased</label>
                                     <input type="number" class="form-control" wire:model="amount" autocomplete="off" step="any">
+                                    @error('amount')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
@@ -28,6 +31,7 @@
                             </div>
                         </form>
                     </div>
+                    @include('includes.error-validation')
                     @include('includes.notification')
                     <div class="alert alert-info">
                         1 Pin = {{ number_format($pin_price, 8) }} LBC
@@ -39,11 +43,4 @@
             </div>
         </div>
     </section>
-    @push('scripts')
-        <script>
-            Livewire.on('done', id => {
-                $('#default-modal').modal('toggle');
-            });
-        </script>
-    @endpush
 </div>

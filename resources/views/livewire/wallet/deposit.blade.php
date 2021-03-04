@@ -2,9 +2,6 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12">
-                    @include('includes.notification')
-                </div>
                 <div class="col-md-4">
                     <form wire:submit.prevent="submit">
                         <div class="card">
@@ -40,13 +37,14 @@
                             </div>
                         </div>
                     </form>
+                    @include('includes.error-validation')
+                    @include('includes.notification')
                 </div>
                 <div class="col-md-8">
-
                     <div class="card card-primary">
                         <div class="card-body">
                             <h4>Recent Transaction</h4>
-                            <div class="table-responsiv overflow-auto" style="height: 500px">
+                            <div class="table-responsiv overflow-auto" style="height: 350px">
                                 <table class="table">
                                     <tr>
                                         <th>Timestamp</th>

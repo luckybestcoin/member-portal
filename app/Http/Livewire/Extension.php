@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Hash;
 
 class Extension extends Component
 {
-    public $name, $contract, $country, $referral, $phone_number, $email, $turnover, $back, $notification, $contract_pin, $contract_name, $country_code, $rate, $contract_price = 0, $lbc_amount = 0;
+    public $back, $notification, $contract, $rate = 0, $lbc_amount = 0, $password;
 
     protected $rules = [
         'password' => 'required'
@@ -29,6 +29,7 @@ class Extension extends Component
     {
         $this->rate = new Rate();
         $this->lbc_amount = auth()->user()->contract_price/$this->rate->last_dollar;
+        $this->contract = auth()->user()->contract_price;
     }
 
     public function submit()
@@ -36,13 +37,14 @@ class Extension extends Component
         $this->validate();
         $this->lbc_amount = auth()->user()->contract_price/$this->rate->last_dollar;
         $pin = new TransactionPin();
+        $error = null;
         try {
             if(Hash::check($this->password, auth()->user()->member_password) === false){
                 $error .= "<li>Wrong <strong>password</strong></li>";
             }
 
             if ($pin->balance < auth()->user()->contract->contract_pin) {
-                $error .= "<li>Not enough <strong>PIN".($this->contract_pin == 1?:"s")."</strong></li>";
+                $error .= "<li>Not enough <strong>PIN".(auth()->user()->contract->contract_pin == 1?:"s")."</strong></li>";
             }
 
             if ($this->lbc_amount > bitcoind()->getbalance(auth()->user()->member_user)[0]){
@@ -51,17 +53,18 @@ class Extension extends Component
 
             $trx_exchange = new TransactionExchange();
             if ((auth()->user()->contract_price * 3) - $trx_exchange->total > auth()->user()->contract->contract_reward_exchange_min){
-                $error .= "<li>You have the remaining conversion</li>";
+                $error .= "<li>You have the remaining conversion $ ".((auth()->user()->contract_price * 3) - $trx_exchange->total)."</li>";
             }
 
             if ($error) {
+                $this->reset(['password']);
                 return $this->notification = [
                     'tipe' => 'danger',
                     'pesan' => $error
                 ];
             }
             DB::transaction(function () use ($pin) {
-                $information = "Extension on behalf of ".$this->email;
+                $information = "Extension on behalf of ".auth()->user()->member_user;
                 $id = auth()->user()->wallet->wallet_address.date('Ymdhis').round(microtime(true) * 1000);
 
                 TransactionExchange::where('member_id', auth()->id())->delete();
@@ -195,6 +198,7 @@ class Extension extends Component
                 {
                     TransactionReward::insert($ins->toArray());
                 }
+                $this->reset(['password']);
             });
         } catch(\Exception $e){
             return $this->notification = [
