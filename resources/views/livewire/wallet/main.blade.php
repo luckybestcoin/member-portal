@@ -17,16 +17,14 @@
                             <p class="text-muted text-center">{{ auth()->user()->user_email }}</p>
 
                             <ul class="list-group list-group-unbordered mb-3 table-responsive">
-                                @foreach ($address as $index => $item)
-                                <li class="list-group-item">
-                                    <b>Address {{ ++$index }}</b>&nbsp;<a class="float-right">{{ $item->wallet_address }}</a>
-                                </li>
-                                @endforeach
                                 <li class="list-group-item">
                                     <b>Balance</b>&nbsp;<a class="float-right"><strong>{{ $balance }} LBC</strong></a>
                                 </li>
                                 <li class="list-group-item">
                                     <b>&nbsp;</b>&nbsp;<a class="float-right"><strong>$ {{ number_format($dollar, 2) }}</strong></a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Address {{ ++$index }}</b>&nbsp;<a class="float-right">{{ $item->address }}</a>
                                 </li>
                             </ul>
                             <button wire:click="show" class="btn btn-primary btn-block"> Send</button>
