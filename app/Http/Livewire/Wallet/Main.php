@@ -93,7 +93,7 @@ class Main extends Component
             'balance' => bitcoind()->getbalance(auth()->user()->member_user)[0],
             'address' => bitcoind()->getaccountaddress(auth()->user()->member_user),
             'transaction' => collect(bitcoind()->listtransactions(auth()->user()->member_user, 30)->result()),
-            'dollar' => $this->balance * $rate->last_dollar
+            'dollar' => bitcoind()->getbalance(auth()->user()->member_user)[0] * $rate->last_dollar
         ])
             ->extends('livewire.main', [
                 'breadcrumb' => ['Wallet'],
