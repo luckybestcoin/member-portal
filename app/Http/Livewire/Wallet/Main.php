@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class Main extends Component
 {
-    public $address, $transaction, $balance, $dollar, $lbc_amount, $to_address, $notification, $password;
+    public $lbc_amount, $to_address, $notification, $password;
 
     protected $rules = [
         'to_address' => 'required',
