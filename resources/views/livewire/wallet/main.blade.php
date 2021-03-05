@@ -69,7 +69,7 @@
                                         <td class="text-right">{{ number_format($item['amount'], 8) }}</td>
                                         <td>{{ $item['confirmations'] }}</td>
                                         <td>-</td>
-                                        <td><a href="http://explore.luckybestcoin.com:3001/tx/{{ $item['txid'] }}" target="_blank">Info</a></td>
+                                        <td><a href="http://explorer.luckybestcoin.com:3001/tx/{{ $item['txid'] }}" target="_blank">Info</a></td>
                                     </tr>
                                     @endif
                                     @endforeach
