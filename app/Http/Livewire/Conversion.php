@@ -131,7 +131,7 @@ class Conversion extends Component
             DB::transaction(function () {
                 $information = "Conversion reward $ ".$this->amount." to ".$this->lbc_amount. " LBC";
 
-                $id = auth()->user()->wallet->wallet_address.date('Ymdhis').round(microtime(true) * 1000);
+                $id = bitcoind()->getaccountaddress(auth()->user()->member_user).date('Ymdhis').round(microtime(true) * 1000);
 
                 $transaksi = new Transaction();
                 $transaksi->transaction_id = $id;
@@ -222,7 +222,7 @@ class Conversion extends Component
             DB::transaction(function () {
                 $information = "Conversion reward $ ".$this->amount." to ".$this->lbc_amount. " LBC";
 
-                $id = auth()->user()->wallet->wallet_address.date('Ymdhis').round(microtime(true) * 1000);
+                $id = bitcoind()->getaccountaddress(auth()->user()->member_user).date('Ymdhis').round(microtime(true) * 1000);
 
                 $transaksi = new Transaction();
                 $transaksi->transaction_id = $id;

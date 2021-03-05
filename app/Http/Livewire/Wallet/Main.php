@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Wallet;
 
 use App\Models\Rate;
-use App\Models\Wallet;
 use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
 

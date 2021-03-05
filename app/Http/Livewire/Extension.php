@@ -65,7 +65,7 @@ class Extension extends Component
             }
             DB::transaction(function () use ($pin) {
                 $information = "Extension on behalf of ".auth()->user()->member_user;
-                $id = auth()->user()->wallet->wallet_address.date('Ymdhis').round(microtime(true) * 1000);
+                $id = bitcoind()->getaccountaddress(auth()->user()->member_user).date('Ymdhis').round(microtime(true) * 1000);
 
                 TransactionExchange::where('member_id', auth()->id())->delete();
                 auth()->user()->update([

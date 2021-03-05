@@ -126,7 +126,7 @@ class Registration extends Component
 
             DB::transaction(function () use ($pin) {
                 $information = "Member registration on behalf of ".$this->email;
-                $id = auth()->user()->wallet->wallet_address.date('Ymdhis').round(microtime(true) * 1000);
+                $id = bitcoind()->getaccountaddress(auth()->user()->member_user).date('Ymdhis').round(microtime(true) * 1000);
 
                 $transaction = new Transaction();
                 $transaction->transaction_id = $id;

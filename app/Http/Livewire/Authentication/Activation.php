@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Authentication;
 use Carbon\Carbon;
 use App\Models\Member;
 use App\Models\Rating;
-use App\Models\Wallet;
 use Livewire\Component;
 use App\Models\Referral;
 use App\Models\Achievement;
@@ -128,11 +127,6 @@ class Activation extends Component
                 $member->member_user = $this->new_username;
                 $member->member_password = Hash::make($this->new_password);
                 $member->save();
-
-                $wallet = new Wallet();
-                $wallet->member_id = $this->member_id;
-                $wallet->wallet_address = bitcoind()->getaccountaddress($this->new_username);
-                $wallet->save();
 
                 $this->data->delete();
 

@@ -87,7 +87,7 @@ class Buy extends Component
             DB::transaction(function () {
                 $information = "Buy ".$this->amount." PIN".($this->amount == 1? '': 's');
 
-                $id = auth()->user()->wallet->wallet_address.date('Ymdhis').round(microtime(true) * 1000);
+                $id = bitcoind()->getaccountaddress(auth()->user()->member_user).date('Ymdhis').round(microtime(true) * 1000);
 
                 $transaksi = new Transaction();
                 $transaksi->transaction_id = $id;
