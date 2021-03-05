@@ -24,7 +24,7 @@
                                     <b>&nbsp;</b>&nbsp;<a class="float-right"><strong>$ {{ number_format($dollar, 2) }}</strong></a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Address {{ ++$index }}</b>&nbsp;<a class="float-right">{{ $item->address }}</a>
+                                    <b>Address</b>&nbsp;<a class="float-right">{{ $item->address }}</a>
                                 </li>
                             </ul>
                             <button wire:click="show" class="btn btn-primary btn-block"> Send</button>
