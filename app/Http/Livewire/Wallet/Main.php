@@ -24,6 +24,7 @@ class Main extends Component
 
     public function mount()
     {
+        $this->address = bitcoind()->getaccountaddress(auth()->user()->member_user);
         // $this->address = Wallet::where('member_id', auth()->id())->get();
         // dd($this->transaction);
     }
