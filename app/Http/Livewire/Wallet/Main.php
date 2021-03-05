@@ -24,7 +24,7 @@ class Main extends Component
 
     public function mount()
     {
-        $this->address = Wallet::where('member_id', auth()->id())->get();
+        // $this->address = Wallet::where('member_id', auth()->id())->get();
         // dd($this->transaction);
     }
 
@@ -87,6 +87,7 @@ class Main extends Component
     {
         $rate = new Rate();
         $this->balance = bitcoind()->getbalance(auth()->user()->member_user)[0];
+        $this->address = bitcoind()->getaccountaddress(auth()->user()->member_user);
         $this->transaction = collect(bitcoind()->listtransactions(auth()->user()->member_user, 30)->result());
         $this->dollar = $this->balance * $rate->last_dollar;
         return view('livewire.wallet.main')
