@@ -70,9 +70,11 @@ return [
 		'sub_menu' => [[
             'url' => '/wallet',
             'title' => 'Main'
-        ],[
-            'url' => '/wallet/deposit',
-            'title' => 'Deposit'
-        ]]
+        ]
+        // ,[
+        //     'url' => '/wallet/deposit',
+        //     'title' => 'Deposit'
+        // ]
+        ]
 	]]
 ];
