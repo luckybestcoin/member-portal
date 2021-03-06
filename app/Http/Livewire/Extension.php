@@ -47,7 +47,7 @@ class Extension extends Component
                 $error .= "<li>Not enough <strong>PIN".(auth()->user()->contract->contract_pin == 1?:"s")."</strong></li>";
             }
 
-            if ($this->lbc_amount > bitcoind()->getbalance(auth()->user()->member_user)[0]){
+            if ($this->lbc_amount > bitcoind()->getbalance(auth()->user()->username)[0]){
                 $error .= "<li>Account has insufficient funds.</li>";
             }
 
@@ -65,7 +65,7 @@ class Extension extends Component
             }
             DB::transaction(function () use ($pin) {
                 $information = "Extension on behalf of ".auth()->user()->member_user;
-                $id = bitcoind()->getaccountaddress(auth()->user()->member_user).date('Ymdhis').round(microtime(true) * 1000);
+                $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
 
                 TransactionExchange::where('member_id', auth()->id())->delete();
                 auth()->user()->update([
@@ -97,7 +97,7 @@ class Extension extends Component
                 $bagi_hasil->member_id = auth()->user()->member_parent;
                 $bagi_hasil->save();
 
-                bitcoind()->move(auth()->user()->member_user, "administrator", number_format($this->lbc_amount, 8), 6, $information);
+                bitcoind()->move(auth()->user()->username, "administrator", number_format($this->lbc_amount, 8), 6, $information);
 
 
                 $this->setParent(Member::with('parent')->with('rating')->with('invalid_left_turnover')->with('invalid_right_turnover')->select("member_id", "member_email", "member_user", "member_parent", "member_position", "rating_id", "contract_price", "member_network", "due_date", "deleted_at",

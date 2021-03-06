@@ -3,18 +3,14 @@
 namespace App\Http\Livewire\Wallet;
 
 use App\Models\Rate;
+use App\Models\Member;
 use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 
 class Main extends Component
 {
-    public $lbc_amount, $to_address, $notification, $password;
-
-    protected $rules = [
-        'to_address' => 'required',
-        'lbc_amount' => 'required',
-        'password' => 'required'
-    ];
+    public $lbc_amount, $to_address, $notification, $password, $app_key;
 
     public function updated()
     {
@@ -23,10 +19,7 @@ class Main extends Component
 
     public function mount()
     {
-        // $this->address = bitcoind()->getaccountaddress(auth()->user()->member_user);
-        // dd($this->address);
-        // $this->address = Wallet::where('member_id', auth()->id())->get();
-        // dd($this->transaction);
+        $this->reset('notification');
     }
 
     public function show()
@@ -35,9 +28,47 @@ class Main extends Component
         $this->emit('show');
     }
 
+    public function key()
+    {
+        $this->validate([
+            'app_key' => 'required'
+        ]);
+
+        try {
+            $response = Http::get("https://wallet.luckybestcoin.com/api/verify?key=".$this->app_key)->body();
+            if(strpos($response, "SUKSES") !== false){
+                $data = explode(",", $response);
+
+                $member = Member::findOrFail(auth()->id());
+                $member->app_key = $this->app_key;
+                $member->username = $data[1];
+                $member->address = $data[2];
+                $member->save();
+
+                $this->reset('app_key');
+                return redirect()->to('/wallet');
+            }else{
+                $this->reset('app_key');
+                return $this->notification = [
+                    'tipe' => 'danger',
+                    'pesan' => $response
+                ];
+            }
+		}catch(\Exception $e){
+            return $this->notification = [
+                'tipe' => 'danger',
+                'pesan' => $e->getMessage()
+            ];
+        }
+    }
+
     public function submit()
     {
-        $this->validate();
+        $this->validate([
+            'to_address' => 'required',
+            'lbc_amount' => 'required',
+            'password' => 'required'
+        ]);
 
         $error = null;
         $this->reset('notification');
@@ -52,11 +83,11 @@ class Main extends Component
                 $error .= "<li>LBC amount to be purchased cannot be less than 1</li>";
             }
 
-            if ($this->lbc_amount > bitcoind()->getbalance(auth()->user()->member_user)[0]){
+            if ($this->lbc_amount > bitcoind()->getbalance(auth()->user()->username)[0]){
                 $error .= "<li>Account has insufficient funds.</li>";
             }
 
-            if (bitcoind()->getbalance(auth()->user()->member_user)[0] - $this->lbc_amount < 1){
+            if (bitcoind()->getbalance(auth()->user()->username)[0] - $this->lbc_amount < 1){
                 $error .= "<li>You must leave a minimum of 1 LBC for this transaction</li>";
             }
 
@@ -68,7 +99,7 @@ class Main extends Component
                 ];
             }
 
-            bitcoind()->sendfrom(auth()->user()->member_user, $this->to_address, $this->lbc_amount, 1);
+            bitcoind()->sendfrom(auth()->user()->username, $this->to_address, $this->lbc_amount, 1);
 
             $this->reset(['to_address', 'password', 'lbc_amount']);
             $this->emit('done');
@@ -88,12 +119,7 @@ class Main extends Component
     {
         $rate = new Rate();
 
-        return view('livewire.wallet.main',[
-            'balance' => bitcoind()->getbalance(auth()->user()->member_user)[0],
-            'address' => bitcoind()->getaccountaddress(auth()->user()->member_user),
-            'transaction' => collect(bitcoind()->listtransactions(auth()->user()->member_user, 30)->result()),
-            'dollar' => bitcoind()->getbalance(auth()->user()->member_user)[0] * $rate->last_dollar
-        ])
+        return view('livewire.wallet.main')
             ->extends('livewire.main', [
                 'breadcrumb' => ['Wallet'],
                 'title' => 'Wallet'

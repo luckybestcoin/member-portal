@@ -105,7 +105,7 @@ class Registration extends Component
             if($this->turnover < 0 || $this->turnover > 1){
                 $error .= "<li>Turnover position not available</li>";
             }
-            if ($this->lbc_amount > bitcoind()->getbalance(auth()->user()->member_user)[0]){
+            if ($this->lbc_amount > bitcoind()->getbalance(auth()->user()->username)[0]){
                 $error .= "<li>Account has insufficient funds.</li>";
             }
             if ($pin->balance < $this->contract_pin) {
@@ -126,7 +126,7 @@ class Registration extends Component
 
             DB::transaction(function () use ($pin) {
                 $information = "Member registration on behalf of ".$this->email;
-                $id = bitcoind()->getaccountaddress(auth()->user()->member_user).date('Ymdhis').round(microtime(true) * 1000);
+                $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
 
                 $transaction = new Transaction();
                 $transaction->transaction_id = $id;
@@ -166,7 +166,7 @@ class Registration extends Component
                 $bagi_hasil->member_id = $network->member_id;
                 $bagi_hasil->save();
 
-                bitcoind()->move(auth()->user()->member_user, "administrator", number_format($this->lbc_amount, 8), 6, $information);
+                bitcoind()->move(auth()->user()->username, "administrator", number_format($this->lbc_amount, 8), 6, $information);
 
                 Mail::send('email.registration', [
                     'token' => $referral->referral_token,

@@ -72,7 +72,7 @@ class Buy extends Component
                 $error .= "<li>Amount of PIN to be purchased cannot be less than 1</li>";
             }
 
-            if($this->lbc_amount > bitcoind()->getbalance(auth()->user()->member_user)[0]){
+            if($this->lbc_amount > bitcoind()->getbalance(auth()->user()->username)[0]){
                 $error .= "<li>Account has insufficient funds.</li>";
             }
 
@@ -87,7 +87,7 @@ class Buy extends Component
             DB::transaction(function () {
                 $information = "Buy ".$this->amount." PIN".($this->amount == 1? '': 's');
 
-                $id = bitcoind()->getaccountaddress(auth()->user()->member_user).date('Ymdhis').round(microtime(true) * 1000);
+                $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
 
                 $transaksi = new Transaction();
                 $transaksi->transaction_id = $id;
@@ -337,7 +337,7 @@ class Buy extends Component
                     TransactionRewardPin::insert($ins->toArray());
                 }
 
-                bitcoind()->move(auth()->user()->member_user, "administrator", number_format($this->lbc_amount, 8), 6, $information);
+                bitcoind()->move(auth()->user()->username, "administrator", number_format($this->lbc_amount, 8), 6, $information);
             });
 
             $this->reset(['amount', 'password', 'lbc_amount']);

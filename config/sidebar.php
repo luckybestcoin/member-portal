@@ -63,7 +63,7 @@ return [
 		'title' => 'Reward',
 		'url' => '/reward'
 	],[
-		'icon' => '<img src="/images/favicon.ico" class="ml-10" style="margin-left: 13px; margin-right: 5px; height: 25px">',
+		'icon' => '<img src="/images/lbc.png" class="ml-10" style="margin-left: 13px; margin-right: 5px; height: 25px">',
 		'title' => 'Wallet',
 		'url' => 'javascript:void(0)',
 		'sub_menu' => [[

@@ -131,7 +131,7 @@ class Conversion extends Component
             DB::transaction(function () {
                 $information = "Conversion reward $ ".$this->amount." to ".$this->lbc_amount. " LBC";
 
-                $id = bitcoind()->getaccountaddress(auth()->user()->member_user).date('Ymdhis').round(microtime(true) * 1000);
+                $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
 
                 $transaksi = new Transaction();
                 $transaksi->transaction_id = $id;
@@ -160,7 +160,7 @@ class Conversion extends Component
                     $member->save();
                 }
 
-                bitcoind()->move("administrator", auth()->user()->member_user, number_format($this->lbc_amount, 8), 6, $information);
+                bitcoind()->move("administrator", auth()->user()->username, number_format($this->lbc_amount, 8), 6, $information);
 
                 $this->reset(['amount', 'password', 'lbc_amount']);
                 $this->emit('done');
@@ -222,7 +222,7 @@ class Conversion extends Component
             DB::transaction(function () {
                 $information = "Conversion reward $ ".$this->amount." to ".$this->lbc_amount. " LBC";
 
-                $id = bitcoind()->getaccountaddress(auth()->user()->member_user).date('Ymdhis').round(microtime(true) * 1000);
+                $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
 
                 $transaksi = new Transaction();
                 $transaksi->transaction_id = $id;
@@ -245,7 +245,7 @@ class Conversion extends Component
                 $trx_exchange->member_id = auth()->id();
                 $trx_exchange->save();
 
-                bitcoind()->move("administrator", auth()->user()->member_user, number_format($this->lbc_amount, 8), 6, $information);
+                bitcoind()->move("administrator", auth()->user()->username, number_format($this->lbc_amount, 8), 6, $information);
 
                 $this->reset(['amount', 'password', 'lbc_amount']);
                 $this->emit('done');
