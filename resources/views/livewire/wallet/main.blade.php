@@ -27,7 +27,7 @@
                                     <b>Address</b>&nbsp;<a class="float-right">{{ $address }}</a>
                                 </li>
                             </ul>
-                            <button wire:click="show" class="btn btn-primary btn-block"> Send</button>
+                            {{-- <button wire:click="show" class="btn btn-primary btn-block"> Send</button> --}}
                         </div>
                         <!-- /.card-body -->
                     </div>
