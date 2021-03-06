@@ -169,8 +169,6 @@ class Activation extends Component
                             $pcp->member_id = $row['id'];
                             $pcp->rating_id = $rating->rating_id;
                             $pcp->save();
-                        }else{
-                            $child->rating_id = null;
                         }
                         $child->save();
 
