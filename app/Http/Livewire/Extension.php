@@ -10,6 +10,7 @@ use Livewire\Component;
 use App\Models\Exchange;
 use App\Models\Achievement;
 use App\Models\Transaction;
+use Illuminate\Support\Str;
 use App\Models\TransactionPin;
 use App\Models\InvalidTurnover;
 use App\Models\TransactionReward;
@@ -39,6 +40,10 @@ class Extension extends Component
         $pin = new TransactionPin();
         $error = null;
         try {
+            if (Str::length(auth()->user()->app_key) == 0) {
+                $error .= "<li>The app key is not yet available</li>";
+            }
+
             if(Hash::check($this->password, auth()->user()->member_password) === false){
                 $error .= "<li>Wrong <strong>password</strong></li>";
             }

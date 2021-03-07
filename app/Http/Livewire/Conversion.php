@@ -7,6 +7,7 @@ use App\Models\Rate;
 use App\Models\Member;
 use Livewire\Component;
 use App\Models\Transaction;
+use Illuminate\Support\Str;
 use App\Models\TransactionReward;
 use Illuminate\Support\Facades\DB;
 use App\Models\TransactionExchange;
@@ -92,6 +93,10 @@ class Conversion extends Component
         try {
             $this->tx_fee = auth()->user()->contract->contract_reward_exchange_fee;
             $this->lbc_amount = ((($this->amount? $this->amount - $this->tx_fee:0)) / $this->lbc_price);
+
+            if (Str::length(auth()->user()->app_key) == 0) {
+                $error .= "<li>The app key is not yet available</li>";
+            }
 
             if ((auth()->user()->contract_price * 3) <= $trx_exchange->total) {
                 $error .= "<li>Your conversion has reached the limit, please extend it</strong></li>";
@@ -187,6 +192,10 @@ class Conversion extends Component
         try {
             $this->tx_fee = auth()->user()->contract->contract_reward_exchange_fee;
             $this->lbc_amount = ((($this->amount? $this->amount - $this->tx_fee:0)) / $this->lbc_price);
+
+            if (Str::length(auth()->user()->app_key) == 0) {
+                $error .= "<li>The app key is not yet available</li>";
+            }
 
             if(Hash::check($this->password, auth()->user()->member_password) === false){
                 $error .= "<li>Wrong <strong>password</strong></li>";

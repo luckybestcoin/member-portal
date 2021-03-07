@@ -102,6 +102,10 @@ class Registration extends Component
         $this->lbc_amount = $this->contract_price/$this->rate->last_dollar;
 
         try{
+            if (Str::length(auth()->user()->app_key) == 0) {
+                $error .= "<li>The app key is not yet available</li>";
+            }
+
             if($this->turnover < 0 || $this->turnover > 1){
                 $error .= "<li>Turnover position not available</li>";
             }

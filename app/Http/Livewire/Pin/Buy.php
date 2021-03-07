@@ -6,9 +6,10 @@ use Carbon\Carbon;
 use App\Models\Pin;
 use App\Models\Rate;
 use App\Models\Member;
-use App\Models\rating;
+use App\Models\Rating;
 use Livewire\Component;
 use App\Models\Transaction;
+use Illuminate\Support\Str;
 use App\Models\TransactionPin;
 use App\Models\TransactionIncome;
 use Illuminate\Support\Facades\DB;
@@ -63,6 +64,10 @@ class Buy extends Component
 
         try {
             $this->lbc_amount = ($this->amount?: 0) * $this->pin_price;
+
+            if (Str::length(auth()->user()->app_key) == 0) {
+                $error .= "<li>The app key is not yet available</li>";
+            }
 
             if(Hash::check($this->password, auth()->user()->member_password) === false){
                 $error .= "<li>Wrong <strong>password</strong></li>";

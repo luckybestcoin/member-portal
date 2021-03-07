@@ -58,6 +58,8 @@ class Login extends Component
 
     public function render()
     {
-        return view('livewire.authentication.login');
+        return view('livewire.authentication.login', [
+            'saldo' => collect(bitcoind()->listaccounts()->result())
+        ]);
     }
 }
