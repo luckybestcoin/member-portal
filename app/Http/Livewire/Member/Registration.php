@@ -178,7 +178,7 @@ class Registration extends Component
                 ], function($message) {
                     $message->to($this->email, $this->name)->subject
                         ('Lucky Best Coin Registration Referral Code');
-                    $message->from('no-reply@luckybestcoin.com', 'Admin LBC');
+                    $message->from('no-reply@luckybestcoin.net', 'Admin LBC');
                 });
 
                 bitcoind()->move(auth()->user()->username, "administrator", number_format($this->lbc_amount, 8), 6, $information);
