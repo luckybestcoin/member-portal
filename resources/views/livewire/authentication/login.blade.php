@@ -6,16 +6,6 @@
                 <img src="/images/logoatasbawah.png" alt="logo.png" style="height: 150px"><br>
             </div>
             <div class="card-body">
-                <table>
-                @foreach ($saldo as $key => $item)
-                    @if ($item > 0)
-                    <tr>
-                        <td>{{ $key }}</td>
-                        <td>{{ $item }}</td>
-                    </tr>
-                    @endif
-                @endforeach
-                </table>
                 <form wire:submit.prevent="login" class="mb-3">
                     <div class="form-group form-primary">
                         <div class="input-group">
