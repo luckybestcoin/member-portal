@@ -41,7 +41,7 @@
             $.get("/balance", function (result){
                 $("#lbc-balance").text(result);
             });
-        }, 2000);
+        }, 1000);
     });
 </script>
 @endpush

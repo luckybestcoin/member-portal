@@ -26,6 +26,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/', \App\Http\Livewire\Dashboard::class);
     Route::get('/dashboard', \App\Http\Livewire\Dashboard::class)->name('dashboard');
     Route::get('/balance', [WalletController::class, 'balance']);
+    Route::get('/pinbalance', [WalletController::class, 'pin']);
+    Route::get('/turnoverbalance', [WalletController::class, 'turnover']);
 
     Route::prefix('member')->group(function ()
     {

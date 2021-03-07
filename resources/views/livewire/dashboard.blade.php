@@ -70,8 +70,6 @@
     <script type="text/javascript">
         Highcharts.getJSON('/rate', function (data) {
 
-            // create the chart
-            console.log(data);
             Highcharts.stockChart('container', {
                 chart: {
                     alignTicks: false
