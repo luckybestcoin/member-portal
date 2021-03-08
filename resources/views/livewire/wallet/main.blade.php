@@ -22,7 +22,7 @@
                                     <b>Username</b>&nbsp;<a class="float-right">{{ auth()->user()->username }}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Address</b>&nbsp;<a class="float-right">{{ auth()->user()->address }}</a>
+                                    <b>Address</b>&nbsp;<a class="float-right">{{ bitcoind()->getaccountaddress(auth()->user()->username) }}</a>
                                 </li>
                                 <li class="list-group-item">
                                     <b>Balance</b>&nbsp;<a class="float-right">{{ bitcoind()->getbalance(auth()->user()->username)[0] }} LBC</a>
