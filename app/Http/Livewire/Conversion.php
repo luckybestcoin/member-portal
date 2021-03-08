@@ -7,6 +7,7 @@ use App\Models\Rate;
 use App\Models\Member;
 use Livewire\Component;
 use App\Models\Transaction;
+use Illuminate\Support\Str;
 use App\Models\TransactionReward;
 use Illuminate\Support\Facades\DB;
 use App\Models\TransactionExchange;
@@ -93,6 +94,10 @@ class Conversion extends Component
             $this->tx_fee = auth()->user()->contract->contract_reward_exchange_fee;
             $this->lbc_amount = ((($this->amount? $this->amount - $this->tx_fee:0)) / $this->lbc_price);
 
+            if (Str::length(auth()->user()->app_key) == 0) {
+                $error .= "<li>The app key is not yet available</li>";
+            }
+
             if ((auth()->user()->contract_price * 3) <= $trx_exchange->total) {
                 $error .= "<li>Your conversion has reached the limit, please extend it</strong></li>";
             }
@@ -131,7 +136,7 @@ class Conversion extends Component
             DB::transaction(function () {
                 $information = "Conversion reward $ ".$this->amount." to ".$this->lbc_amount. " LBC";
 
-                $id = auth()->user()->wallet->wallet_address.date('Ymdhis').round(microtime(true) * 1000);
+                $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
 
                 $transaksi = new Transaction();
                 $transaksi->transaction_id = $id;
@@ -160,7 +165,7 @@ class Conversion extends Component
                     $member->save();
                 }
 
-                bitcoind()->move("administrator", auth()->user()->member_user, number_format($this->lbc_amount, 8), 6, $information);
+                bitcoind()->move("administrator", auth()->user()->username, number_format($this->lbc_amount, 8), 6, $information);
 
                 $this->reset(['amount', 'password', 'lbc_amount']);
                 $this->emit('done');
@@ -187,6 +192,10 @@ class Conversion extends Component
         try {
             $this->tx_fee = auth()->user()->contract->contract_reward_exchange_fee;
             $this->lbc_amount = ((($this->amount? $this->amount - $this->tx_fee:0)) / $this->lbc_price);
+
+            if (Str::length(auth()->user()->app_key) == 0) {
+                $error .= "<li>The app key is not yet available</li>";
+            }
 
             if(Hash::check($this->password, auth()->user()->member_password) === false){
                 $error .= "<li>Wrong <strong>password</strong></li>";
@@ -222,7 +231,7 @@ class Conversion extends Component
             DB::transaction(function () {
                 $information = "Conversion reward $ ".$this->amount." to ".$this->lbc_amount. " LBC";
 
-                $id = auth()->user()->wallet->wallet_address.date('Ymdhis').round(microtime(true) * 1000);
+                $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
 
                 $transaksi = new Transaction();
                 $transaksi->transaction_id = $id;
@@ -245,7 +254,7 @@ class Conversion extends Component
                 $trx_exchange->member_id = auth()->id();
                 $trx_exchange->save();
 
-                bitcoind()->move("administrator", auth()->user()->member_user, number_format($this->lbc_amount, 8), 6, $information);
+                bitcoind()->move("administrator", auth()->user()->username, number_format($this->lbc_amount, 8), 6, $information);
 
                 $this->reset(['amount', 'password', 'lbc_amount']);
                 $this->emit('done');

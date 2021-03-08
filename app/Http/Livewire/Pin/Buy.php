@@ -6,9 +6,10 @@ use Carbon\Carbon;
 use App\Models\Pin;
 use App\Models\Rate;
 use App\Models\Member;
-use App\Models\rating;
+use App\Models\Rating;
 use Livewire\Component;
 use App\Models\Transaction;
+use Illuminate\Support\Str;
 use App\Models\TransactionPin;
 use App\Models\TransactionIncome;
 use Illuminate\Support\Facades\DB;
@@ -64,6 +65,10 @@ class Buy extends Component
         try {
             $this->lbc_amount = ($this->amount?: 0) * $this->pin_price;
 
+            if (Str::length(auth()->user()->app_key) == 0) {
+                $error .= "<li>The app key is not yet available</li>";
+            }
+
             if(Hash::check($this->password, auth()->user()->member_password) === false){
                 $error .= "<li>Wrong <strong>password</strong></li>";
             }
@@ -72,7 +77,7 @@ class Buy extends Component
                 $error .= "<li>Amount of PIN to be purchased cannot be less than 1</li>";
             }
 
-            if($this->lbc_amount > bitcoind()->getbalance(auth()->user()->member_user)[0]){
+            if($this->lbc_amount > bitcoind()->getbalance(auth()->user()->username)[0]-1){
                 $error .= "<li>Account has insufficient funds.</li>";
             }
 
@@ -87,7 +92,7 @@ class Buy extends Component
             DB::transaction(function () {
                 $information = "Buy ".$this->amount." PIN".($this->amount == 1? '': 's');
 
-                $id = auth()->user()->wallet->wallet_address.date('Ymdhis').round(microtime(true) * 1000);
+                $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
 
                 $transaksi = new Transaction();
                 $transaksi->transaction_id = $id;
@@ -337,7 +342,7 @@ class Buy extends Component
                     TransactionRewardPin::insert($ins->toArray());
                 }
 
-                bitcoind()->move(auth()->user()->member_user, "administrator", number_format($this->lbc_amount, 8), 6, $information);
+                bitcoind()->move(auth()->user()->username, "administrator", $this->lbc_amount, 1, $information);
             });
 
             $this->reset(['amount', 'password', 'lbc_amount']);

@@ -13,6 +13,8 @@ class Recover extends Component
     public $member, $name, $email, $phone_number, $contract_price, $data, $new_password, $token, $eye = "fa-eye-slash", $type = "password";
     public $notification;
 
+    protected $queryString = ['token'];
+
     protected $rules = [
         'name' => 'required',
         'email' => 'required',
@@ -20,10 +22,9 @@ class Recover extends Component
         'new_password' => 'required'
     ];
 
-    public function mount($token)
+    public function mount()
     {
-        $this->token = $token;
-        $this->data = Recovery::where('recovery_token', $token)->with('member')->first();
+        $this->data = Recovery::where('recovery_token', $this->token)->with('member')->first();
         if($this->data && $this->data->member){
             $this->member = $this->data->member->member_id;
             $this->name = $this->data->member->member_name;

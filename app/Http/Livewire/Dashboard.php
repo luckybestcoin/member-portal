@@ -15,10 +15,8 @@ class Dashboard extends Component
     {
         $trx_reward = new TransactionReward();
         $trx_pin = new TransactionRewardPin();
-        $trx_exchange = new TransactionExchange();
         $this->reward = $trx_reward->balance;
         $this->fee = $trx_pin->balance;
-        $this->conversion = $trx_exchange->total;
     }
 
     public function render()

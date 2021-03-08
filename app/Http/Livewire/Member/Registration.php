@@ -102,10 +102,14 @@ class Registration extends Component
         $this->lbc_amount = $this->contract_price/$this->rate->last_dollar;
 
         try{
+            if (Str::length(auth()->user()->app_key) == 0) {
+                $error .= "<li>The app key is not yet available</li>";
+            }
+
             if($this->turnover < 0 || $this->turnover > 1){
                 $error .= "<li>Turnover position not available</li>";
             }
-            if ($this->lbc_amount > bitcoind()->getbalance(auth()->user()->member_user)[0]){
+            if ($this->lbc_amount > bitcoind()->getbalance(auth()->user()->username)[0]){
                 $error .= "<li>Account has insufficient funds.</li>";
             }
             if ($pin->balance < $this->contract_pin) {
@@ -126,7 +130,7 @@ class Registration extends Component
 
             DB::transaction(function () use ($pin) {
                 $information = "Member registration on behalf of ".$this->email;
-                $id = auth()->user()->wallet->wallet_address.date('Ymdhis').round(microtime(true) * 1000);
+                $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
 
                 $transaction = new Transaction();
                 $transaction->transaction_id = $id;
@@ -166,8 +170,6 @@ class Registration extends Component
                 $bagi_hasil->member_id = $network->member_id;
                 $bagi_hasil->save();
 
-                bitcoind()->move(auth()->user()->member_user, "administrator", number_format($this->lbc_amount, 8), 6, $information);
-
                 Mail::send('email.registration', [
                     'token' => $referral->referral_token,
                     'name' => $this->name,
@@ -176,8 +178,10 @@ class Registration extends Component
                 ], function($message) {
                     $message->to($this->email, $this->name)->subject
                         ('Lucky Best Coin Registration Referral Code');
-                    $message->from('no-reply@luckybestcoin.com', 'Admin LBC');
+                    $message->from('no-reply@luckybestcoin.net', 'Admin LBC');
                 });
+
+                bitcoind()->move(auth()->user()->username, "administrator", number_format($this->lbc_amount, 8), 6, $information);
             });
 
             $this->updated();

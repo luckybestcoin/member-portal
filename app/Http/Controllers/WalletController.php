@@ -2,151 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rate;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\TransactionPin;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class WalletController extends Controller
 {
-    public function send(Request $req)
-    {
-        try {
-            $validator = Validator::make($req->all(), [
-                'source' => 'required',
-                'destination' => 'required',
-                'amount' => 'required',
-                'note' => 'required'
-            ]);
-
-            if ($validator->fails()) {
-                $response = [
-                    'success'   => false,
-                    'header'    => "application/json",
-                    'status'   => $validator->messages(),
-                ];
-            }else{
-                bitcoind()->move($req->get('source'), $req->get('destination'), $req->get('amount'), 6, $req->get('note'));
-                $response = [
-                    'success'   => true,
-                    'header'    => "application/json",
-                    'status'   => 'OK',
-                ];
-            }
-        }
-        catch(\Exception $e)
-        {
-            $response = [
-                'success'   => false,
-                'header'    => "application/json",
-                'status'   => strip_tags($e->getMessage())
-            ];
-        }
-        return response()->json($response);
-    }
-
-    public function transaction(Request $req)
-    {
-        try {
-            $validator = Validator::make($req->all(), [
-                'user' => 'required'
-            ]);
-
-            if ($validator->fails()) {
-                $response = [
-                    'success'   => false,
-                    'header'    => "application/json",
-                    'status'   => $validator->messages(),
-                ];
-            }else{
-                $balance = collect(bitcoind()->listtransactions($req->get('user'), 30)->result());
-                $response = [
-                    'success'   => true,
-                    'header'    => "application/json",
-                    'status'   => $balance,
-                ];
-            }
-        }
-        catch(\Exception $e)
-        {
-            $response = [
-                'success'   => false,
-                'header'    => "application/json",
-                'status'   => strip_tags($e->getMessage())
-            ];
-        }
-        return response()->json($response);
-    }
-
     public function balance(Request $req)
     {
-        try {
-            $validator = Validator::make($req->all(), [
-                'user' => 'required'
-            ]);
-
-            if ($validator->fails()) {
-                $response = [
-                    'success'   => false,
-                    'header'    => "application/json",
-                    'status'   => $validator->messages(),
-                ];
-            }else{
-                $balance = bitcoind()->getbalance($req->get('user'))[0];
-                $response = [
-                    'success'   => true,
-                    'header'    => "application/json",
-                    'status'   => $balance,
-                ];
-            }
-        }
-        catch(\Exception $e)
-        {
-            $response = [
-                'success'   => false,
-                'header'    => "application/json",
-                'status'   => strip_tags($e->getMessage())
-            ];
-        }
-        return response()->json($response);
+        $rate = new Rate();
+        $lbc_balance = bitcoind()->getbalance(auth()->user()->username)[0];
+        $rate_dollar = $rate->last_dollar;
+        return "LBC : ".$lbc_balance." = $ ".number_format($lbc_balance * $rate_dollar, 2);
     }
 
-    public function create(Request $req)
+    public function pin(Request $req)
     {
-        try
-        {
-            $validator = Validator::make($req->all(), [
-                'nick' => 'required',
-            ]);
+        $pin = new TransactionPin();
+        return $pin->balance;
+    }
 
-            if ($validator->fails()) {
-                $response = [
-                    'success'   => false,
-                    'header'    => "application/json",
-                    'status'   => $validator->messages(),
-                ];
-            }else{
-
-                $user = User::where('user_nick', $req->get('nick'))->first();
-                if (!$user->user_wallet) {
-                    $user->user_wallet = bitcoind()->getaccountaddress($req->get('nick'));
-                    $user->save();
-                }
-
-                $response = [
-                    'success'   => true,
-                    'header'    => "application/json",
-                    'status'   => 'OK',
-                ];
-            }
-        }
-        catch(\Exception $e)
-        {
-            $response = [
-                'success'   => false,
-                'header'    => "application/json",
-                'status'   => strip_tags($e->getMessage())
-            ];
-        }
-        return response()->json($response);
+    public function turnover(Request $req)
+    {
+        return $omset = auth()->user()->select(
+            DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_network, member.member_id, "ki")))=concat(member.member_network, member.member_id, "ki") ) left_turnover'),
+            DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_network, member.member_id, "ka")))=concat(member.member_network, member.member_id, "ka") ) right_turnover'))->where('member_id', auth()->id())->first();
     }
 }

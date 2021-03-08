@@ -10,6 +10,7 @@ use Livewire\Component;
 use App\Models\Exchange;
 use App\Models\Achievement;
 use App\Models\Transaction;
+use Illuminate\Support\Str;
 use App\Models\TransactionPin;
 use App\Models\InvalidTurnover;
 use App\Models\TransactionReward;
@@ -39,6 +40,10 @@ class Extension extends Component
         $pin = new TransactionPin();
         $error = null;
         try {
+            if (Str::length(auth()->user()->app_key) == 0) {
+                $error .= "<li>The app key is not yet available</li>";
+            }
+
             if(Hash::check($this->password, auth()->user()->member_password) === false){
                 $error .= "<li>Wrong <strong>password</strong></li>";
             }
@@ -47,7 +52,7 @@ class Extension extends Component
                 $error .= "<li>Not enough <strong>PIN".(auth()->user()->contract->contract_pin == 1?:"s")."</strong></li>";
             }
 
-            if ($this->lbc_amount > bitcoind()->getbalance(auth()->user()->member_user)[0]){
+            if ($this->lbc_amount > bitcoind()->getbalance(auth()->user()->username)[0]){
                 $error .= "<li>Account has insufficient funds.</li>";
             }
 
@@ -65,7 +70,7 @@ class Extension extends Component
             }
             DB::transaction(function () use ($pin) {
                 $information = "Extension on behalf of ".auth()->user()->member_user;
-                $id = auth()->user()->wallet->wallet_address.date('Ymdhis').round(microtime(true) * 1000);
+                $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
 
                 TransactionExchange::where('member_id', auth()->id())->delete();
                 auth()->user()->update([
@@ -97,7 +102,7 @@ class Extension extends Component
                 $bagi_hasil->member_id = auth()->user()->member_parent;
                 $bagi_hasil->save();
 
-                bitcoind()->move(auth()->user()->member_user, "administrator", number_format($this->lbc_amount, 8), 6, $information);
+                bitcoind()->move(auth()->user()->username, "administrator", number_format($this->lbc_amount, 8), 6, $information);
 
 
                 $this->setParent(Member::with('parent')->with('rating')->with('invalid_left_turnover')->with('invalid_right_turnover')->select("member_id", "member_email", "member_user", "member_parent", "member_position", "rating_id", "contract_price", "member_network", "due_date", "deleted_at",
@@ -145,7 +150,7 @@ class Extension extends Component
                                         $reward = $member->contract_price;
                                     }
                                     array_push($bonus,[
-                                        'transaction_reward_information' => $pairing." left side registration",
+                                        'transaction_reward_information' => $pairing." left side by ".$this->new_username,
                                         'transaction_reward_type' => "Turnover Growth",
                                         'transaction_reward_amount' => $reward * 5 /100,
                                         'transaction_id' => $id,
@@ -163,7 +168,7 @@ class Extension extends Component
                                         $reward = $member->contract_price;
                                     }
                                     array_push($bonus,[
-                                        'transaction_reward_information' => $pairing." right side registration",
+                                        'transaction_reward_information' => $pairing." right side by ".$this->new_username,
                                         'transaction_reward_type' => "Turnover Growth",
                                         'transaction_reward_amount' => $reward * 5 /100,
                                         'transaction_id' => $id,

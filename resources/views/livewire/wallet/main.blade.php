@@ -2,6 +2,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                @if (auth()->user()->app_key)
                 <div class="col-lg-4">
                     <!-- Profile Image -->
                     <div class="card card-primary card-outline">
@@ -17,16 +18,14 @@
                             <p class="text-muted text-center">{{ auth()->user()->user_email }}</p>
 
                             <ul class="list-group list-group-unbordered mb-3 table-responsive">
-                                @foreach ($address as $index => $item)
                                 <li class="list-group-item">
-                                    <b>Address {{ ++$index }}</b>&nbsp;<a class="float-right">{{ $item->wallet_address }}</a>
-                                </li>
-                                @endforeach
-                                <li class="list-group-item">
-                                    <b>Balance</b>&nbsp;<a class="float-right"><strong>{{ $balance }} LBC</strong></a>
+                                    <b>Username</b>&nbsp;<a class="float-right">{{ auth()->user()->username }}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>&nbsp;</b>&nbsp;<a class="float-right"><strong>$ {{ number_format($dollar, 2) }}</strong></a>
+                                    <b>Address</b>&nbsp;<a class="float-right">{{ auth()->user()->address }}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Balance</b>&nbsp;<a class="float-right">{{ bitcoind()->getbalance(auth()->user()->username)[0] }} LBC</a>
                                 </li>
                             </ul>
                             <button wire:click="show" class="btn btn-primary btn-block"> Send</button>
@@ -38,7 +37,7 @@
                 <div class="col-lg-8">
                     <div class="card card-primary">
                         <div class="card-body">
-                            <h4>Recent Transaction</h4>
+                            <h4>Recent Transactions</h4>
                             <div class="table-responsiv overflow-auto" style="height: 500px">
                                 <table class="table">
                                     <tr>
@@ -50,7 +49,7 @@
                                         <th>Comments</th>
                                         <th>Info</th>
                                     </tr>
-                                    @foreach ($transaction->sortByDesc('time') as $item)
+                                    @foreach (collect(bitcoind()->listtransactions(auth()->user()->username, 30)->result())->sortByDesc('time') as $item)
                                     @if ($item['category'] == 'move')
                                     <tr>
                                         <td>{{ date('Y-m-d h:m:s', $item['time']) }}</td>
@@ -69,7 +68,7 @@
                                         <td class="text-right">{{ number_format($item['amount'], 8) }}</td>
                                         <td>{{ $item['confirmations'] }}</td>
                                         <td>-</td>
-                                        <td><a href="http://explore.luckybestcoin.com:3001/tx/{{ $item['txid'] }}" target="_blank">Info</a></td>
+                                        <td><a href="http://explorer.luckybestcoin.com:3001/tx/{{ $item['txid'] }}" target="_blank">Info</a></td>
                                     </tr>
                                     @endif
                                     @endforeach
@@ -78,50 +77,74 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div wire:ignore.self class="modal fade" id="default-modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <form wire:submit.prevent="submit">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Send</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>To Address</label>
-                                <input type="text" class="form-control" wire:model.defer="to_address" autocomplete="off">
-                                @error('to_address')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                @include('includes.error-validation')
+                @include('includes.notification')
+                <div wire:ignore.self class="modal fade" id="default-modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <form wire:submit.prevent="submit">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Send</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label>To Address</label>
+                                        <input type="text" class="form-control" wire:model.defer="to_address" autocomplete="off">
+                                        @error('to_address')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label>LBC Amount</label>
+                                        <input type="number" step="any" class="form-control" wire:model.defer="lbc_amount" autocomplete="off">
+                                        @error('lbc_amount')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <hr>
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input type="password" class="form-control" wire:model.defer="password" autocomplete="off">
+                                        @error('password')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="alert alert-warning">When you click <strong>Accept & Go</strong>, the process cannot be undone!!!</div>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="submit" class="btn btn-success">Accept & Go</button>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label>LBC Amount</label>
-                                <input type="number" step="any" class="form-control" wire:model.defer="lbc_amount" autocomplete="off">
-                                @error('lbc_amount')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <hr>
-                            <div class="form-group">
-                                <label>Password</label>
-                                <input type="password" class="form-control" wire:model.defer="password" autocomplete="off">
-                                @error('password')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="alert alert-warning">When you click <strong>Accept & Go</strong>, the process cannot be undone!!!</div>
-                            @include('includes.error-validation')
-                            @include('includes.notification')
-                        </div>
-                        <div class="modal-footer justify-content-between">
-                            <button type="submit" class="btn btn-primary">Accept & Go</button>
-                        </div>
+                        </form>
                     </div>
-                </form>
+                </div>
+                @else
+                <div class="col-md-12">
+                    <form wire:submit.prevent="key">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">App Key</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label>Input Your App Key Here</label>
+                                    <input type="text" class="form-control" wire:model.defer="app_key" autocomplete="off">
+                                    @error('app_key')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="card-footer clearfix">
+                                <input type="submit" value="Submit" class="btn btn-success">
+                            </div>
+                        </div>
+                    </form>
+                    @include('includes.notification')
+                </div>
+                @endif
             </div>
         </div>
     </section>

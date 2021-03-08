@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Authentication;
 use Carbon\Carbon;
 use App\Models\Member;
 use App\Models\Rating;
-use App\Models\Wallet;
 use Livewire\Component;
 use App\Models\Referral;
 use App\Models\Achievement;
@@ -129,11 +128,6 @@ class Activation extends Component
                 $member->member_password = Hash::make($this->new_password);
                 $member->save();
 
-                $wallet = new Wallet();
-                $wallet->member_id = $this->member_id;
-                $wallet->wallet_address = bitcoind()->getaccountaddress($this->new_username);
-                $wallet->save();
-
                 $this->data->delete();
 
                 $information = "Member activation on behalf of ".$this->new_username;
@@ -175,8 +169,6 @@ class Activation extends Component
                             $pcp->member_id = $row['id'];
                             $pcp->rating_id = $rating->rating_id;
                             $pcp->save();
-                        }else{
-                            $child->rating_id = null;
                         }
                         $child->save();
 
@@ -191,7 +183,7 @@ class Activation extends Component
                                         $reward = $member->contract_price;
                                     }
                                     array_push($bonus,[
-                                        'transaction_reward_information' => $pairing." left side registration",
+                                        'transaction_reward_information' => $pairing." left side by ".$this->new_username,
                                         'transaction_reward_type' => "Turnover Growth",
                                         'transaction_reward_amount' => $reward * 5 /100,
                                         'transaction_id' => $id,
@@ -209,7 +201,7 @@ class Activation extends Component
                                         $reward = $member->contract_price;
                                     }
                                     array_push($bonus,[
-                                        'transaction_reward_information' => $pairing." right side registration",
+                                        'transaction_reward_information' => $pairing." right side by ".$this->new_username,
                                         'transaction_reward_type' => "Turnover Growth",
                                         'transaction_reward_amount' => $reward * 5 /100,
                                         'transaction_id' => $id,
