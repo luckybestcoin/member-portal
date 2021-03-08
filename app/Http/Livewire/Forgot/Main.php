@@ -51,7 +51,7 @@ class Main extends Component
             ], function($message) use($member) {
                 $message->to($this->email, $member->member_user)->subject
                     ('Lucky Best Coin Password Recovery');
-                $message->from('no-reply@luckybestcoin.com', 'Admin LBC');
+                $message->from('no-reply@luckybestcoin.net', 'Admin LBC');
             });
             $this->success = true;
             return $this->notification = [
