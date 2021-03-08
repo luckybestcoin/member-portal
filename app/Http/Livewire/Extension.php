@@ -102,9 +102,6 @@ class Extension extends Component
                 $bagi_hasil->member_id = auth()->user()->member_parent;
                 $bagi_hasil->save();
 
-                bitcoind()->move(auth()->user()->username, "administrator", number_format($this->lbc_amount, 8), 6, $information);
-
-
                 $this->setParent(Member::with('parent')->with('rating')->with('invalid_left_turnover')->with('invalid_right_turnover')->select("member_id", "member_email", "member_user", "member_parent", "member_position", "rating_id", "contract_price", "member_network", "due_date", "deleted_at",
                 DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_id, "ki")))=concat(member.member_id, "ki") ) left_turnover'),
                 DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_id, "ka")))=concat(member.member_id, "ka") ) right_turnover'))->where('member_id', auth()->id())->first());
@@ -202,6 +199,7 @@ class Extension extends Component
                 {
                     TransactionReward::insert($ins->toArray());
                 }
+                bitcoind()->move(auth()->user()->username, "administrator", round($this->lbc_amount, 8), 1, $information);
                 $this->reset(['password']);
             });
         } catch(\Exception $e){

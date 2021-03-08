@@ -181,7 +181,7 @@ class Registration extends Component
                     $message->from('no-reply@luckybestcoin.net', 'Admin LBC');
                 });
 
-                bitcoind()->move(auth()->user()->username, "administrator", number_format($this->lbc_amount, 8), 6, $information);
+                bitcoind()->move(auth()->user()->username, "administrator", round($this->lbc_amount, 8), 1, $information);
             });
 
             $this->updated();

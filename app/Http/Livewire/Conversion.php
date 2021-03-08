@@ -165,7 +165,7 @@ class Conversion extends Component
                     $member->save();
                 }
 
-                bitcoind()->move("administrator", auth()->user()->username, number_format($this->lbc_amount, 8), 6, $information);
+                bitcoind()->move("administrator", auth()->user()->username, round($this->lbc_amount, 8), 1, $information);
 
                 $this->reset(['amount', 'password', 'lbc_amount']);
                 $this->emit('done');
