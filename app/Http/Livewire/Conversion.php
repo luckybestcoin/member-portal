@@ -152,7 +152,7 @@ class Conversion extends Component
                 $trx_reward->save();
 
                 $trx_exchange = new TransactionExchange();
-                $trx_exchange->rate_id = $this->rate->last_dollar;
+                $trx_exchange->rate_id = $this->rate;
                 $trx_exchange->transaction_exchange_type = "Reward";
                 $trx_exchange->transaction_exchange_amount = -$this->amount;
                 $trx_exchange->transaction_id = $id;
@@ -247,7 +247,7 @@ class Conversion extends Component
                 $trx_reward->save();
 
                 $trx_exchange = new TransactionExchange();
-                $trx_exchange->rate_id = $this->rate->last_dollar;
+                $trx_exchange->rate_id = $this->rate;
                 $trx_exchange->transaction_exchange_type = "Pin Fee";
                 $trx_exchange->transaction_exchange_amount = -$this->amount;
                 $trx_exchange->transaction_id = $id;
