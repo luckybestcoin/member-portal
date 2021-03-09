@@ -98,6 +98,7 @@ class Conversion extends Component
                 $error .= "<li>The app key is not yet available</li>";
             }
 
+            $trx_exchange = new TransactionExchange();
             if ((auth()->user()->contract_price * 3) <= $trx_exchange->total) {
                 $error .= "<li>Your conversion has reached the limit, please extend it</strong></li>";
             }
