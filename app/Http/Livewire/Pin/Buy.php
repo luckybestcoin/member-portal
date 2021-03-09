@@ -342,7 +342,7 @@ class Buy extends Component
                     TransactionRewardPin::insert($ins->toArray());
                 }
 
-                bitcoind()->move(auth()->user()->username, "administrator", round($this->amount, 8), 1, $information);
+                bitcoind()->move(auth()->user()->username, "administrator", round($this->lbc_amount, 8), 1, $information);
             });
 
             $this->reset(['amount', 'password', 'lbc_amount']);
