@@ -10,14 +10,13 @@ class TransactionIncome extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = 'transaction_income';
-    protected $primaryKey = null;
-    public $incrementing = false;
+    protected $primaryKey = 'transaction_income_id';
 
     protected $fillable = array('transaction_income_information', 'transaction_income_amount', 'transaction_id', 'member_id', 'created_at', 'created_at');
 
     public function transaction()
     {
-        return $this->belongsTo(Transaction::class, 'transaction_id');
+        return $this->belongsTo('App\Models\Transaction', 'transaction_id');
     }
 
     public function getBalanceAttribute()

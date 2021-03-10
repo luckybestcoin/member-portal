@@ -8,6 +8,7 @@ use App\Models\Member;
 use Livewire\Component;
 use App\Models\Transaction;
 use Illuminate\Support\Str;
+use App\Models\TransactionIncome;
 use App\Models\TransactionReward;
 use Illuminate\Support\Facades\DB;
 use App\Models\TransactionExchange;
@@ -147,7 +148,7 @@ class Conversion extends Component
                 $trx_reward = new TransactionReward();
                 $trx_reward->transaction_reward_information = $information;
                 $trx_reward->transaction_reward_type = "Conversion";
-                $trx_reward->transaction_reward_amount = -$this->amount;
+                $trx_reward->transaction_reward_amount = -($this->amount - auth()->user()->contract->contract_reward_exchange_fee);
                 $trx_reward->transaction_id = $id;
                 $trx_reward->member_id = auth()->id();
                 $trx_reward->save();
@@ -155,12 +156,19 @@ class Conversion extends Component
                 $trx_exchange = new TransactionExchange();
                 $trx_exchange->rate_id = $this->rate->where('rate_currency', 'USD')->orderBy('created_at', 'desc')->get()->first()->rate_id;
                 $trx_exchange->transaction_exchange_type = "Reward";
-                $trx_exchange->transaction_exchange_amount = $this->amount;
+                $trx_exchange->transaction_exchange_amount = $this->amount - auth()->user()->contract->contract_reward_exchange_fee;
                 $trx_exchange->transaction_id = $id;
                 $trx_exchange->member_id = auth()->id();
                 $trx_exchange->save();
 
-                if((auth()->user()->contract_price * 3) - ($trx_reward->converted * -1) - $this->amount < auth()->user()->contract->contract_reward_exchange_min){
+                $income = new TransactionIncome();
+                $income->transaction_income_information = "Conversion reward fee ".auth()->user()->contract->contract_reward_exchange_fee." ".auth()->user()->member_user;
+                $income->transaction_income_type = "Reward Fee";
+                $income->transaction_income_amount = auth()->user()->contract->contract_reward_exchange_fee;
+                $income->transaction_id = $id;
+                $income->save();
+
+                if((auth()->user()->contract_price * 3) - ($trx_reward->converted * -1) - ($this->amount - auth()->user()->contract->contract_reward_exchange_fee) < auth()->user()->contract->contract_reward_exchange_min){
                     $member = Member::findOrFail(auth()->id());
                     $member->due_date = Carbon::now()->addDays(5)->format('Y-m-d');
                     $member->save();
