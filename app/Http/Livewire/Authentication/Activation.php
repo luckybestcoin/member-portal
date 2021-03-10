@@ -10,6 +10,7 @@ use App\Models\Referral;
 use App\Models\Achievement;
 use App\Models\Transaction;
 use Illuminate\Support\Str;
+use App\Models\InvalidTurnover;
 use App\Models\TransactionReward;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;

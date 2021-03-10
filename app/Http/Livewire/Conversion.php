@@ -100,7 +100,8 @@ class Conversion extends Component
             }
 
             $trx_exchange = new TransactionExchange();
-            if ((auth()->user()->contract_price * 3) <= $trx_exchange->total) {
+            $wd_total = $trx_exchange->total;
+            if ((auth()->user()->contract_price * 3) <= $wd_total) {
                 $error .= "<li>Your conversion has reached the limit, please extend it</strong></li>";
             }
 
@@ -135,7 +136,7 @@ class Conversion extends Component
                     'pesan' => $error
                 ];
             }
-            DB::transaction(function () {
+            DB::transaction(function () use($wd_total) {
                 $information = "Conversion reward $ ".$this->amount." to ".$this->lbc_amount. " LBC";
 
                 $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
@@ -168,7 +169,7 @@ class Conversion extends Component
                 $income->transaction_id = $id;
                 $income->save();
 
-                if((auth()->user()->contract_price * 3) - ($trx_reward->converted * -1) - ($this->amount - auth()->user()->contract->contract_reward_exchange_fee) < auth()->user()->contract->contract_reward_exchange_min){
+                if((auth()->user()->contract_price * 3) - $wd_total - $this->amount < auth()->user()->contract->contract_reward_exchange_min){
                     $member = Member::findOrFail(auth()->id());
                     $member->due_date = Carbon::now()->addDays(5)->format('Y-m-d');
                     $member->save();
