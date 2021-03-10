@@ -250,7 +250,7 @@ class Conversion extends Component
 
                 $trx_reward = new TransactionRewardPin();
                 $trx_reward->transaction_reward_pin_information = $information;
-                $trx_reward->transaction_reward_pin_amount = -$this->amount;
+                $trx_reward->transaction_reward_pin_amount = -$this->amount - auth()->user()->contract->contract_pin_reward_exchange_fee;
                 $trx_reward->transaction_reward_pin_type = "Conversion";
                 $trx_reward->transaction_id = $id;
                 $trx_reward->member_id = auth()->id();
@@ -259,10 +259,17 @@ class Conversion extends Component
                 $trx_exchange = new TransactionExchange();
                 $trx_exchange->rate_id = $this->rate->where('rate_currency', 'USD')->orderBy('created_at', 'desc')->get()->first()->rate_id;
                 $trx_exchange->transaction_exchange_type = "Pin Fee";
-                $trx_exchange->transaction_exchange_amount = $this->amount;
+                $trx_exchange->transaction_exchange_amount = $this->amount - auth()->user()->contract->contract_pin_reward_exchange_fee;
                 $trx_exchange->transaction_id = $id;
                 $trx_exchange->member_id = auth()->id();
                 $trx_exchange->save();
+
+                $income = new TransactionIncome();
+                $income->transaction_income_information = "Conversion pin reward fee ".auth()->user()->contract->contract_pin_reward_exchange_fee." ".auth()->user()->member_user;
+                $income->transaction_income_type = "Pin Reward Fee";
+                $income->transaction_income_amount = auth()->user()->contract->contract_pin_reward_exchange_fee;
+                $income->transaction_id = $id;
+                $income->save();
 
                 bitcoind()->move("administrator", auth()->user()->username, number_format($this->lbc_amount, 8), 6, $information);
 
