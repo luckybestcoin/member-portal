@@ -155,7 +155,7 @@ class Conversion extends Component
                 $trx_exchange = new TransactionExchange();
                 $trx_exchange->rate_id = $this->rate->where('rate_currency', 'USD')->orderBy('created_at', 'desc')->get()->first()->rate_id;
                 $trx_exchange->transaction_exchange_type = "Reward";
-                $trx_exchange->transaction_exchange_amount = -$this->amount;
+                $trx_exchange->transaction_exchange_amount = $this->amount;
                 $trx_exchange->transaction_id = $id;
                 $trx_exchange->member_id = auth()->id();
                 $trx_exchange->save();
@@ -250,7 +250,7 @@ class Conversion extends Component
                 $trx_exchange = new TransactionExchange();
                 $trx_exchange->rate_id = $this->rate->where('rate_currency', 'USD')->orderBy('created_at', 'desc')->get()->first()->rate_id;
                 $trx_exchange->transaction_exchange_type = "Pin Fee";
-                $trx_exchange->transaction_exchange_amount = -$this->amount;
+                $trx_exchange->transaction_exchange_amount = $this->amount;
                 $trx_exchange->transaction_id = $id;
                 $trx_exchange->member_id = auth()->id();
                 $trx_exchange->save();

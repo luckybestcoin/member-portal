@@ -161,10 +161,10 @@ class Activation extends Component
                         $rating = $data_rating->filter(function ($q) use ($kaki_kecil)
                         {
                             return $q->rating_min_turnover <= $kaki_kecil;
-                        })->sortBy('rating_min_turnover')->first();
+                        })->sortByDesc('rating_min_turnover')->first();
 
                         if ($rating && strlen($child->member_parent) > 1 && Achievement::where('member_id', $row['id'])->where('rating_id', $rating->rating_id)->get()->count() == 0) {
-                            $child->rating_id = $rating['rating_id'];
+                            $child->rating_id = $rating->rating_id;
 
                             $pcp = new Achievement();
                             $pcp->member_id = $row['id'];
