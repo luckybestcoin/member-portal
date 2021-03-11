@@ -174,7 +174,7 @@ class Activation extends Component
                         $child->save();
 
                         if($row['pair'] === 1) {
-                            $pairing = "Turnonver growth ".$this->new_user_id." 5% of ".number_format($member->contract_price, 2);
+                            $pairing = "Turnonver growth 5% of ".number_format($member->contract_price, 2);
                             if(substr($network, -2) == 'ki'){
                                 if($row['left'] - $member->contract_price < $row['right']){
                                     $reward = 0;

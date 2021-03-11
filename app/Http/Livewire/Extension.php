@@ -102,10 +102,11 @@ class Extension extends Component
                 $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
 
                 TransactionExchange::where('member_id', auth()->id())->delete();
-                auth()->user()->update([
-                    'extension' => auth()->user()->extension + 1,
-                    'due_date' => null
-                    ]);
+
+                $me = Member::findOrFail(auth()->id());
+                $me->due_date = null;
+                $me->extension = auth()->user()->extension + 1;
+                $me->save();
 
                 $exchange = new Exchange();
                 $exchange->contract_id = auth()->user()->contract_id;
@@ -167,7 +168,7 @@ class Extension extends Component
                         $child->save();
 
                         if($row['pair'] === 1) {
-                            $pairing = "Turnonver growth ".$this->new_user_id." 5% of ".number_format(auth()->user()->contract_price, 2);
+                            $pairing = "Turnonver growth 5% of ".number_format(auth()->user()->contract_price, 2);
                             if(substr($network, -2) == 'ki'){
                                 if($row['left'] - auth()->user()->contract_price < $row['right']){
                                     $reward = 0;
@@ -177,7 +178,7 @@ class Extension extends Component
                                         $reward = auth()->user()->contract_price;
                                     }
                                     array_push($bonus,[
-                                        'transaction_reward_information' => $pairing." left side by ".$this->new_username,
+                                        'transaction_reward_information' => $pairing." left side by ".auth()->user()->member_user,
                                         'transaction_reward_type' => "Turnover Growth",
                                         'transaction_reward_amount' => $reward * 5 /100,
                                         'transaction_id' => $id,
@@ -195,7 +196,7 @@ class Extension extends Component
                                         $reward = auth()->user()->contract_price;
                                     }
                                     array_push($bonus,[
-                                        'transaction_reward_information' => $pairing." right side by ".$this->new_username,
+                                        'transaction_reward_information' => $pairing." right side by ".auth()->user()->member_user,
                                         'transaction_reward_type' => "Turnover Growth",
                                         'transaction_reward_amount' => $reward * 5 /100,
                                         'transaction_id' => $id,
