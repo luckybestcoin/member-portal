@@ -26,6 +26,35 @@ class Extension extends Component
         'password' => 'required'
     ];
 
+    private $parent = [];
+
+    public function setParent($data)
+    {
+        $left_turnover = (float) $data->left_turnover - (float) $data->invalid_left_turnover->sum('invalid_turnover_amount');
+        $right_turnover = (float) $data->right_turnover - (float) $data->invalid_right_turnover->sum('invalid_turnover_amount');
+
+        if(strlen($data->deleted_at) === 0 || $data->due_date){
+            array_push($this->parent, [
+                'id' => $data->member_id,
+                'user' => $data->member_user,
+                'parent' => $data->member_parent,
+                'network' => $data->member_network,
+                'contract' => $data->contract_price,
+                'position' => $data->member_position,
+                'founder' => $data->member_parent? 0: 1,
+                'pair' => $left_turnover > 0 && $right_turnover > 0? 1: 0,
+                'left' => $left_turnover,
+                'right' => $right_turnover,
+                'rating' => $data->rating? $data->rating->rating_order: null,
+                "active" => $data->deleted_at? 0: 1,
+                'due_date' => $data->due_date
+            ]);
+        }
+
+        if($data->parent)
+            $this->setParent($data->parent);
+    }
+
     public function mount()
     {
         $this->rate = new Rate();
