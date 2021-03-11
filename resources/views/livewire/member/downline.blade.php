@@ -6,6 +6,7 @@
                     <input type="text" wire:model="key" class="form-control">
                     <br>
                 </div>
+                @if ($data)
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
@@ -76,6 +77,11 @@
                         </div>
                     </div>
                 </div>
+                @else
+                <div class="col-md-12 text-center">
+                    <h4>Member Data not found</h4>
+                </div>
+                @endif
                 <div class="col-md-12 text-center">
                     <a href="/member" class="btn btn-primary">Reset</a>
                 </div>
