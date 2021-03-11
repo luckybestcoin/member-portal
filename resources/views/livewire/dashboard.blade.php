@@ -10,7 +10,7 @@
                 </div>
                 @endif
                 <!-- ./col -->
-                <div class="col-lg-4 col-6">
+                <div class="col-lg-3 col-6">
                     <!-- small box -->
                     <div class="small-box bg-navy">
                         <div class="inner">
@@ -24,9 +24,9 @@
                         <a href="#" class="small-box-footer">&nbsp;</a>
                     </div>
                 </div>
-                  <!-- ./col -->
-                <div class="col-lg-4 col-6">
-                  <!-- small box -->
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
                     <div class="small-box bg-purple">
                         <div class="inner">
                             <h3>$ {{ number_format($reward, 2) }}</h3>
@@ -36,11 +36,27 @@
                         <div class="icon">
                             <i class="fa fa-gift"></i>
                         </div>
-                        <a href="/exchange?type=reward" class="small-box-footer">Exchange <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="/exchange?type=reward" class="small-box-footer">Convert <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-4 col-6">
+                  <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                      <div class="small-box bg-lime">
+                          <div class="inner">
+                              <h3>$ {{ number_format($daily, 2) }}</h3>
+
+                              <p>Daily Reward</p>
+                          </div>
+                          <div class="icon">
+                              <i class="fa fa-gift"></i>
+                          </div>
+                          <a href="/exchange?type=reward" class="small-box-footer">Convert <i class="fas fa-arrow-circle-right"></i></a>
+                      </div>
+                  </div>
+                  <!-- ./col -->
+                <div class="col-lg-3 col-6">
                     <!-- small box -->
                     <div class="small-box bg-maroon">
                         <div class="inner">
@@ -51,7 +67,7 @@
                         <div class="icon">
                             <i class="fa fa-ticket-alt"></i>
                         </div>
-                        <a href="/exchange?type=pinfee" class="small-box-footer">Exchange <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="/exchange?type=pinfee" class="small-box-footer">Convert <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 
