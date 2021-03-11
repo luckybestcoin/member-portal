@@ -142,9 +142,9 @@ class Extension extends Component
                 $bonus = [];
                 $omset_keluar = [];
                 $parent_length = 0;
-                $network = $member->member_network;
-                foreach (collect($this->parent)->filter(function($q) use($member){
-                    return $q['id'] != $member->member_id;
+                $network = auth()->user()->member_network;
+                foreach (collect($this->parent)->filter(function($q){
+                    return $q['id'] != auth()->id();
                 }) as $key => $row) {
                     $achievement_id = 0;
                     if(is_null($row['due_date']) == 1 && $row['active'] == 1){
@@ -167,14 +167,14 @@ class Extension extends Component
                         $child->save();
 
                         if($row['pair'] === 1) {
-                            $pairing = "Turnonver growth ".$this->new_user_id." 5% of ".number_format($member->contract_price, 2);
+                            $pairing = "Turnonver growth ".$this->new_user_id." 5% of ".number_format(auth()->user()->contract_price, 2);
                             if(substr($network, -2) == 'ki'){
-                                if($row['left'] - $member->contract_price < $row['right']){
+                                if($row['left'] - auth()->user()->contract_price < $row['right']){
                                     $reward = 0;
                                     if($row['left'] > $row['right']){
-                                        $reward = $row['right'] - $row['left'] + $member->contract_price;
+                                        $reward = $row['right'] - $row['left'] + auth()->user()->contract_price;
                                     }else{
-                                        $reward = $member->contract_price;
+                                        $reward = auth()->user()->contract_price;
                                     }
                                     array_push($bonus,[
                                         'transaction_reward_information' => $pairing." left side by ".$this->new_username,
@@ -187,12 +187,12 @@ class Extension extends Component
                                     ]);
                                 }
                             }else if(substr($network, -2) == 'ka'){
-                                if($row['right'] - $member->contract_price < $row['left']){
+                                if($row['right'] - auth()->user()->contract_price < $row['left']){
                                     $reward = 0;
                                     if($row['right'] > $row['left']){
-                                        $reward = $row['left'] - $row['right'] + $member->contract_price;
+                                        $reward = $row['left'] - $row['right'] + auth()->user()->contract_price;
                                     }else{
-                                        $reward = $member->contract_price;
+                                        $reward = auth()->user()->contract_price;
                                     }
                                     array_push($bonus,[
                                         'transaction_reward_information' => $pairing." right side by ".$this->new_username,
@@ -210,8 +210,8 @@ class Extension extends Component
                     if ($row['due_date']) {
                         array_push($omset_keluar,[
                             'member_id' => $row['id'],
-                            'invalid_turnover_from' => $member->member_id,
-                            'invalid_turnover_amount' => $member->contract_price,
+                            'invalid_turnover_from' => auth()->id(),
+                            'invalid_turnover_amount' => auth()->user()->contract_price,
                             'invalid_turnover_position' => substr($network, -2) == "ka"? 1: 0
                         ]);
                     }
