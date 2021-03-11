@@ -3,7 +3,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <label>{{ $data->member_user }}</label>
+                    <input type="text" wire:model="user" class="form-control">
+                    <br>
                 </div>
                 <div class="col-md-6">
                     <div class="card">

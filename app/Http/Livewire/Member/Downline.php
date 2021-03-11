@@ -8,13 +8,14 @@ use Illuminate\Support\Facades\DB;
 
 class Downline extends Component
 {
-    public $key;
+    public $key, $user;
 
     protected $queryString = ['key'];
 
     public function mount()
     {
         $this->key = $this->key?:auth()->id();
+        $this->user = $this->user?:auth()->user()->member_user;
     }
 
     public function setMember($key)
