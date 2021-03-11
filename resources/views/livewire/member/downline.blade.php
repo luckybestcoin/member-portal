@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <input type="text" wire:model="user" class="form-control">
+                    <input type="text" wire:model="key" class="form-control">
                     <br>
                 </div>
                 <div class="col-md-6">
@@ -22,15 +22,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @if ($data->left_child)
                                     @foreach ($data->left_child as $item)
                                     <tr>
-                                        <td class="text-nowrap"><a href="/member?key={{ $item->member_id }}">{{ $item->member_user }}</a></td>
+                                        <td class="text-nowrap"><a href="/member?key={{ $item->member_user }}">{{ $item->member_user }}</a></td>
                                         <td class="text-nowrap">{{ $item->member_name }}</td>
                                         <td class="text-right text-nowrap">{!! number_format($item->contract_price, 2) !!}</td>
                                         <td class="text-right text-nowrap">{{ number_format($item->left_turnover - $item->invalid_left_turnover->sum('invalid_turnover_amount'), 2) }}</td>
                                         <td class="text-right text-nowrap">{{ number_format($item->right_turnover - $item->invalid_right_turnover->sum('invalid_turnover_amount'), 2) }}</td>
                                     </tr>
                                     @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -55,15 +57,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @if ($data->right_child)
                                     @foreach ($data->right_child as $item)
                                     <tr>
-                                        <td class="text-nowrap"><a href="/member?key={{ $item->member_id }}">{{ $item->member_user }}</a></td>
+                                        <td class="text-nowrap"><a href="/member?key={{ $item->member_user }}">{{ $item->member_user }}</a></td>
                                         <td class="text-nowrap">{{ $item->member_name }}</td>
                                         <td class="text-right text-nowrap">{!! number_format($item->contract_price, 2) !!}</td>
                                         <td class="text-right text-nowrap">{{ number_format($item->left_turnover - $item->invalid_left_turnover->sum('invalid_turnover_amount'), 2) }}</td>
                                         <td class="text-right text-nowrap">{{ number_format($item->right_turnover - $item->invalid_right_turnover->sum('invalid_turnover_amount'), 2) }}</td>
                                     </tr>
                                     @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
