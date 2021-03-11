@@ -2,12 +2,19 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                @if (auth()->user()->due_date)
+                <div class="col-md-12">
+                    <div class="alert alert-warning">
+                        Your account is within the grace period until {{ auth()->user()->due_date }}, <a href="/extension">click here</a> to extend the contract.
+                    </div>
+                </div>
+                @endif
                 <!-- ./col -->
                 <div class="col-lg-4 col-6">
                     <!-- small box -->
                     <div class="small-box bg-navy">
                         <div class="inner">
-                            <h3>$ {{ number_format(auth()->user()->contract_price * 3) }}</h3>
+                            <h3>$ {{ number_format((auth()->user()->contract_price * 3) - $trx_exchange) }}</h3>
 
                             <p>Max. Contract Benefit</p>
                         </div>

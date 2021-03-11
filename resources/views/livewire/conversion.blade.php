@@ -1,7 +1,6 @@
 <div>
     <section class="content">
         <div class="container-fluid">
-            @include('includes.notification')
             <div class="row">
                 <div class="col-lg-8">
                     <div class="card card-primary card-outline card-tabs">

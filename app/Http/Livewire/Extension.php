@@ -94,6 +94,8 @@ class Extension extends Component
                 $pin->member_id = auth()->id();
                 $pin->save();
 
+                TransactionExchange::where('member_id', auth()->id())->delete();
+
                 $bagi_hasil = new TransactionReward();
                 $bagi_hasil->transaction_reward_information = $information;
                 $bagi_hasil->transaction_reward_type = "Referral";
