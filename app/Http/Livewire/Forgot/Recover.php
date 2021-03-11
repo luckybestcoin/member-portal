@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Forgot;
 use App\Models\Member;
 use Livewire\Component;
 use App\Models\Recovery;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -63,9 +64,13 @@ class Recover extends Component
         }
 
         try {
-            $member = Member::findOrFail($this->member);
-            $member->member_password = Hash::make($this->new_password);
-            $member->save();
+            DB::transaction(function () {
+                $member = Member::findOrFail($this->member);
+                $member->member_password = Hash::make($this->new_password);
+                $member->save();
+
+                Recovery::where('recovery_token', $this->token)->delete();
+            });
             if (Auth::attempt(['member_email' => $this->email, 'password' => $this->new_password], false)) {
                 Auth::logoutOtherDevices($this->new_password, 'member_password');
                 return redirect('dashboard');
