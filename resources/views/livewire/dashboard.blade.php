@@ -31,7 +31,7 @@
                         <div class="inner">
                             <h3>$ {{ number_format($reward, 2) }}</h3>
 
-                            <p>Reward</p>
+                            <p>Total Reward</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-gift"></i>
@@ -62,7 +62,7 @@
                         <div class="inner">
                             <h3>$ {{ number_format($fee, 2) }}</h3>
 
-                            <p>Pin Fee</p>
+                            <p>Pin Fee Reward</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-ticket-alt"></i>

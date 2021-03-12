@@ -11,7 +11,7 @@ class RewardHistory extends Component
 {
     use WithPagination;
 
-    public $period = "This Month Only", $category = "All";
+    public $period = "This Month Only", $category = "All", $type = "All";
 
     protected $paginationTheme = 'bootstrap';
     protected $queryString = ['period'];
@@ -30,6 +30,10 @@ class RewardHistory extends Component
                 $from,
                 $to
             ]);
+        }
+
+        if($this->type != "All"){
+            $data = $data->where('transaction_reward_type', $this->type);
         }
 
         $data = $data->paginate(10);

@@ -8,8 +8,16 @@
                     </h3>
                     <div class="card-tools form-inline">
                         <div class="input-group input-group-sm">
+                            <select class="form-control input-group-sm" wire:model="type">
+                                <option value="All">All Reward</option>
+                                <option value="Daily">Daily Reward</option>
+                                <option value="Referral">Referral Reward</option>
+                                <option value="Turnover Growth">Turnover Growth Reward</option>
+                            </select>
+                        </div>
+                        <div class="input-group input-group-sm">
                             <select class="form-control input-group-sm" wire:model="period">
-                                <option value="">All Periode</option>
+                                <option value="All">All Periode</option>
                                 <option value="This Month Only">This Month Only</option>
                             </select>
                         </div>

@@ -49,7 +49,7 @@ return [
             'title' => 'Buy'
         ],[
             'url' => '/pin/fee',
-            'title' => 'Fee'
+            'title' => 'Fee Reward'
         ],[
             'url' => '/pin',
             'title' => 'History'

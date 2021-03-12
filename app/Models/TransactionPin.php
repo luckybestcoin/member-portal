@@ -23,6 +23,6 @@ class TransactionPin extends Model
     public function getBalanceAttribute()
     {
         $pin = 0;
-        return $balance = $this->select('transaction_pin_amount')->where('member_id', auth()->id())->get()->sum('transaction_pin_amount');
+        return $balance = $this->where('member_id', auth()->id())->get()->sum('transaction_pin_amount');
     }
 }
