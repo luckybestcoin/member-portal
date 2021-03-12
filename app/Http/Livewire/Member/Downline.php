@@ -30,7 +30,7 @@ class Downline extends Component
         DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_network, member.member_id, "ka")))=concat(member.member_network, member.member_id, "ka") ) right_turnover'))->where('member_user', $this->key);
 
         if ($this->key != auth()->user()->member_user) {
-            $data_member = $data_member->where('member_network', 'like', auth()->id()."k%");
+            $data_member = $data_member->orWhere('member_network', 'like', auth()->id()."k%");
         }
 
         return view('livewire.member.downline', [
