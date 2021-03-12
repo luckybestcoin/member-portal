@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Mail;
 
 class Main extends Component
 {
-    public $notification, $email, $success = false;
+    public $notification, $username, $success = false;
 
     protected $rules = [
-        'email' => 'required'
+        'username' => 'required'
     ];
 
     public function submit()
@@ -21,16 +21,16 @@ class Main extends Component
         $this->validate();
         $error = null;
 
-        if (Member::where('member_email', $this->email)->count() == 0){
+        if (Member::where('member_user', $this->username)->count() == 0){
             $error .= "<li>Email address not found</li>";
         }
 
-        if (Recovery::where('member_email', $this->email)->count() > 0){
+        if (Recovery::where('member_user', $this->username)->count() > 0){
             $error .= "<li>You've done this action before</li>";
         }
 
         if ($error) {
-            $this->reset(['email']);
+            $this->reset(['username']);
             return $this->notification = [
                 'tipe' => 'danger',
                 'pesan' => $error
@@ -39,24 +39,24 @@ class Main extends Component
 
         try {
             $recovery = new Recovery();
-            $recovery->member_email = $this->email;
+            $recovery->member_user = $this->username;
             $recovery->recovery_token = Str::random(40).date("Ymdhms");
             $recovery->save();
 
-            $member = Member::where('member_email', $this->email)->get()->first();
+            $member = Member::where('member_user', $this->username)->get()->first();
             Mail::send('email.recovery', [
                 'token' => $recovery->recovery_token,
                 'name' => $member->member_user,
-                'email' => $this->email
+                'email' => $member->member_email
             ], function($message) use($member) {
-                $message->to($this->email, $member->member_user)->subject
+                $message->to($member->member_email, $member->member_user)->subject
                     ('Lucky Best Coin Password Recovery');
                 $message->from('no-reply@luckybestcoin.net', 'Admin LBC');
             });
             $this->success = true;
             return $this->notification = [
                 'tipe' => 'success',
-                'pesan' => 'The recovery link has been sent to '.$this->email
+                'pesan' => 'The recovery link has been sent to '.$member->member_email
             ];
         } catch(\Exception $e){
             return $this->notification = [

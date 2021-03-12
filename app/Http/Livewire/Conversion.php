@@ -65,7 +65,6 @@ class Conversion extends Component
         $this->conversion = false;
         if ($this->type == 'pinfee') {
             if (TransactionRewardPin::where('transaction_reward_pin_amount', '<', 0)->where('created_at', 'like', date('Y-m-d').'%')->where('member_id', auth()->id())->get()->count() > 0) {
-                dd('tes');
                 $this->conversion = true;
             }
         } else {
