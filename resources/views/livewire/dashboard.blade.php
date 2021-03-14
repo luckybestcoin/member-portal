@@ -14,7 +14,7 @@
                     <!-- small box -->
                     <div class="small-box bg-navy">
                         <div class="inner">
-                            <h3>$ {{ number_format((auth()->user()->contract_price * 3) - $trx_exchange) }}</h3>
+                            <h3>$ {{ number_format((auth()->user()->contract_price * 3) - $trx_exchange, 2) }}</h3>
 
                             <p>Max. Contract Benefit</p>
                         </div>
