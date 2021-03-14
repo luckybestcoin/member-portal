@@ -18,7 +18,7 @@
                                     <tr>
                                         <th>UID</th>
                                         <th>Name</th>
-                                        <th>Package</th>
+                                        <th>Contract Price</th>
                                         <th colspan="2" class="text-nowrap">Turnover <small>Left | Right</small></th>
                                     </tr>
                                 </thead>
@@ -53,7 +53,7 @@
                                     <tr>
                                         <th>UID</th>
                                         <th>Name</th>
-                                        <th>Package</th>
+                                        <th>Contract Price</th>
                                         <th colspan="2" class="text-nowrap">Turnover <small>Left | Right</small></th>
                                     </tr>
                                 </thead>
