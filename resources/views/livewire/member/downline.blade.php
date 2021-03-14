@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <input type="text" wire:model="key" class="form-control">
+                    <input type="text" wire:model.lazy="key" class="form-control">
                     <br>
                 </div>
                 @if ($data)
