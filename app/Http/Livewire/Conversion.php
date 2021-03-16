@@ -99,7 +99,7 @@ class Conversion extends Component
             }
 
             $trx_exchange = new TransactionExchange();
-            $wd_total = $trx_exchange->total;
+            $wd_total = $trx_exchange->total_reward;
             if ((auth()->user()->contract_price * 3) <= $wd_total) {
                 $error .= "<li>Your conversion has reached the limit, please extend it</strong></li>";
             }

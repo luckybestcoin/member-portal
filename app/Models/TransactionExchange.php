@@ -20,8 +20,13 @@ class TransactionExchange extends Model
         return $this->belongsTo(Transaction::class, 'transaction_id');
     }
 
-    public function getTotalAttribute()
+    public function getTotalPinAttribute()
     {
-        return $total = $this->select('transaction_exchange_amount')->where('member_id', auth()->id())->get()->sum('transaction_exchange_amount');
+        return $total = $this->select('transaction_exchange_amount')->where('transaction_exchange_type', 'Pin Fee')->where('member_id', auth()->id())->get()->sum('transaction_exchange_amount');
+    }
+
+    public function getTotalRewardAttribute()
+    {
+        return $total = $this->select('transaction_exchange_amount')->where('transaction_exchange_type', 'Reward')->where('member_id', auth()->id())->get()->sum('transaction_exchange_amount');
     }
 }
