@@ -41,6 +41,7 @@ class Extension extends Component
                 'network' => $data->member_network,
                 'contract' => $data->contract_price,
                 'position' => $data->member_position,
+                'username' => $data->username,
                 'founder' => $data->member_parent? 0: 1,
                 'pair' => $left_turnover > 0 && $right_turnover > 0? 1: 0,
                 'left' => $left_turnover,
@@ -135,7 +136,7 @@ class Extension extends Component
                     $bagi_hasil->member_id = auth()->user()->member_parent;
                     $bagi_hasil->save();
 
-                    $this->setParent(Member::with('parent')->with('rating')->with('invalid_left_turnover')->with('invalid_right_turnover')->select("member_id", "member_email", "member_user", "member_parent", "member_position", "rating_id", "contract_price", "member_network", "due_date", "deleted_at",
+                    $this->setParent(Member::with('parent')->with('rating')->with('invalid_left_turnover')->with('invalid_right_turnover')->select("member_id", "member_email", "member_user", "member_parent", "username", "member_position", "rating_id", "contract_price", "member_network", "due_date", "deleted_at",
                     DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_id, "ki")))=concat(member.member_id, "ki") ) left_turnover'),
                     DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_id, "ka")))=concat(member.member_id, "ka") ) right_turnover'))->where('member_id', auth()->id())->first());
 
@@ -162,6 +163,7 @@ class Extension extends Component
                                 $child->rating_id = $rating->rating_id;
 
                                 $pcp = new Achievement();
+                                $pcp->username = $row['username'];
                                 $pcp->member_id = $row['id'];
                                 $pcp->rating_id = $rating->rating_id;
                                 $pcp->save();
