@@ -7,7 +7,7 @@
 @push('css')
 <style>
     .marquee {
-        height: 25px;
+        height: 27px;
         overflow: hidden;left: 0;
         position: fixed;
         right: 0;
@@ -61,13 +61,9 @@
         @php
             $color = \Str::random(6)
         @endphp
-        <label >
+        <label class="mt-1">
             LBC PRICE :
             <span>$ {{ $rate->last_dollar }}</span>
-            DEPOSIT LBC :
-            @foreach ($payment_method->all() as $item)
-            <span>{{ $item->payment_method_name." (".$item->payment_method_price." ".$item->payment_method_abbrevation.") | " }}</span>
-            @endforeach
         </label>
     </div>
     <section class="content-header" style="padding-top: 40px">
