@@ -27,7 +27,7 @@ class Main extends Component
         }
 
         if (Recovery::where('member_email', $member->member_email)->count() > 0){
-            $error .= "<li>You've done this action before</li>";
+            $error .= "<li>You've done this action before. Please check your email</li>";
         }
 
         if ($error) {
