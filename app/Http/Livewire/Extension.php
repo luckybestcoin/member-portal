@@ -86,9 +86,8 @@ class Extension extends Component
                 $error .= "<li>Account has insufficient funds.</li>";
             }
 
-            $trx_exchange = new TransactionExchange();
-            if ((auth()->user()->contract_price * 3) - $trx_exchange->total > auth()->user()->contract->contract_reward_exchange_min){
-                $error .= "<li>You have the remaining conversion $ ".((auth()->user()->contract_price * 3) - $trx_exchange->total)."</li>";
+            if (!auth()->user()->due_date){
+                $error .= "<li>You cannot extend the contract now</li>";
             }
 
             if ($error) {
