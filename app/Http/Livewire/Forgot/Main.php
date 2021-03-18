@@ -21,11 +21,12 @@ class Main extends Component
         $this->validate();
         $error = null;
 
-        if (Member::where('member_user', $this->username)->count() == 0){
+        $member = Member::where('member_user', $this->username)->get()->first();
+        if (Member::where('member_email', $member->member_email)->count() == 0){
             $error .= "<li>Email address not found</li>";
         }
 
-        if (Recovery::where('member_user', $this->username)->count() > 0){
+        if (Recovery::where('member_email', $member->member_email)->count() > 0){
             $error .= "<li>You've done this action before</li>";
         }
 
@@ -39,11 +40,10 @@ class Main extends Component
 
         try {
             $recovery = new Recovery();
-            $recovery->member_user = $this->username;
+            $recovery->member_email = $member->member_email;
             $recovery->recovery_token = Str::random(40).date("Ymdhms");
             $recovery->save();
 
-            $member = Member::where('member_user', $this->username)->get()->first();
             Mail::send('email.recovery', [
                 'token' => $recovery->recovery_token,
                 'name' => $member->member_user,
