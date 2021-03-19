@@ -29,9 +29,9 @@
                     <!-- small box -->
                     <div class="small-box bg-purple">
                         <div class="inner">
-                            <h3>$ {{ number_format($reward, 2) }}</h3>
+                            <h3>$ {{ number_format($remaining, 2) }}</h3>
 
-                            <p>Total Reward</p>
+                            <p>Remaining Reward</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-gift"></i>
@@ -77,10 +77,52 @@
                             <div id="container" style="height: 400px"></div>
                         </div>
                     </div>
-                    <!-- /.card -->
                 </div>
                 <div class="col-md-4">
-                    @include('includes.information')
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="ml-2">Achievement</h4>
+                            <hr>
+                            <table class="w-100">
+                                @foreach ($achievement as $item)
+                                <tr>
+                                    <td>
+                                        {{ $item->rating->rating_name }}
+                                    </td>
+                                    <td class="text-right">
+                                        @if ($item->process)
+                                        {{ $item->process }} LBC
+                                        @else
+                                        Waiting
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3>$ {{ number_format($reward, 2) }}</h3>
+
+                            <p>Total Reward</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-maximize"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">&nbsp;</a>
+                    </div>
+                    <div class="info-box mb-3 bg-secondary">
+                        <div class="row m-2" style="width: 100%">
+                            <div class="col-lg-12">
+                                <label>Left Side Turnover</label>
+                                <h3 class="text-nowrap" id="left-turnover"></h3>
+                                <hr>
+                                <label>Right Side Turnover</label>
+                                <h3 class="text-nowrap" id="right-turnover"></h3>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -91,6 +133,12 @@
     <script src="/highchart/highstock.js"></script>
     <script src="/highchart/modules/data.js"></script>
     <script type="text/javascript">
+        setInterval(function() {
+            $.get("/turnoverbalance", function (result){
+                $("#left-turnover").text(result['left_turnover']);
+                $("#right-turnover").text(result['right_turnover']);
+            });
+        }, 1000);
         Highcharts.getJSON('/rate', function (data) {
 
             Highcharts.stockChart('container', {

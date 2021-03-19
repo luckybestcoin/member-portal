@@ -10,9 +10,7 @@ class Achievement extends Model
     use HasFactory;
 
     protected $table = 'achievement';
-    protected $primaryKey = ['rating_id', 'member_id'];
-    protected $keyType = 'string';
-    public $incrementing = false;
+    protected $primaryKey = 'achievement_id';
 
 
     public function rating()
