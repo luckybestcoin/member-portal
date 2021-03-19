@@ -67,7 +67,7 @@
                         <div class="icon">
                             <i class="fa fa-ticket-alt"></i>
                         </div>
-                        <a href="/exchange?type=pinfee" class="small-box-footer">Convert <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="/conversion?type=pinfee" class="small-box-footer">Convert <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 
