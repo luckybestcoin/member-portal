@@ -8,7 +8,7 @@
                         <tr>
                             <th>Timestamp</th>
                             <th>Achievement</th>
-                            <th>Omset</th>
+                            <th>Turnover</th>
                             <th>Reward</th>
                             <th>Status</th>
                         </tr>

@@ -89,6 +89,9 @@
                                     <td>
                                         {{ $item->rating->rating_name }}
                                     </td>
+                                    <td>
+                                        $ {{ number_format($item->rating->rating_min_turnover, 2) }}
+                                    </td>
                                     <td class="text-right">
                                         @if ($item->process)
                                         {{ $item->process }} LBC
