@@ -11,7 +11,7 @@
                 @include('includes.notification')
                 <form wire:submit.prevent="submit">
                     <div class="form-group form-primary">
-                        <input type="text" wire:model.defer="username" class="form-control" placeholder="Username" autocomplete="off">
+                        <input type="text" wire:model.defer="username" class="form-control" placeholder="Username/Email" autocomplete="off">
                         @error('username')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror

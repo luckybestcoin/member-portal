@@ -36,7 +36,7 @@
                         <div class="icon">
                             <i class="fa fa-gift"></i>
                         </div>
-                        <a href="/exchange?type=reward" class="small-box-footer">Convert <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="/conversion?type=reward" class="small-box-footer">Convert <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -52,7 +52,7 @@
                           <div class="icon">
                               <i class="fa fa-gift"></i>
                           </div>
-                          <a href="/exchange?type=reward" class="small-box-footer">Convert <i class="fas fa-arrow-circle-right"></i></a>
+                          <a href="/conversion?type=reward" class="small-box-footer">Convert <i class="fas fa-arrow-circle-right"></i></a>
                       </div>
                   </div>
                   <!-- ./col -->
@@ -106,7 +106,7 @@
                     </div>
                     <div class="small-box bg-yellow">
                         <div class="inner">
-                            <h3>$ {{ number_format($reward, 2) }}</h3>
+                            <h3>$ {{ number_format($reward + $daily, 2) }}</h3>
 
                             <p>Total Reward</p>
                         </div>
