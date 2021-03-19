@@ -7,6 +7,7 @@
             <div class="card-body">
                 @if ($success == true)
                 @include('includes.notification')
+                <a href="/login"><b class="f-w-600">Back to login page</b></a>
                 @else
                 @include('includes.notification')
                 <form wire:submit.prevent="submit">
@@ -26,7 +27,7 @@
                         <div class="col-md-12">
                             <p class="text-inverse text-left m-b-0">Thank you.</p>
                             <p class="text-inverse text-left">
-                                <a href="/"><b class="f-w-600">Back to website</b></a>
+                                <a href="/"><b class="f-w-600">Back to login page</b></a>
                             </p>
                         </div>
                     </div>
