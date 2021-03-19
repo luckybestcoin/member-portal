@@ -167,11 +167,12 @@ class Activation extends Component
                         if ($rating && strlen($child->member_parent) > 1 && Achievement::where('member_id', $row['id'])->where('rating_id', $rating->rating_id)->get()->count() == 0) {
                             $child->rating_id = $rating->rating_id;
 
-                            $pcp = new Achievement();
-                            $pcp->username = $row['username'];
-                            $pcp->member_id = $row['id'];
-                            $pcp->rating_id = $rating->rating_id;
-                            $pcp->save();
+                            if(Member::where('username', $child->username)->where('rating_id', $rating->rating_id)->get()->count() == 0){
+                                $pcp = new Achievement();
+                                $pcp->member_id = $row['id'];
+                                $pcp->rating_id = $rating->rating_id;
+                                $pcp->save();
+                            }
                         }
                         $child->save();
 
