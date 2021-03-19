@@ -21,17 +21,22 @@ class Main extends Component
         $this->validate();
         $error = null;
 
-        $member = Member::where('member_user', $this->username)->get()->first();
-        if (Member::where('member_email', $member->member_email)->count() == 0){
-            $error .= "<li>Email address not found</li>";
-        }
+        $member = Member::where('member_user', $this->username)->orWhere('member_email', $this->username)->get();
+        if ($member->count() > 0) {
+            $member = $member->first();
+            if (Member::where('member_email', $member->member_email)->count() == 0){
+                $error .= "<li>Email address not found</li>";
+            }
 
-        if (Member::where('member_user', $member->member_user)->count() == 0){
-            $error .= "<li>Username address not found</li>";
-        }
+            if (Member::where('member_user', $member->member_user)->count() == 0){
+                $error .= "<li>Username address not found</li>";
+            }
 
-        if (Recovery::where('member_email', $member->member_email)->count() > 0){
-            $error .= "<li>You've done this action before. Please check your email</li>";
+            if (Recovery::where('member_email', $member->member_email)->count() > 0){
+                $error .= "<li>You've done this action before. Please check your email</li>";
+            }
+        }else{
+            $error .= "<li>Username/Email not registered</li>";
         }
 
         if ($error) {
