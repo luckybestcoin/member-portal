@@ -106,7 +106,7 @@
                     </div>
                     <div class="small-box bg-yellow">
                         <div class="inner">
-                            <h3>$ {{ number_format($reward + $daily, 2) }}</h3>
+                            <h3>$ {{ number_format($reward + $fee, 2) }}</h3>
 
                             <p>Total Reward</p>
                         </div>
