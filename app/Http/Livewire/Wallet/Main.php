@@ -35,7 +35,7 @@ class Main extends Component
         ]);
 
         try {
-            $response = Http::get("https://wallet.luckybestcoin.com/api/verify?key=".$this->app_key)->body();
+            $response = Http::get("https://lbcwallet.com/api/verify?key=".$this->app_key)->body();
             if(strpos($response, "SUKSES") !== false){
                 $data = explode(",", $response);
 
