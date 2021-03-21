@@ -22,17 +22,24 @@ class Login extends Component
     public function login()
     {
         $this->validate();
-
-        $remember = $this->remember == 'on';
-        if (Auth::attempt(['member_user' => $this->username, 'password' => $this->password], $remember)) {
-            Auth::logoutOtherDevices($this->password, 'member_password');
-            return redirect()->intended('dashboard');
+        if($this->honeyPasses()){
+            $remember = $this->remember == 'on';
+            if (Auth::attempt(['member_user' => $this->username, 'password' => $this->password], $remember)) {
+                Auth::logoutOtherDevices($this->password, 'member_password');
+                return redirect()->intended('dashboard');
+            }
+            $this->notification = [
+                'tipe' => 'danger',
+                'pesan' => '<li><strong>Sign In notification!!!</strong><br>Wrong username or password</li>'
+            ];
+            return;
+        }else{
+            $this->notification = [
+                'tipe' => 'danger',
+                'pesan' => '<li>Login Failed</li>'
+            ];
+            return;
         }
-        $this->notification = [
-            'tipe' => 'danger',
-            'pesan' => '<li><strong>Sign In notification!!!</strong><br>Wrong username or password</li>'
-        ];
-        return;
     }
 
     public function updated()
