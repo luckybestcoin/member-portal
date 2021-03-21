@@ -6,9 +6,11 @@ use Livewire\Component;
 use App\Models\Referral;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Lukeraymonddowning\Honey\Traits\WithHoney;
 
 class Login extends Component
 {
+    use WithHoney;
     public $username, $password, $referral_token, $remember = false;
     public $notification;
 

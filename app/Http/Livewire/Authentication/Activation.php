@@ -15,9 +15,11 @@ use App\Models\TransactionReward;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Lukeraymonddowning\Honey\Traits\WithHoney;
 
 class Activation extends Component
 {
+    use WithHoney;
     public $name, $email, $phone_number, $new_username, $contract_price, $member_id, $new_user_id, $kode, $new_password, $token, $data, $agree, $eye = "fa-eye-slash", $type = "password";
     public $notification;
 

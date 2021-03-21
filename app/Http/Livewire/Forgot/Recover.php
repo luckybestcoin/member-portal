@@ -8,9 +8,11 @@ use App\Models\Recovery;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Lukeraymonddowning\Honey\Traits\WithHoney;
 
 class Recover extends Component
 {
+    use WithHoney;
     public $member, $name, $email, $phone_number, $contract_price, $data, $new_password, $token, $eye = "fa-eye-slash", $type = "password";
     public $notification;
 

@@ -7,9 +7,11 @@ use Livewire\Component;
 use App\Models\Recovery;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
+use Lukeraymonddowning\Honey\Traits\WithHoney;
 
 class Main extends Component
 {
+    use WithHoney;
     public $notification, $username, $success = false;
 
     protected $rules = [
