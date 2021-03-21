@@ -115,12 +115,6 @@ class Registration extends Component
             if ($pin->balance < $this->contract_pin) {
                 $error .= "<li>Not enough <strong>PIN".($this->contract_pin == 1?:"s")."</strong></li>";
             }
-            if (Member::where('member_email', $this->email)->count() > 0){
-                $error .= "<li>The email address <strong>".$this->email."</strong> is already registered</li>";
-            }
-            if (Member::where('member_phone', $this->phone_number)->count() > 0){
-                $error .= "<li>The phone nomber <strong>".$this->phone_number."</strong> is already registered</li>";
-            }
             if ($error) {
                 return $this->notification = [
                     'tipe' => 'danger',
