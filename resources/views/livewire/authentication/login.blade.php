@@ -33,6 +33,7 @@
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
+                    <x-honey recaptcha/>
                     <div class="row">
                         <div class="col-8">
                             <div class="icheck-primary">
