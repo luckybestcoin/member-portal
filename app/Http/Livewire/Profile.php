@@ -57,10 +57,6 @@ class Profile extends Component
         $this->reset('notification');
         $error = null;
 
-        if (Member::where('member_email', $this->email)->where('member_id', '!=', auth()->id())->count() > 0){
-            $error .= "<li>The email address <strong>".$this->email."</strong> is already registered</li>";
-        }
-
         if ($error) {
             return $this->notification = [
                 'tipe' => 'danger',
