@@ -7,10 +7,11 @@ use App\Models\Referral;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Lukeraymonddowning\Honey\Traits\WithHoney;
+use Lukeraymonddowning\Honey\Traits\WithRecaptcha;
 
 class Login extends Component
 {
-    use WithHoney;
+    use WithHoney,WithRecaptcha;
     public $username, $password, $referral_token, $remember = false;
     public $notification;
 
@@ -22,24 +23,30 @@ class Login extends Component
     public function login()
     {
         $this->validate();
-        if($this->honeyPasses()){
-            $remember = $this->remember == 'on';
-            if (Auth::attempt(['member_user' => $this->username, 'password' => $this->password], $remember)) {
-                Auth::logoutOtherDevices($this->password, 'member_password');
-                return redirect()->intended('dashboard');
-            }
+        if($this->honeyPasses() === false){
             $this->notification = [
                 'tipe' => 'danger',
-                'pesan' => '<li><strong>Sign In notification!!!</strong><br>Wrong username or password</li>'
-            ];
-            return;
-        }else{
-            $this->notification = [
-                'tipe' => 'danger',
-                'pesan' => '<li>Login Failed</li>'
+                'pesan' => '<li>Honey Failed</li>'
             ];
             return;
         }
+        if($this->recaptchaPasses() === false){
+            $this->notification = [
+                'tipe' => 'danger',
+                'pesan' => '<li>Recaptcha Failed</li>'
+            ];
+            return;
+        }
+        $remember = $this->remember == 'on';
+        if (Auth::attempt(['member_user' => $this->username, 'password' => $this->password], $remember)) {
+            Auth::logoutOtherDevices($this->password, 'member_password');
+            return redirect()->intended('dashboard');
+        }
+        $this->notification = [
+            'tipe' => 'danger',
+            'pesan' => '<li><strong>Sign In notification!!!</strong><br>Wrong username or password</li>'
+        ];
+        return;
     }
 
     public function updated()
