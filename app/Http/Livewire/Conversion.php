@@ -112,6 +112,10 @@ class Conversion extends Component
                 $error .= "<li>You have made a reward conversion today</li>";
             }
 
+            if (auth()->user()->due_date) {
+                $error .= "<li>You must renew your contract</li>";
+            }
+
             if ($this->amount > $this->trx_reward->balance) {
                 $error .= "<li>Your reward is not enough to do this action</li>";
             }
@@ -208,6 +212,10 @@ class Conversion extends Component
 
             if(Hash::check($this->password, auth()->user()->member_password) === false){
                 $error .= "<li>Wrong <strong>password</strong></li>";
+            }
+
+            if (auth()->user()->due_date) {
+                $error .= "<li>You must renew your contract</li>";
             }
 
             if (TransactionRewardPin::where('transaction_reward_pin_type', 'Conversion')->where('created_at', 'like', date('Y-m-d').'%')->where('member_id', auth()->id())->get()->count() > 0) {

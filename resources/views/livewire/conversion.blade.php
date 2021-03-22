@@ -3,6 +3,9 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-8">
+                    @if(auth()->user()->due_date)
+                    <h3 class="text-danger text-center">You must renew your contract</h3>
+                    @else
                     <div class="card card-primary card-outline card-tabs">
                         <div class="card-header p-0 pt-1">
                             <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
@@ -114,6 +117,7 @@
                             <li>Max. Pin Fee Conversion $ {{ number_format(auth()->user()->contract->contract_pin_reward_exchange_max, 2) }}</li>
                         </ul>
                     </div>
+                    @endif
                 </div>
                 <div class="col-lg-4">
                     <div class="small-box bg-purple">
