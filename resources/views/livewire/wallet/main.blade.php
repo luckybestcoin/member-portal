@@ -126,11 +126,25 @@
                     <form wire:submit.prevent="key">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">App Key</h3>
+                                <h3 class="card-title">Wallet Information</h3>
                             </div>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label>Input Your App Key Here</label>
+                                    <label>Username</label>
+                                    <input type="text" class="form-control" wire:model.defer="username" autocomplete="off">
+                                    @error('username')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="password" class="form-control" wire:model.defer="password" autocomplete="off">
+                                    @error('password')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label>App Key</label>
                                     <input type="text" class="form-control" wire:model.defer="app_key" autocomplete="off">
                                     @error('app_key')
                                     <span class="text-danger">{{ $message }}</span>

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Http;
 
 class Main extends Component
 {
-    public $lbc_amount, $to_address, $notification, $password, $app_key;
+    public $lbc_amount, $to_address, $notification, $password, $username, $app_key;
 
     public function updated()
     {
@@ -31,11 +31,17 @@ class Main extends Component
     public function key()
     {
         $this->validate([
-            'app_key' => 'required'
+            'app_key' => 'required',
+            'password' => 'required',
+            'username' => 'required'
         ]);
 
         try {
-            $response = Http::get("https://lbcwallet.com/api/verify?key=".$this->app_key)->body();
+            $response = Http::post("https://lbcwallet.com/api/verify", [
+                'key' => $this->app_key,
+                'username' => $this->username,
+                'password' => $this->password
+            ])->body();
             if(strpos($response, "SUKSES") !== false){
                 $data = explode(",", $response);
 
