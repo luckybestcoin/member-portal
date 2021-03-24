@@ -23,13 +23,13 @@ class Login extends Component
     public function login()
     {
         $this->validate();
-        if($this->honeyPasses() === false){
-            $this->notification = [
-                'tipe' => 'danger',
-                'pesan' => '<li>Honey Failed</li>'
-            ];
-            return;
-        }
+        // if($this->honeyPasses() === false){
+        //     $this->notification = [
+        //         'tipe' => 'danger',
+        //         'pesan' => '<li>Honey Failed</li>'
+        //     ];
+        //     return;
+        // }
         if($this->recaptchaPasses() === false){
             $this->notification = [
                 'tipe' => 'danger',
