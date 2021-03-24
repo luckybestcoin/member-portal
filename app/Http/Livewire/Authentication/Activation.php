@@ -128,8 +128,8 @@ class Activation extends Component
         try {
             DB::transaction(function () {
                 $member = Member::findOrFail($this->member_id);
-                $member->member_user = $this->new_username;
-                $member->member_password = Hash::make($this->new_password);
+                $member->member_user = trim($this->new_username);
+                $member->member_password = Hash::make(trim($this->new_password));
                 $member->save();
 
                 $this->data->delete();
