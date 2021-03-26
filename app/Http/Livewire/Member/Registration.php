@@ -164,6 +164,8 @@ class Registration extends Component
                 $bagi_hasil->member_id = $network->member_id;
                 $bagi_hasil->save();
 
+                bitcoind()->move(auth()->user()->username, "administrator", round($this->lbc_amount, 8), 1, $information);
+
                 Mail::send('email.registration', [
                     'token' => $referral->referral_token,
                     'name' => $this->name,
@@ -174,8 +176,6 @@ class Registration extends Component
                         ('Lucky Best Coin Registration Referral Code');
                     $message->from('no-reply@luckybestcoin.net', 'Admin LBC');
                 });
-
-                bitcoind()->move(auth()->user()->username, "administrator", round($this->lbc_amount, 8), 1, $information);
             });
 
             $this->updated();
