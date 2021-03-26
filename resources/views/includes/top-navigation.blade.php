@@ -8,7 +8,7 @@
             <a href="/" class="nav-link">Home</a>
         </li>
         <li class="nav-item d-sm-inline-block">
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSe-60Lwgl8VtqDMl1qGHNLajKOrN5qf1MCL3Ub4aZM5yz07oQ/viewform" class="nav-link" target="_blank">Customer Service</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSe-60Lwgl8VtqDMl1qGHNLajKOrN5qf1MCL3Ub4aZM5yz07oQ/viewform" class="nav-link" target="_blank">Complaint</a>
         </li>
     </ul>
 
