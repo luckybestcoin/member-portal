@@ -46,10 +46,7 @@ class Registration extends Component
 
     public function setCountry($country)
     {
-        $this->updated();
-        $this->country = $country;
-        $country_filter = $this->country_data->where('country_id', $country)->first();
-        $this->country_code = $country_filter['country_code'];
+        $this->country_code = $country;
     }
 
     public function setContract($contract)
@@ -81,7 +78,7 @@ class Registration extends Component
         $this->back = Str::contains(url()->previous(), ['tambah', 'edit'])? '/Member/registration': url()->previous();
         $this->country_data = Country::orderBy('country_name')->get();
         $this->contract_data = Contract::all();
-        $this->member_data = Member::whereNotNull('member_password')->where('member_network', 'like', auth()->user()->member_network.auth()->id().'%')->get();
+        $this->member_data = Member::whereNotNull('member_password')->get();
     }
 
     public function countryChanged()

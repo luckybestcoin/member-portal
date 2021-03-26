@@ -28,15 +28,13 @@
 @push('scripts')
 <script>
     $(document).ready(function(){
-        setInterval(function() {
-            $.get("/pinbalance", function (result){
-                $("#pin-balance").text(result);
-            });
-            $.get("/turnoverbalance", function (result){
-                $("#left-turnover").text(result['left_turnover']);
-                $("#right-turnover").text(result['right_turnover']);
-            });
-        }, 1000);
+        $.get("/pinbalance", function (result){
+            $("#pin-balance").text(result);
+        });
+        $.get("/turnoverbalance", function (result){
+            $("#left-turnover").text(result['left_turnover']);
+            $("#right-turnover").text(result['right_turnover']);
+        });
     });
 </script>
 @endpush

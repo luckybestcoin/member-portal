@@ -1,6 +1,7 @@
 <div>
     @push('css')
     <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="/plugins/bootstrap-select/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     @endpush
     <section class="content">
@@ -33,26 +34,18 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Country</label>
-                                    <select class="select2 country" wire:model="country" style="width: 100%;">
-                                        <option value=""></option>
+                                    <select class="selectpicker form-control" wire:model.defer="country" data-size="10" data-live-search="true" title="Choose one of the following..." data-style="btn-secondary" style="width: 100%;">
                                         @foreach ($country_data as $country)
-                                        <option value="{{ $country->country_id }}">{{ $country->country_name }}</option>
+                                        <option value="{{ $country->country_id }}" data-code="{{ $country->country_code }}">{{ $country->country_name }}</option>
                                         @endforeach
                                     </select>
                                     @error('country')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <div class="form-group form-primary">
+                                <div class="form-group">
                                     <label>Phone Number</label>
-                                    <div class="input-group">
-                                        <div class="input-group-append">
-                                            <div class="input-group-text">
-                                                {{ $country_code }}
-                                            </div>
-                                        </div>
-                                        <input type="text" class="form-control" wire:model.defer="phone_number" autocomplete="off">
-                                    </div>
+                                    <input type="text" class="form-control" wire:model.defer="phone_number" autocomplete="off">
                                     @error('phone_number')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -60,10 +53,9 @@
                                 <hr>
                                 <div class="form-group">
                                     <label>Contract</label>
-                                    <select class="select2 contract" wire:model="contract" style="width: 100%;">
-                                        <option value=""></option>
+                                    <select class="selectpicker form-control" title="Choose one of the following..." data-style="btn-primary" wire:model.defer="contract" style="width: 100%;">
                                         @foreach ($contract_data as $contract)
-                                        <option value="{{ $contract->contract_id }}">{{ $contract->contract_name }} ($ {{ number_format($contract->contract_price, 2) }})</option>
+                                        <option value="{{ $contract->contract_id }}" data-content="{{ $contract->contract_name }} <span class='badge badge-warning'>$ {{ number_format($contract->contract_price, 2) }}</span>"></option>
                                         @endforeach
                                     </select>
                                     @error('contract')
@@ -72,10 +64,10 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Referral</label>
-                                    <select class="select2 referral" wire:model="referral" style="width: 100%;">
+                                    <select class="selectpicker form-control" title="Choose one of the following..." data-size="10" data-live-search="true" data-style="btn-danger" wire:model.defer="referral" style="width: 100%;">
                                         <option value="{{ auth()->id() }}" selected>{{ auth()->user()->member_uid." (".auth()->user()->member_name.")" }}</option>
                                         @foreach ($member_data as $member)
-                                        <option value="{{ $member->member_id }}">{{ $member->member_user." (".$member->member_name.")" }}</option>
+                                        <option value="{{ $member->member_id }}" data-content="{{ $member->member_user }} <span class='badge badge-warning'>{{ $member->member_name }}</span>"></option>
                                         @endforeach
                                     </select>
                                     @error('referral')
@@ -84,8 +76,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Turnover</label>
-                                    <select class="form-control" wire:model.defer="turnover">
-                                        <option value=""></option>
+                                    <select class="selectpicker form-control" title="Choose one of the following..." data-style="btn-warning" wire:model.defer="turnover">
                                         <option value="0">Left Side</option>
                                         <option value="1">Right Side</option>
                                     </select>
@@ -112,6 +103,7 @@
     @push('scripts')
     <!-- Masking js -->
     <script type="text/javascript" src="/plugins/select2/js/select2.full.min.js"></script>
+    <script type="text/javascript" src="/plugins/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
     <script>
         $(document).ready(function(){
             init();
@@ -122,18 +114,9 @@
         });
 
         function init() {
-            $(".select2").select2();
-
-            $(".contract").on("change", function(e) {
-                window.livewire.emit('set:setcontract', $(this).select2('data')[0]['id']);
-            });
-
-            $(".referral").on("change", function(e) {
-                window.livewire.emit('set:setreferral', $(this).select2('data')[0]['id']);
-            });
-
+            $(".selectpicker").selectpicker('refresh');
             $(".country").on("change", function(e) {
-                window.livewire.emit('set:setcountry', $(this).select2('data')[0]['id']);
+                window.livewire.emit('set:setcountry', $(this).find('option:selected').data('code'));
             });
         }
     </script>

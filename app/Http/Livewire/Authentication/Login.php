@@ -23,20 +23,20 @@ class Login extends Component
     public function login()
     {
         $this->validate();
-        if($this->honeyPasses() === false){
-            $this->notification = [
-                'tipe' => 'danger',
-                'pesan' => '<li>Honey Failed</li>'
-            ];
-            return;
-        }
-        if($this->recaptchaPasses() === false){
-            $this->notification = [
-                'tipe' => 'danger',
-                'pesan' => '<li>Recaptcha Failed</li>'
-            ];
-            return;
-        }
+        // if($this->honeyPasses() === false){
+        //     $this->notification = [
+        //         'tipe' => 'danger',
+        //         'pesan' => '<li>Honey Failed</li>'
+        //     ];
+        //     return;
+        // }
+        // if($this->recaptchaPasses() === false){
+        //     $this->notification = [
+        //         'tipe' => 'danger',
+        //         'pesan' => '<li>Recaptcha Failed</li>'
+        //     ];
+        //     return;
+        // }
         $remember = $this->remember == 'on';
         if (Auth::attempt(['member_user' => $this->username, 'password' => $this->password], $remember)) {
             Auth::logoutOtherDevices($this->password, 'member_password');
