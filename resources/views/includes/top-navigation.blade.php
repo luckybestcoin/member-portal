@@ -37,11 +37,9 @@
 @push('scripts')
 <script>
     $(document).ready(function(){
-        setInterval(function() {
             $.get("/balance", function (result){
                 $("#lbc-balance").text(result);
             });
-        }, 1000);
     });
 </script>
 @endpush
