@@ -122,8 +122,8 @@
                 <div class="col-lg-4">
                     <div class="small-box bg-purple">
                         <div class="inner">
-                            <h3>$ {{ number_format($reward, 2) }}</h3>
-                            <p>Reward</p>
+                            <h3>$ {{ number_format($trx_reward->where('member_id', auth()->id())->where('transaction_reward_amount', '>', 0)->get()->sum('transaction_reward_amount') - $trx_exchange->total_reward, 2) }}</h3>
+                            <p>Remaining Reward</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-gift"></i>
@@ -133,20 +133,28 @@
                         <div class="inner">
                             <h3>$ {{ number_format($fee, 2) }}</h3>
 
-                            <p>Pin Fee</p>
+                            <p>Pin Fee Reward</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-ticket-alt"></i>
                         </div>
                     </div>
-                    <div class="small-box bg-lime">
-                        <div class="inner">
-                            <h3>$ {{ number_format((auth()->user()->contract_price * 3) - $trx_exchange->total) }}</h3>
-
-                            <p>Remaining Reward Conversion</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fa fa-ticket-alt"></i>
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="ml-2">History</h4>
+                            <hr>
+                            <table class="w-100">
+                                @foreach ($history as $item)
+                                <tr>
+                                    <td>
+                                        {{ $item->created_at }}
+                                    </td>
+                                    <td class="text-right">
+                                        {{ number_format($item->transaction_exchange_amount, 8) }} LBC
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </table>
                         </div>
                     </div>
                 </div>

@@ -103,10 +103,8 @@
                             ';
                         }
                     @endphp
-                    <!-- Add icons to the links using the .nav-icon class
-                        with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="javascript:;" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="feather icon-log-out"></i><i class="fas fa-sign-out-alt mr-2"></i> {{ __('Log Out') }}</a>
+                            <a href="javascript:;" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="nav-icon fas fa-sign-out-alt mr-2"></i> <p>{{ __('Log Out') }}</p></a>
                         </li>
                     </ul>
                 </nav>

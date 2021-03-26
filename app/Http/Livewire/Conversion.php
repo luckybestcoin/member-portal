@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Hash;
 
 class Conversion extends Component
 {
-    public $rate, $type, $amount, $percent, $lbc_amount, $lbc_price, $tx_fee, $password, $notification, $trx_reward, $trx_pinfee, $trx_exchange, $conversion = false;
+    public $rate, $history, $type, $amount, $percent, $lbc_amount, $lbc_price, $tx_fee, $password, $notification, $trx_reward, $trx_pinfee, $trx_exchange, $conversion = false;
     public $reward, $fee;
 
     protected $rules = [
@@ -300,7 +300,7 @@ class Conversion extends Component
         $this->reward = $this->trx_reward->balance;
         $this->fee = $this->trx_pinfee->balance;
         $this->lbc_price = $this->rate->last_dollar;
-
+        $this->history = TransactionExchange::where('member_id', auth()->id())->get();
         return view('livewire.conversion')
             ->extends('livewire.main', [
                 'breadcrumb' => ['Conversion'],
