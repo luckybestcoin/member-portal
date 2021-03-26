@@ -10,8 +10,7 @@ class TransactionExchange extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = 'transaction_exchange';
-    protected $primaryKey = null;
-    public $incrementing = false;
+    protected $primaryKey = 'transaction_exchange_id';
 
     protected $fillable = array('transaction_exchange_amount', 'transaction_id', 'member_id', 'created_at', 'created_at');
 
