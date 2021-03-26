@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Mail;
 
 class Registration extends Component
 {
-    public $name, $contract, $country, $referral, $phone_number, $email, $turnover, $back, $notification, $contract_pin, $contract_name, $country_code, $rate, $contract_price = 0, $lbc_amount = 0;
+    public $name, $contract, $country, $referral, $referral_name, $phone_number, $email, $turnover, $back, $notification, $contract_pin, $contract_name, $country_code, $rate, $contract_price = 0, $country_name, $lbc_amount = 0;
 
     public $country_data = [], $contract_data = [], $member_data = [];
 
@@ -86,9 +86,22 @@ class Registration extends Component
     {
         $this->emit('reinitialize');
         $this->validate();
+        $contract_filter = $this->country_data->where('country_id', $this->country)->first();
+        $this->country_name = $contract_filter['country_name'];
+        $contract_filter = $this->contract_data->where('contract_id', $this->contract)->first();
+        $this->contract_pin = $contract_filter['contract_pin'];
+        $this->contract_price = $contract_filter['contract_price'];
+        $this->contract_name = $contract_filter['contract_name'];
+        $this->lbc_amount = $this->contract_price/$this->rate->last_dollar;
+        $network = Member::findOrFail($this->referral);
+        $this->referral_name = $network->member_user;
+        $this->emit('save');
+    }
 
+    public function save()
+    {
+        $this->emit('done');
         $pin = new TransactionPin();
-
         $this->reset('notification');
         $error = null;
 
@@ -116,8 +129,6 @@ class Registration extends Component
             }
 
             DB::transaction(function () use ($pin) {
-                $contract_filter = $this->contract_data->where('contract_id', $this->contract)->first();
-                $this->contract_pin = $contract_filter['contract_pin'];
 
                 $information = "Member registration on behalf of ".$this->email;
                 $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
