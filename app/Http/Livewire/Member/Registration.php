@@ -54,10 +54,6 @@ class Registration extends Component
         $this->updated();
         if ($contract) {
             $this->contract = $contract;
-            $contract_filter = $this->contract_data->where('contract_id', $contract)->first();
-            $this->contract_price = $contract_filter['contract_price'];
-            $this->contract_pin = $contract_filter['contract_pin'];
-            $this->contract_name = $contract_filter['contract_name'];
             $this->lbc_amount = $this->contract_price/$this->rate->last_dollar;
         } else {
             $this->reset(['contract']);
@@ -120,6 +116,9 @@ class Registration extends Component
             }
 
             DB::transaction(function () use ($pin) {
+                $contract_filter = $this->contract_data->where('contract_id', $this->contract)->first();
+                $this->contract_pin = $contract_filter['contract_pin'];
+
                 $information = "Member registration on behalf of ".$this->email;
                 $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
 
