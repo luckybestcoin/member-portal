@@ -139,7 +139,7 @@
                             <tr>
                                 <th>Referral</th>
                                 <td> : </td>
-                                <td>{{ $email }}</td>
+                                <td>{{ $referral_name }}</td>
                             </tr>
                             <tr>
                                 <th>Turnover</th>
