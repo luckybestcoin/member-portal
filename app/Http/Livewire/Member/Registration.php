@@ -187,7 +187,6 @@ class Registration extends Component
                     $message->from('no-reply@luckybestcoin.net', 'Admin LBC');
                 });
             });
-            }
 
             $this->updated();
             $this->notification = [
