@@ -127,8 +127,8 @@ class Registration extends Component
                     'pesan' => $error
                 ];
             }
-            $token = null;
-            DB::transaction(function () use ($pin, $token) {
+            DB::transaction(function () use ($pin) {
+                $token = null;
 
                 $information = "Member registration on behalf of ".$this->email;
                 $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
@@ -176,8 +176,6 @@ class Registration extends Component
 
                 bitcoind()->move(auth()->user()->username, "administrator", round($this->lbc_amount, 8), 1, $information);
 
-            });
-            if($token){
                 Mail::send('email.registration', [
                     'token' => $token,
                     'name' => $this->name,
@@ -188,6 +186,7 @@ class Registration extends Component
                         ('Lucky Best Coin Registration Referral Code');
                     $message->from('no-reply@luckybestcoin.net', 'Admin LBC');
                 });
+            });
             }
 
             $this->updated();
