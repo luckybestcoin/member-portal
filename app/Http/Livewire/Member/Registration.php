@@ -85,7 +85,9 @@ class Registration extends Component
     public function submit()
     {
         $this->emit('reinitialize');
+        $this->emit('save');
         $this->validate();
+        $pin = new TransactionPin();
         $contract_filter = $this->country_data->where('country_id', $this->country)->first();
         $this->country_name = $contract_filter['country_name'];
         $contract_filter = $this->contract_data->where('contract_id', $this->contract)->first();
@@ -95,7 +97,26 @@ class Registration extends Component
         $this->lbc_amount = $this->contract_price/$this->rate->last_dollar;
         $network = Member::findOrFail($this->referral);
         $this->referral_name = $network->member_user;
-        $this->emit('save');
+
+        if (Str::length(auth()->user()->app_key) == 0) {
+            $error .= "<li>The app key is not yet available</li>";
+        }
+
+        if($this->turnover < 0 || $this->turnover > 1){
+            $error .= "<li>Turnover position not available</li>";
+        }
+        if ($this->lbc_amount > bitcoind()->getbalance(auth()->user()->username)[0]){
+            $error .= "<li>Account has insufficient funds.</li>";
+        }
+        if ($pin->balance < $this->contract_pin) {
+            $error .= "<li>Not enough <strong>PIN".($this->contract_pin == 1?:"s")."</strong></li>";
+        }
+        if ($error) {
+            return $this->notification = [
+                'tipe' => 'danger',
+                'pesan' => $error
+            ];
+        }
     }
 
     public function save()
