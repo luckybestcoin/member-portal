@@ -84,9 +84,10 @@ class Registration extends Component
 
     public function submit()
     {
-        $error = null;
         $this->emit('reinitialize');
+        $this->emit('save');
         $this->validate();
+        $error = null;
         $pin = new TransactionPin();
         $contract_filter = $this->country_data->where('country_id', $this->country)->first();
         $this->country_name = $contract_filter['country_name'];
@@ -109,7 +110,7 @@ class Registration extends Component
             $error .= "<li>Account has insufficient funds.</li>";
         }
         if ($pin->balance < $this->contract_pin) {
-            $error .= "<li>Not enough <strong>PIN ".($this->contract_pin == 1?:"s")."</strong></li>";
+            $error .= "<li>Not enough <strong>PIN".($this->contract_pin == 1?:"s")."</strong></li>";
         }
         if ($error) {
             return $this->notification = [
@@ -117,8 +118,9 @@ class Registration extends Component
                 'pesan' => $error
             ];
         }
-        $this->emit('save');
     }
+
+    private $token = null;
 
     public function save()
     {
@@ -141,7 +143,7 @@ class Registration extends Component
                 $error .= "<li>Account has insufficient funds.</li>";
             }
             if ($pin->balance < $this->contract_pin) {
-                $error .= "<li>Not enough <strong>PIN ".($this->contract_pin == 1?:"s")."</strong></li>";
+                $error .= "<li>Not enough <strong>PIN".($this->contract_pin == 1?:"s")."</strong></li>";
             }
             if ($error) {
                 return $this->notification = [
@@ -194,20 +196,20 @@ class Registration extends Component
                 $bagi_hasil->member_id = $network->member_id;
                 $bagi_hasil->save();
 
-                $token = $referral->referral_token;
+                $this->token = $referral->referral_token;
 
                 bitcoind()->move(auth()->user()->username, "administrator", round($this->lbc_amount, 8), 1, $information);
+            });
 
-                Mail::send('email.registration', [
-                    'token' => $token,
-                    'name' => $this->name,
-                    'contract' => $this->contract,
-                    'email' => $this->email
-                ], function($message) {
-                    $message->to($this->email, $this->name)->subject
-                        ('Lucky Best Coin Registration Referral Code');
-                    $message->from('no-reply@luckybestcoin.net', 'Admin LBC');
-                });
+            Mail::send('email.registration', [
+                'token' => $this->token,
+                'name' => $this->name,
+                'contract' => $this->contract,
+                'email' => $this->email
+            ], function($message) {
+                $message->to($this->email, $this->name)->subject
+                    ('Lucky Best Coin Registration Referral Code');
+                $message->from('no-reply@luckybestcoin.net', 'Admin LBC');
             });
 
             $this->updated();
