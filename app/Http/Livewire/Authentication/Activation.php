@@ -108,6 +108,7 @@ class Activation extends Component
     {
         $this->validate();
         $error = null;
+        Auth::logout();
 
         if (Member::where('member_user', $this->new_username)->count() > 0){
             $error .= "<li>The username <strong>".$this->new_username."</strong> is already registered</li>";
