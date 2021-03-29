@@ -109,7 +109,7 @@ class Registration extends Component
             $error .= "<li>Account has insufficient funds.</li>";
         }
         if ($pin->balance < $this->contract_pin) {
-            $error .= "<li>Not enough <strong>PIN".($this->contract_pin == 1?:"s")."</strong></li>";
+            $error .= "<li>Not enough <strong>PIN ".($this->contract_pin == 1?:"s")."</strong></li>";
         }
         if ($error) {
             return $this->notification = [
@@ -141,7 +141,7 @@ class Registration extends Component
                 $error .= "<li>Account has insufficient funds.</li>";
             }
             if ($pin->balance < $this->contract_pin) {
-                $error .= "<li>Not enough <strong>PIN".($this->contract_pin == 1?:"s")."</strong></li>";
+                $error .= "<li>Not enough <strong>PIN ".($this->contract_pin == 1?:"s")."</strong></li>";
             }
             if ($error) {
                 return $this->notification = [
