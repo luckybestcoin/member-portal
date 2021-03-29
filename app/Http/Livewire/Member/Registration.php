@@ -217,7 +217,7 @@ class Registration extends Component
                 'tipe' => 'success',
                 'pesan' => 'New member registration is successful. An email has been sent to '.$this->email
             ];
-            return $this->reset(['name', 'email', 'country', 'contract', 'phone_number', 'turnover', 'lbc_amount']);
+            return $this->reset(['name', 'email', 'country', 'contract', 'token', 'phone_number', 'turnover', 'lbc_amount']);
         } catch(\Exception $e){
             return $this->notification = [
                 'tipe' => 'danger',
