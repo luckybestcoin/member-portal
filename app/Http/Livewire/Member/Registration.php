@@ -84,8 +84,8 @@ class Registration extends Component
 
     public function submit()
     {
+        $error = null;
         $this->emit('reinitialize');
-        $this->emit('save');
         $this->validate();
         $pin = new TransactionPin();
         $contract_filter = $this->country_data->where('country_id', $this->country)->first();
@@ -117,6 +117,7 @@ class Registration extends Component
                 'pesan' => $error
             ];
         }
+        $this->emit('save');
     }
 
     public function save()
