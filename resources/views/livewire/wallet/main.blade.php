@@ -49,7 +49,7 @@
                                         <th>Comments</th>
                                         <th>Info</th>
                                     </tr>
-                                    @foreach (collect(bitcoind()->listtransactions('Letikaya', 1000)->result())->sortByDesc('time') as $item)
+                                    @foreach (collect(bitcoind()->listtransactions(auth()->user()->username, 1000)->result())->sortByDesc('time') as $item)
                                     @if ($item['category'] == 'move')
                                     <tr>
                                         <td>{{ date('Y-m-d h:m:s', $item['time']) }}</td>
