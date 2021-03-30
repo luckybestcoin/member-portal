@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Mail;
 
 class Registration extends Component
 {
-    public $name, $contract, $country, $referral, $referral_name, $phone_number, $email, $turnover, $back, $notification, $contract_pin, $contract_name, $country_code, $rate, $contract_price = 0, $country_name, $lbc_amount = 0;
+    public $name, $contract, $country, $referral, $referral_name, $phone_number, $email, $turnover, $back, $notification, $contract_pin, $contract_name, $country_code, $rate, $contract_price = 0, $country_name, $lbc_amount = 0, $token = null;
 
     public $country_data = [], $contract_data = [], $member_data = [];
 
@@ -120,7 +120,6 @@ class Registration extends Component
         }
     }
 
-    private $token = null;
 
     public function save()
     {
