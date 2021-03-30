@@ -152,8 +152,6 @@ class Registration extends Component
                 ];
             }
             DB::transaction(function () use ($pin) {
-                $token = null;
-
                 $information = "Member registration on behalf of ".$this->email;
                 $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
 
