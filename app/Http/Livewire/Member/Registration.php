@@ -11,6 +11,7 @@ use App\Models\Contract;
 use App\Models\Referral;
 use App\Models\Transaction;
 use Illuminate\Support\Str;
+use App\Jobs\SendReferralJob;
 use App\Models\TransactionPin;
 use App\Models\TransactionReward;
 use Illuminate\Support\Facades\DB;
@@ -123,6 +124,7 @@ class Registration extends Component
 
     public function save()
     {
+        $this->emit('reinitialize');
         $this->emit('done');
         $pin = new TransactionPin();
         $this->reset('notification');
@@ -130,7 +132,7 @@ class Registration extends Component
 
         $this->lbc_amount = $this->contract_price/$this->rate->last_dollar;
 
-        try{
+        // try{
             if (Str::length(auth()->user()->app_key) == 0) {
                 $error .= "<li>The app key is not yet available</li>";
             }
@@ -197,31 +199,34 @@ class Registration extends Component
 
                 bitcoind()->move(auth()->user()->username, "administrator", round($this->lbc_amount, 8), 1, $information);
             });
-
-            Mail::send('email.registration', [
+            $details = [
                 'token' => $this->token,
                 'name' => $this->name,
                 'contract' => $this->contract,
                 'email' => $this->email
-            ], function($message) {
-                $message->to($this->email, $this->name)->subject
-                    ('Lucky Best Coin Registration Referral Code');
-                $message->from('no-reply@luckybestcoin.net', 'Admin LBC');
-            });
+            ];
 
+            dispatch(new SendReferralJob($details));
+            $this->notification = [
+                'tipe' => 'success',
+                'pesan' => 'Email sending request to '.$this->email. ' has entered the queue'
+            ];
+
+            $this->emit('reinitialize');
             $this->updated();
             $this->notification = [
                 'tipe' => 'success',
                 'pesan' => 'New member registration is successful. An email has been sent to '.$this->email
             ];
             return $this->reset(['name', 'email', 'country', 'contract', 'token', 'phone_number', 'turnover', 'lbc_amount']);
-        } catch(\Exception $e){
-            return $this->notification = [
-                'tipe' => 'danger',
-                'pesan' => $e->getMessage()
-            ];
-        }
+        // } catch(\Exception $e){
+        //     return $this->notification = [
+        //         'tipe' => 'danger',
+        //         'pesan' => $e->getMessage()
+        //     ];
+        // }
     }
+
 
     public function render()
     {

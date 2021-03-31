@@ -6,6 +6,7 @@ use App\Models\Member;
 use Livewire\Component;
 use App\Models\Recovery;
 use Illuminate\Support\Str;
+use App\Jobs\SendRecoveryJob;
 use Illuminate\Support\Facades\Mail;
 use Lukeraymonddowning\Honey\Traits\WithHoney;
 
@@ -34,9 +35,9 @@ class Main extends Component
                 $error .= "<li>Username address not found</li>";
             }
 
-            if (Recovery::where('member_email', $member->member_email)->count() > 0){
-                $error .= "<li>You've done this action before. Please check your email</li>";
-            }
+            // if (Recovery::where('member_email', $member->member_email)->count() > 0){
+            //     $error .= "<li>You've done this action before. Please check your email</li>";
+            // }
         }else{
             $error .= "<li>Username/Email not registered</li>";
         }
@@ -54,16 +55,13 @@ class Main extends Component
             $recovery->member_email = $member->member_email;
             $recovery->recovery_token = Str::random(40).date("Ymdhms");
             $recovery->save();
-
-            Mail::send('email.recovery', [
+            $details =[
                 'token' => $recovery->recovery_token,
                 'name' => $member->member_user,
                 'email' => $member->member_email
-            ], function($message) use($member) {
-                $message->to($member->member_email, $member->member_user)->subject
-                    ('Lucky Best Coin Password Recovery');
-                $message->from('no-reply@luckybestcoin.net', 'Admin LBC');
-            });
+            ];
+            dispatch(new SendRecoveryJob($details));
+
             $this->success = true;
             return $this->notification = [
                 'tipe' => 'success',
