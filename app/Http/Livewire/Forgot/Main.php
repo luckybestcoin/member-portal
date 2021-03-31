@@ -35,9 +35,9 @@ class Main extends Component
                 $error .= "<li>Username address not found</li>";
             }
 
-            // if (Recovery::where('member_email', $member->member_email)->count() > 0){
-            //     $error .= "<li>You've done this action before. Please check your email</li>";
-            // }
+            if (Recovery::where('member_email', $member->member_email)->count() > 0){
+                $error .= "<li>You've done this action before. Please check your email</li>";
+            }
         }else{
             $error .= "<li>Username/Email not registered</li>";
         }
