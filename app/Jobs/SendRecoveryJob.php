@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Mail\ForgotMail;
 use App\Mail\ReferralMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\Mail;
@@ -35,7 +36,7 @@ class SendRecoveryJob implements ShouldQueue
     public function handle()
     {
         //
-        $email = new ReferralMail($this->details);
+        $email = new ForgotMail($this->details);
         Mail::to($this->details['email'])->send($email);
     }
 }
