@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\ForgotMail;
+use App\Mail\ReferralMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\SerializesModels;
@@ -35,7 +36,7 @@ class SendReferralJob implements ShouldQueue
     public function handle()
     {
         //
-        $email = new ForgotMail($this->details);
+        $email = new ReferralMail($this->details);
         Mail::to($this->details['email'])->send($email);
     }
 }
