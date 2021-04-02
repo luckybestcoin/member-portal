@@ -90,7 +90,7 @@
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
-                                        <h4 class="text-success">You Will Get : {{ number_format($lbc_amount, 8) }} LBC <small class="text-danger">(After Fee $ {{ auth()->user()->contract->contract_reward_exchange_fee }})</small></h4>
+                                        <h4 class="text-success">You Will Get : {{ number_format($lbc_amount, 8) }} LBC <small class="text-danger">(After Fee $ {{ auth()->user()->contract->contract_pin_reward_exchange_fee }})</small></h4>
                                         <hr>
                                         <div class="alert alert-warning">When you click <strong>Accept & Go</strong>, the process cannot be undone!!!</div>
                                         <button type="submit" class="btn btn-primary">Accept & Go</button>
