@@ -149,6 +149,9 @@
                                     <td>
                                         {{ $item->created_at }}
                                     </td>
+                                    <td>
+                                        {{ $item->transaction_exchange_type }}
+                                    </td>
                                     <td class="text-right">
                                         {{ number_format($item->transaction_exchange_amount, 8) }} LBC
                                     </td>

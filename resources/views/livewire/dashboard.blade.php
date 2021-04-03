@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <!-- ./col -->
-                  <!-- ./col -->
+                <!-- ./col -->
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
                       <div class="small-box bg-lime">
@@ -53,8 +53,8 @@
                               <i class="fa fa-gift"></i>
                           </div>
                           <a href="/conversion?type=reward" class="small-box-footer">Convert <i class="fas fa-arrow-circle-right"></i></a>
-                      </div>
-                  </div>
+                    </div>
+                </div>
                   <!-- ./col -->
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
