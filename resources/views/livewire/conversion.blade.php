@@ -153,7 +153,7 @@
                                         {{ $item->transaction_exchange_type }}
                                     </td>
                                     <td class="text-right">
-                                        {{ number_format($item->transaction_exchange_amount) }} LBC
+                                        {{ $item->transaction_exchange_amount }} LBC
                                     </td>
                                 </tr>
                                 @endforeach
