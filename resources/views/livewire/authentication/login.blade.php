@@ -62,7 +62,7 @@
                 </p>
                 <hr>
                 <div class="text-center" style="font-size: 0.8rem">
-                    <small><strong>Powered by PT. Digital Global Gemilang</strong></small>
+                    <small><strong><a href="https://digitalglobalgemilang.com">Powered by PT. Digital Global Gemilang</a></strong></small>
                 </div>
             </div>
         <!-- /.card-body -->
