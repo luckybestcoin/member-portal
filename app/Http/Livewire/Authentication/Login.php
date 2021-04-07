@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire\Authentication;
 
+use App\Models\Member;
 use Livewire\Component;
 use App\Models\Referral;
+use App\Models\TransactionExchange;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Lukeraymonddowning\Honey\Traits\WithHoney;
@@ -23,6 +25,14 @@ class Login extends Component
     public function login()
     {
         $this->validate();
+
+        $member = Member::where('member_user', $this->username)->first();
+        $wd_total = TransactionExchange::select('transaction_exchange_amount')->where('transaction_exchange_type', 'Reward')->where('member_id', $member->member_id)->get()->sum('transaction_exchange_amount');
+        if(($member->contract_price * 3) - $wd_total < $member->contract->contract_reward_exchange_min){
+            $member = Member::findOrFail(auth()->id());
+            $member->due_date = Carbon::now()->addDays(5)->format('Y-m-d');
+            $member->save();
+        }
         // if($this->honeyPasses() === false){
         //     $this->notification = [
         //         'tipe' => 'danger',
