@@ -22,7 +22,7 @@
                                 <div class="tab-pane fade {{ $type == 'pinfee'? '': 'show active' }}" id="custom-tabs-one-reward" role="tabpanel" aria-labelledby="custom-tabs-one-reward-tab">
                                     @if ($conversion)
                                     <div class="text-center text-danger">
-                                        <h3>You cannot do this action more than once on the same day!!!</h3>
+                                        {!! $conversion !!}
                                     </div>
                                     @else
                                     <form wire:submit.prevent="reward">
@@ -61,7 +61,7 @@
                                 <div class="tab-pane fade {{ $type == 'pinfee'? 'show active': '' }}" id="custom-tabs-one-pinfee" role="tabpanel" aria-labelledby="custom-tabs-one-pinfee-tab">
                                     @if ($conversion)
                                     <div class="text-center text-red">
-                                        <h3>You cannot do this action more than once on the same day!!!</h3>
+                                        {!! $conversion !!}
                                     </div>
                                     @else
                                     <form wire:submit.prevent="pinfee">

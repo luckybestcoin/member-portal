@@ -22,10 +22,6 @@ return [
 		'title' => 'Profile',
 		'url' => '/profile'
 	],[
-		'icon' => '<i class="nav-icon fa fa-medal"></i>',
-		'title' => 'Achievement',
-		'url' => '/achievement'
-	],[
 		'icon' => '<i class="nav-icon fa fa-exchange-alt"></i>',
 		'title' => 'Conversion',
 		'url' => '/conversion'

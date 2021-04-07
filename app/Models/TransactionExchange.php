@@ -28,4 +28,14 @@ class TransactionExchange extends Model
     {
         return $total = $this->select('transaction_exchange_amount')->where('transaction_exchange_type', 'Reward')->where('member_id', auth()->id())->get()->sum('transaction_exchange_amount');
     }
+
+    public function getLastRewardAttribute()
+    {
+        return $this->select('created_at')->where('member_id', auth()->id())->where('transaction_exchange_type', 'Reward')->orderBy('created_at', 'desc')->first()->created_at;
+    }
+
+    public function getLastPinFeeAttribute()
+    {
+        return $this->select('created_at')->where('member_id', auth()->id())->where('transaction_exchange_type', 'Pin Fee')->orderBy('created_at', 'desc')->first()->created_at;
+    }
 }

@@ -79,31 +79,6 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="ml-2">Achievement</h4>
-                            <hr>
-                            <table class="w-100">
-                                @foreach ($achievement as $item)
-                                <tr>
-                                    <td>
-                                        {{ $item->rating->rating_name }}
-                                    </td>
-                                    <td>
-                                        $ {{ number_format($item->rating->rating_min_turnover, 2) }}
-                                    </td>
-                                    <td class="text-right">
-                                        @if ($item->process)
-                                        {{ $item->process }} LBC
-                                        @else
-                                        Waiting
-                                        @endif
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </table>
-                        </div>
-                    </div>
                     <div class="small-box bg-yellow">
                         <div class="inner">
                             <h3>$ {{ number_format($reward + $fee, 2) }}</h3>
