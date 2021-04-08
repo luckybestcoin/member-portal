@@ -41,13 +41,13 @@ class Login extends Component
         //     ];
         //     return;
         // }
-        // if($this->recaptchaPasses() === false){
-        //     $this->notification = [
-        //         'tipe' => 'danger',
-        //         'pesan' => '<li>Recaptcha Failed</li>'
-        //     ];
-        //     return;
-        // }
+        if($this->recaptchaPasses() === false){
+            $this->notification = [
+                'tipe' => 'danger',
+                'pesan' => '<li>Recaptcha Failed</li>'
+            ];
+            return;
+        }
         $remember = $this->remember == 'on';
         if (Auth::attempt(['member_user' => $this->username, 'password' => $this->password], $remember)) {
             Auth::logoutOtherDevices($this->password, 'member_password');
