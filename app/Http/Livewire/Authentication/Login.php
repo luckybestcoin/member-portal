@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Authentication;
 
+use Carbon\Carbon;
 use App\Models\Member;
 use Livewire\Component;
 use App\Models\Referral;
@@ -29,7 +30,7 @@ class Login extends Component
         $member = Member::where('member_user', $this->username)->first();
         $wd_total = TransactionExchange::select('transaction_exchange_amount')->where('transaction_exchange_type', 'Reward')->where('member_id', $member->member_id)->get()->sum('transaction_exchange_amount');
         if(($member->contract_price * 3) - $wd_total < $member->contract->contract_reward_exchange_min){
-            $member = Member::findOrFail(auth()->id());
+            $member = Member::findOrFail($member->member_id);
             $member->due_date = Carbon::now()->addDays(5)->format('Y-m-d');
             $member->save();
         }
