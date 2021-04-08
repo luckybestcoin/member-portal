@@ -16,7 +16,7 @@ class WalletController extends Controller
         $rate = new Rate();
         $lbc_balance = auth()->user()->username?bitcoind()->getbalance(auth()->user()->username)[0]: 0;
         $rate_dollar = $rate->last_dollar;
-        return "LBC : ".$lbc_balance." = $ ".number_format($lbc_balance * $rate_dollar, 2);
+        return "L B C : ".$lbc_balance." = $ ".number_format($lbc_balance * $rate_dollar, 2);
     }
 
     public function pin(Request $req)
