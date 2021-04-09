@@ -77,7 +77,7 @@ class Conversion extends Component
         } else {
             if (auth()->user()->member_network) {
                 $last_exchange = new TransactionExchange();
-                if ($last_exchange->last_reward && Carbon::parse($last_exchange->last_pin_fee)->diffInDays(Carbon::now()) < 5) {
+                if ($last_exchange->last_reward && Carbon::parse($last_exchange->last_reward)->diffInDays(Carbon::now()) < 5) {
                     $this->conversion = "<h3>You can only do conversion reward once every 5 days. Please try again on ".Carbon::parse($last_exchange->last_reward)->addDays(5)->format('d M Y')."</h3>";
                 }else {
                     if (TransactionReward::where('transaction_reward_amount', '<', 0)->where('created_at', 'like', date('Y-m-d').'%')->where('member_id', auth()->id())->get()->count() > 0) {

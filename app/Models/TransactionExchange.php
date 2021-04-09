@@ -31,11 +31,11 @@ class TransactionExchange extends Model
 
     public function getLastRewardAttribute()
     {
-        return $this->select('created_at')->where('member_id', auth()->id())->where('transaction_exchange_type', 'Reward')->orderBy('created_at', 'desc')->first()->created_at;
+        return $this->select('created_at')->where('member_id', auth()->id())->where('transaction_exchange_type', 'Reward')->orderBy('created_at', 'desc')->first()? $this->select('created_at')->where('member_id', auth()->id())->where('transaction_exchange_type', 'Reward')->orderBy('created_at', 'desc')->first()->created_at: null;
     }
 
     public function getLastPinFeeAttribute()
     {
-        return $this->select('created_at')->where('member_id', auth()->id())->where('transaction_exchange_type', 'Pin Fee')->orderBy('created_at', 'desc')->first()->created_at;
+        return $this->select('created_at')->where('member_id', auth()->id())->where('transaction_exchange_type', 'Pin Fee')->orderBy('created_at', 'desc')->first()? $this->select('created_at')->where('member_id', auth()->id())->where('transaction_exchange_type', 'Pin Fee')->orderBy('created_at', 'desc')->first()->created_at: null;
     }
 }
