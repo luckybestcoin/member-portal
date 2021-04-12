@@ -27,13 +27,13 @@ class Login extends Component
     {
         $this->validate();
 
-        // if($this->honeyPasses() === false){
-        //     $this->notification = [
-        //         'tipe' => 'danger',
-        //         'pesan' => '<li>Honey Failed</li>'
-        //     ];
-        //     return;
-        // }
+        if($this->honeyPasses() === false){
+            $this->notification = [
+                'tipe' => 'danger',
+                'pesan' => '<li>Honey Failed</li>'
+            ];
+			return;
+        }
         if($this->recaptchaPasses() === false){
             $this->notification = [
                 'tipe' => 'danger',
@@ -50,7 +50,12 @@ class Login extends Component
                 $member->due_date = Carbon::now()->addDays(5)->format('Y-m-d');
                 $member->save();
             }
-        }
+        }else{
+			$this->notification = [
+				'tipe' => 'danger',
+				'pesan' => '<li><strong>Sign In notification!!!</strong><br>Wrong username or password</li>'
+			];
+		}
         $remember = $this->remember == 'on';
         if (Auth::attempt(['member_user' => $this->username, 'password' => $this->password], $remember)) {
             Auth::logoutOtherDevices($this->password, 'member_password');
