@@ -180,7 +180,7 @@ class Activation extends Component
                         $child->save();
 
                         if($row['pair'] === 1) {
-                            $pairing = "Turnonver growth 5% of ".number_format($member->contract_price, 2);
+                            $pairing = "Turnonver growth 5% of ";
                             if(substr($network, -2) == 'ki'){
                                 if($row['left'] - $member->contract_price < $row['right']){
                                     $reward = 0;
@@ -190,7 +190,7 @@ class Activation extends Component
                                         $reward = $member->contract_price;
                                     }
                                     array_push($bonus,[
-                                        'transaction_reward_information' => $pairing." left side by ".$this->new_username,
+                                        'transaction_reward_information' => $pairing.number_format($reward, 2)." left side by ".$this->new_username,
                                         'transaction_reward_type' => "Turnover Growth",
                                         'transaction_reward_amount' => $reward * 5 /100,
                                         'transaction_id' => $id,
@@ -208,7 +208,7 @@ class Activation extends Component
                                         $reward = $member->contract_price;
                                     }
                                     array_push($bonus,[
-                                        'transaction_reward_information' => $pairing." right side by ".$this->new_username,
+                                        'transaction_reward_information' => $pairing.number_format($reward, 2)." right side by ".$this->new_username,
                                         'transaction_reward_type' => "Turnover Growth",
                                         'transaction_reward_amount' => $reward * 5 /100,
                                         'transaction_id' => $id,
