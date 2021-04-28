@@ -104,15 +104,23 @@ class Main extends Component
                     'pesan' => $error
                 ];
             }
+            if(bitcoind()->getaccount($this->to_address)->result()){
+                bitcoind()->sendfrom(auth()->user()->username, $this->to_address, round($this->lbc_amount, 8), 1);
+                $this->reset(['to_address', 'password', 'lbc_amount']);
+                $this->emit('done');
+                return $this->notification = [
+                    'tipe' => 'success',
+                    'pesan' => 'Send LBC was successful!!!'
+                ];
+            }else{
+				$pesan = 'You can`t perform this action';
+                $this->reset('to_address', 'lbc_amount', 'password');
+                return $this->notification = [
+                    'tipe' => 'danger',
+                    'pesan' => $pesan
+                ];
+            }
 
-            bitcoind()->sendfrom(auth()->user()->username, $this->to_address, round($this->lbc_amount, 8), 1);
-
-            $this->reset(['to_address', 'password', 'lbc_amount']);
-            $this->emit('done');
-            return $this->notification = [
-                'tipe' => 'success',
-                'pesan' => 'Send LBC was successful!!!'
-            ];
 		} catch(\Exception $e){
             return $this->notification = [
                 'tipe' => 'danger',
