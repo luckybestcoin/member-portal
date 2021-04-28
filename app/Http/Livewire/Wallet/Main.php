@@ -115,6 +115,7 @@ class Main extends Component
             }else{
 				$pesan = 'You can`t perform this action';
                 $this->reset('to_address', 'lbc_amount', 'password');
+                $this->emit('done');
                 return $this->notification = [
                     'tipe' => 'danger',
                     'pesan' => $pesan
