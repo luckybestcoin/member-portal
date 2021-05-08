@@ -28,7 +28,6 @@
                                     <b>Balance</b>&nbsp;<a class="float-right">{{ bitcoind()->getbalance(auth()->user()->username)[0] }} LBC</a>
                                 </li>
                             </ul>
-                            <button wire:click="show" class="btn btn-primary btn-block"> Send</button>
                         </div>
                         <!-- /.card-body -->
                     </div>

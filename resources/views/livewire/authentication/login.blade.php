@@ -1,7 +1,7 @@
 <div>
     <div class="login-box">
         <!-- /.login-logo -->
-        <div class="card card-outline card-primary">
+        <div class="card card-outline card-success">
             <div class="card-header text-center">
                 <img src="/images/logoatasbawah.png" alt="logo.png" style="height: 150px"><br>
             </div>
@@ -45,7 +45,7 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                            <button type="submit" class="btn btn-success btn-block">Sign In</button>
                         </div>
                         <!-- /.col -->
                     </div>
@@ -57,13 +57,6 @@
                 <p class="mb-0">
                     Have a referral code? <a href="javascript.void(0);" data-toggle="modal" data-target="#default-Modal"> <b class="f-w-600">Click here </b></a>
                 </p>
-                <p class="mb-0">
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSe-60Lwgl8VtqDMl1qGHNLajKOrN5qf1MCL3Ub4aZM5yz07oQ/viewform" class="btn btn-xs w-100 btn-success" target="_blank">Contact Us</a>
-                </p>
-                <hr>
-                <div class="text-center" style="font-size: 0.8rem">
-                    <small><strong><a href="https://digitalglobalgemilang.com">Powered by PT. Digital Global Gemilang</a></strong></small>
-                </div>
             </div>
         <!-- /.card-body -->
         </div>
@@ -74,7 +67,7 @@
             <form wire:submit.prevent="referral">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <div class="form-group form-primary">
+                        <div class="form-group form-success">
                             <input type="text" wire:model="referral_token" class="form-control" placeholder="Referral Code" autocomplete="off">
                             @error('referral_token')
                             <span class="text-danger">{{ $message }}</span>
@@ -83,7 +76,7 @@
                         @include('includes.notification')
                     </div>
                     <div class="modal-footer justify-content-between">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-success">Submit</button>
                     </div>
                 </div>
             </form>

@@ -1,6 +1,6 @@
 
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar elevation-1 sidebar-light-primary">
+        <aside class="main-sidebar sidebar-dark-primary elevation-1">
             <!-- Brand Logo -->
             <a href="/" class="brand-link text-sm">
                 <img src="/images/luckybestcoin.png" alt="{{ config("app.name") }}" class="brand-image ">
@@ -103,9 +103,6 @@
                             ';
                         }
                     @endphp
-                        <li class="nav-item">
-                            <a href="javascript:;" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="nav-icon fas fa-sign-out-alt mr-2"></i> <p>{{ __('Log Out') }}</p></a>
-                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

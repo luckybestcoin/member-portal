@@ -59,15 +59,8 @@ return [
 		'title' => 'Reward',
 		'url' => '/reward'
 	],[
-		'icon' => '<img src="/images/lbc.png" class="ml-10" style="margin-left: 13px; margin-right: 5px; height: 25px">',
+		'icon' => '<i class="nav-icon fa fa-wallet"></i>',
 		'title' => 'Wallet',
-		'url' => 'javascript:void(0)',
-		'sub_menu' => [[
-            'url' => '/wallet',
-            'title' => 'Main'
-        ],[
-            'url' => '/wallet/deposit',
-            'title' => 'Deposit'
-        ]]
+		'url' => '/wallet'
 	]]
 ];
