@@ -3,8 +3,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="description" content="#">
-<meta name="keywords" content="Crypto Currency, Lucky Best Coin">
-<meta name="author" content="Andi Fajar Nugraha">
+<meta name="keywords" content="Rich n Win">
+<meta name="author" content="">
 <!-- Favicon icon -->
 <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
 
