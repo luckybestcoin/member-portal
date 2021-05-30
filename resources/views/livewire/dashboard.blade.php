@@ -104,6 +104,61 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="myModal"  tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">PENGUMUMAN DAN INFORMASI</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Tanggal 30 MEI 2021</p>
+                        <p>Diinformasikan kepada seluruh member LTC dan LBC mengenai hasil meeting bersama Dev & Founder yang telah mendapatkan beberapa kesepakatan sebagai berikut :</p>
+                        <ol>
+                            <li>
+                                Di himbau kepada semua Mitra LTC yang belum melakukan Conversi akun LTC ke wallet, Agar segera melakukan Conversi. Jika belum paham dimohon utk minta bantuan direk upline atau leader terdekat yg paham karna web LTC akan segera di Close.
+                            </li>
+                            <li>
+                                Bagi member yg sudah melakukan registrasi LBC tetapi belum melakukan aktifasi, dihimbau untuk segera melakukan aktifasi dan meminta code refferal ke admin
+                            </li>
+                            <li>
+                                Market Global akan di buka untuk umum dari wallet/ Dompet dg pola transfer LBC dan akan dibatasi sekali dalam 5 hari, sehingga mitra2 bisa melakukan jual beli LBC/ Trading di Market Global International ( coinsbit & P2P )
+                            </li>
+                            <li>
+                                Akan di singkronkan harga LBC antara web dan market, Sehingga  harga akan mengikuti harga di market saat conversi ke walet dan juga saat jual beli LBC ( market ataupun P2P) yang akan dimulai pada tanggal 5 Juni 2021
+                            </li>
+                            <li>
+                                Akan di Luncurkan Applikasi PPOB dan Multi Jasa sebagai wadah  pertukran/pencairan koin bagi member2 yang belum paham utk masuk ke market
+                            </li>
+                            <li>
+                                Aplikasi ( LBC wallet ) sudah bisa didownload di playstore dan silahkan login menggunakan username dan password sebelumnya, dg cara:
+                                <ul>
+                                    <li>
+                                        Download LBC Wallet di Playstore. <a href="https://play.google.com/store/apps/details?id=com.lbc.wallet">Link Download LBC Wallet</a>
+                                    </li>
+                                    <li>
+                                        Login dengan username dan paswd awal
+                                    </li>
+                                    <li>
+                                        Buat Pin
+                                    </li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <p>Demikian informasi yang kami sampaikan agar dapat dimaklumi.</p>
+
+                        <p>TTD.</p>
+
+                        <p>MANAGEMENT LBC.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
     @push('scripts')
     <!-- OPTIONAL SCRIPTS -->
@@ -111,6 +166,7 @@
     <script src="/highchart/highstock.js"></script>
     <script src="/highchart/modules/data.js"></script>
     <script type="text/javascript">
+        $('#myModal').modal('show');
         setInterval(function() {
             $.get("/turnoverbalance", function (result){
                 $("#left-turnover").text(result['left_turnover']);
