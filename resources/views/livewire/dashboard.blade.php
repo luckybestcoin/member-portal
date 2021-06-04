@@ -167,12 +167,10 @@
     <script src="/highchart/modules/data.js"></script>
     <script type="text/javascript">
         $('#myModal').modal('show');
-        setInterval(function() {
             $.get("/turnoverbalance", function (result){
                 $("#left-turnover").text(result['left_turnover']);
                 $("#right-turnover").text(result['right_turnover']);
             });
-        }, 1000);
         Highcharts.getJSON('/rate', function (data) {
 
             Highcharts.stockChart('container', {
