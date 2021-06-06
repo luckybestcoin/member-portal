@@ -16,6 +16,7 @@ use App\Models\InvalidTurnover;
 use App\Models\TransactionReward;
 use Illuminate\Support\Facades\DB;
 use App\Models\TransactionExchange;
+use App\Models\TransactionRewardPin;
 use Illuminate\Support\Facades\Hash;
 
 class Extension extends Component
@@ -102,10 +103,11 @@ class Extension extends Component
                 $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
 
                 TransactionExchange::where('member_id', auth()->id())->delete();
+                TransactionReward::where('member_id', auth()->id())->delete();
+                TransactionRewardPin::where('member_id', auth()->id())->delete();
 
                 $me = Member::findOrFail(auth()->id());
                 $me->due_date = null;
-                $me->extension = auth()->user()->extension + 1;
                 $me->save();
 
                 $exchange = new Exchange();
@@ -135,104 +137,104 @@ class Extension extends Component
                     $bagi_hasil->member_id = auth()->user()->member_parent;
                     $bagi_hasil->save();
 
-                    $this->setParent(Member::with('parent')->with('rating')->with('invalid_left_turnover')->with('invalid_right_turnover')->select("member_id", "member_email", "member_user", "member_parent", "username", "member_position", "rating_id", "contract_price", "member_network", "due_date", "deleted_at",
-                    DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_id, "ki")))=concat(member.member_id, "ki") ) left_turnover'),
-                    DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_id, "ka")))=concat(member.member_id, "ka") ) right_turnover'))->where('member_id', auth()->id())->first());
+                    // $this->setParent(Member::with('parent')->with('rating')->with('invalid_left_turnover')->with('invalid_right_turnover')->select("member_id", "member_email", "member_user", "member_parent", "username", "member_position", "rating_id", "contract_price", "member_network", "due_date", "deleted_at",
+                    // DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_id, "ki")))=concat(member.member_id, "ki") ) left_turnover'),
+                    // DB::raw('(select ifnull(sum(contract_price * extension), 0) from member a where a.member_password is not null and left(a.member_network, length(concat(member.member_id, "ka")))=concat(member.member_id, "ka") ) right_turnover'))->where('member_id', auth()->id())->first());
 
-                    $data_rating = Rating::all();
+                    // $data_rating = Rating::all();
 
-                    $bonus = [];
-                    $omset_keluar = [];
-                    $parent_length = 0;
-                    $network = auth()->user()->member_network;
-                    foreach (collect($this->parent)->filter(function($q){
-                        return $q['id'] != auth()->id();
-                    }) as $key => $row) {
-                        $achievement_id = 0;
-                        if(is_null($row['due_date']) == 1 && $row['active'] == 1){
-                            $kaki_kecil = collect([$row['left'], $row['right']])->min();
-                            $child = Member::findOrFail($row['id']);
+                    // $bonus = [];
+                    // $omset_keluar = [];
+                    // $parent_length = 0;
+                    // $network = auth()->user()->member_network;
+                    // foreach (collect($this->parent)->filter(function($q){
+                    //     return $q['id'] != auth()->id();
+                    // }) as $key => $row) {
+                    //     $achievement_id = 0;
+                    //     if(is_null($row['due_date']) == 1 && $row['active'] == 1){
+                    //         $kaki_kecil = collect([$row['left'], $row['right']])->min();
+                    //         $child = Member::findOrFail($row['id']);
 
-                            $rating = $data_rating->filter(function ($q) use ($kaki_kecil)
-                            {
-                                return $q->rating_min_turnover <= $kaki_kecil;
-                            })->sortBy('rating_min_turnover')->first();
+                    //         $rating = $data_rating->filter(function ($q) use ($kaki_kecil)
+                    //         {
+                    //             return $q->rating_min_turnover <= $kaki_kecil;
+                    //         })->sortBy('rating_min_turnover')->first();
 
-                            if ($rating && strlen($child->member_parent) > 1 && Achievement::where('member_id', $row['id'])->where('rating_id', $rating->rating_id)->get()->count() == 0) {
-                                $child->rating_id = $rating->rating_id;
+                    //         if ($rating && strlen($child->member_parent) > 1 && Achievement::where('member_id', $row['id'])->where('rating_id', $rating->rating_id)->get()->count() == 0) {
+                    //             $child->rating_id = $rating->rating_id;
 
-                                if(Member::where('username', $child->username)->where('rating_id', $rating->rating_id)->get()->count() == 0){
-                                    $pcp = new Achievement();
-                                    $pcp->member_id = $row['id'];
-                                    $pcp->rating_id = $rating->rating_id;
-                                    $pcp->save();
-                                }
-                            }
-                            $child->save();
+                    //             if(Member::where('username', $child->username)->where('rating_id', $rating->rating_id)->get()->count() == 0){
+                    //                 $pcp = new Achievement();
+                    //                 $pcp->member_id = $row['id'];
+                    //                 $pcp->rating_id = $rating->rating_id;
+                    //                 $pcp->save();
+                    //             }
+                    //         }
+                    //         $child->save();
 
-                            if($row['pair'] === 1) {
-                                $pairing = "Turnonver growth 5% of ".number_format(auth()->user()->contract_price, 2);
-                                if(substr($network, -2) == 'ki'){
-                                    if($row['left'] - auth()->user()->contract_price < $row['right']){
-                                        $reward = 0;
-                                        if($row['left'] > $row['right']){
-                                            $reward = $row['right'] - $row['left'] + auth()->user()->contract_price;
-                                        }else{
-                                            $reward = auth()->user()->contract_price;
-                                        }
-                                        array_push($bonus,[
-                                            'transaction_reward_information' => $pairing." left side by ".auth()->user()->member_user,
-                                            'transaction_reward_type' => "Turnover Growth",
-                                            'transaction_reward_amount' => $reward * 5 /100,
-                                            'transaction_id' => $id,
-                                            'member_id' => $row['id'],
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now()
-                                        ]);
-                                    }
-                                }else if(substr($network, -2) == 'ka'){
-                                    if($row['right'] - auth()->user()->contract_price < $row['left']){
-                                        $reward = 0;
-                                        if($row['right'] > $row['left']){
-                                            $reward = $row['left'] - $row['right'] + auth()->user()->contract_price;
-                                        }else{
-                                            $reward = auth()->user()->contract_price;
-                                        }
-                                        array_push($bonus,[
-                                            'transaction_reward_information' => $pairing." right side by ".auth()->user()->member_user,
-                                            'transaction_reward_type' => "Turnover Growth",
-                                            'transaction_reward_amount' => $reward * 5 /100,
-                                            'transaction_id' => $id,
-                                            'member_id' => $row['id'],
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now()
-                                        ]);
-                                    }
-                                }
-                            }
-                        }
-                        if ($row['due_date']) {
-                            array_push($omset_keluar,[
-                                'member_id' => $row['id'],
-                                'invalid_turnover_from' => auth()->id(),
-                                'invalid_turnover_amount' => auth()->user()->contract_price,
-                                'invalid_turnover_position' => substr($network, -2) == "ka"? 1: 0
-                            ]);
-                        }
-                        $parent_length = strlen($row['id'].($row['position'] == 0? 'ki': 'ka'));
-                        $network = substr($network, 0, (strlen($network) - $parent_length));
-                    }
-                    $keluar = collect($omset_keluar)->chunk(10);
+                    //         if($row['pair'] === 1) {
+                    //             $pairing = "Turnonver growth 5% of ".number_format(auth()->user()->contract_price, 2);
+                    //             if(substr($network, -2) == 'ki'){
+                    //                 if($row['left'] - auth()->user()->contract_price < $row['right']){
+                    //                     $reward = 0;
+                    //                     if($row['left'] > $row['right']){
+                    //                         $reward = $row['right'] - $row['left'] + auth()->user()->contract_price;
+                    //                     }else{
+                    //                         $reward = auth()->user()->contract_price;
+                    //                     }
+                    //                     array_push($bonus,[
+                    //                         'transaction_reward_information' => $pairing." left side by ".auth()->user()->member_user,
+                    //                         'transaction_reward_type' => "Turnover Growth",
+                    //                         'transaction_reward_amount' => $reward * 5 /100,
+                    //                         'transaction_id' => $id,
+                    //                         'member_id' => $row['id'],
+                    //                         'created_at' => Carbon::now(),
+                    //                         'updated_at' => Carbon::now()
+                    //                     ]);
+                    //                 }
+                    //             }else if(substr($network, -2) == 'ka'){
+                    //                 if($row['right'] - auth()->user()->contract_price < $row['left']){
+                    //                     $reward = 0;
+                    //                     if($row['right'] > $row['left']){
+                    //                         $reward = $row['left'] - $row['right'] + auth()->user()->contract_price;
+                    //                     }else{
+                    //                         $reward = auth()->user()->contract_price;
+                    //                     }
+                    //                     array_push($bonus,[
+                    //                         'transaction_reward_information' => $pairing." right side by ".auth()->user()->member_user,
+                    //                         'transaction_reward_type' => "Turnover Growth",
+                    //                         'transaction_reward_amount' => $reward * 5 /100,
+                    //                         'transaction_id' => $id,
+                    //                         'member_id' => $row['id'],
+                    //                         'created_at' => Carbon::now(),
+                    //                         'updated_at' => Carbon::now()
+                    //                     ]);
+                    //                 }
+                    //             }
+                    //         }
+                    //     }
+                    //     if ($row['due_date']) {
+                    //         array_push($omset_keluar,[
+                    //             'member_id' => $row['id'],
+                    //             'invalid_turnover_from' => auth()->id(),
+                    //             'invalid_turnover_amount' => auth()->user()->contract_price,
+                    //             'invalid_turnover_position' => substr($network, -2) == "ka"? 1: 0
+                    //         ]);
+                    //     }
+                    //     $parent_length = strlen($row['id'].($row['position'] == 0? 'ki': 'ka'));
+                    //     $network = substr($network, 0, (strlen($network) - $parent_length));
+                    // }
+                    // $keluar = collect($omset_keluar)->chunk(10);
 
-                    foreach ($keluar as $ins)
-                    {
-                        InvalidTurnover::insert($ins->toArray());
-                    }
-                    $insert = collect($bonus)->chunk(10);
-                    foreach ($insert as $ins)
-                    {
-                        TransactionReward::insert($ins->toArray());
-                    }
+                    // foreach ($keluar as $ins)
+                    // {
+                    //     InvalidTurnover::insert($ins->toArray());
+                    // }
+                    // $insert = collect($bonus)->chunk(10);
+                    // foreach ($insert as $ins)
+                    // {
+                    //     TransactionReward::insert($ins->toArray());
+                    // }
                 }
                 bitcoind()->move(auth()->user()->username, "administrator", round($this->lbc_amount, 8), 1, $information);
                 $this->reset(['password']);
