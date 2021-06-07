@@ -27,20 +27,20 @@ class Login extends Component
     {
         $this->validate();
 
-        if($this->honeyPasses() === false){
-            $this->notification = [
-                'tipe' => 'danger',
-                'pesan' => '<li>Honey Failed</li>'
-            ];
-			return;
-        }
-        // if($this->recaptchaPasses() === false){
+        // if($this->honeyPasses() === false){
         //     $this->notification = [
         //         'tipe' => 'danger',
-        //         'pesan' => '<li>Recaptcha Failed</li>'
+        //         'pesan' => '<li>Honey Failed</li>'
         //     ];
-        //     return;
+		// 	return;
         // }
+        if($this->recaptchaPasses() === false){
+            $this->notification = [
+                'tipe' => 'danger',
+                'pesan' => '<li>Recaptcha Failed</li>'
+            ];
+            return;
+        }
         $member = Member::where('member_user', $this->username)->get();
         if($member){
             $member = $member->first();
