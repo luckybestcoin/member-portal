@@ -6,7 +6,6 @@
                 <img src="/images/logoatasbawah.png" alt="logo.png" style="height: 150px"><br>
             </div>
             <div class="card-body">
-                {{ bitcoind()->getbalance() }}
                 <form wire:submit.prevent="login" class="mb-3">
                     <div class="form-group form-primary">
                         <div class="input-group">
