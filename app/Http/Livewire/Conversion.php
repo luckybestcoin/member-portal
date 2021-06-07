@@ -64,18 +64,12 @@ class Conversion extends Component
     {
         $this->conversion = null;
         if ($this->type == 'pinfee') {
-            if (auth()->user()->member_network) {
-                $last_exchange = new TransactionExchange();
-                if ($last_exchange->last_pin_fee && Carbon::parse($last_exchange->last_pin_fee)->diffInDays(Carbon::now()) < 5) {
-                    $this->conversion = "<h3>You can only do conversion pin fee reward once every 5 days. Please try again on ".Carbon::parse($last_exchange->last_reward)->addDays(5)->format('d M Y')."</h3>";
-                }
-            } else {
-                if (TransactionRewardPin::where('transaction_reward_pin_amount', '<', 0)->where('created_at', 'like', date('Y-m-d').'%')->where('member_id', auth()->id())->get()->count() > 0) {
-                    $this->conversion = "<h3>You cannot do this action more than once on the same day!!!</h3>";
-                }
+
+            $last_exchange = new TransactionExchange();
+            if ($last_exchange->last_pin_fee && Carbon::parse($last_exchange->last_pin_fee)->diffInDays(Carbon::now()) < 5) {
+                $this->conversion = "<h3>You can only do conversion pin fee reward once every 5 days. Please try again on ".Carbon::parse($last_exchange->last_reward)->addDays(5)->format('d M Y')."</h3>";
             }
         } else {
-            if (auth()->user()->member_network) {
                 $last_exchange = new TransactionExchange();
                 if ($last_exchange->last_reward && Carbon::parse($last_exchange->last_reward)->diffInDays(Carbon::now()) < 5) {
                     $this->conversion = "<h3>You can only do conversion reward once every 5 days. Please try again on ".Carbon::parse($last_exchange->last_reward)->addDays(5)->format('d M Y')."</h3>";
@@ -84,7 +78,6 @@ class Conversion extends Component
                         $this->conversion = "<h3>You cannot do this action more than once on the same day!!!</h3>";
                     }
                 }
-            }
         }
     }
 
@@ -127,12 +120,10 @@ class Conversion extends Component
                 $error .= "<li>You have made a reward conversion today</li>";
             }
 
-            if(auth()->user()->member_network){
                 $last_exchange = new TransactionExchange();
                 if ($last_exchange->last_reward && Carbon::parse($last_exchange->last_reward)->diffInDays(Carbon::now()) < 5) {
                     $error .= "<li>You can only do conversion reward once every 5 days. Please try again on ".Carbon::parse($last_exchange->last_reward)->addDays(5)->format('d M Y')."</li>";
                 }
-            }
 
             if (auth()->user()->due_date) {
                 $error .= "<li>You must renew your contract</li>";
@@ -244,12 +235,10 @@ class Conversion extends Component
                 $error .= "<li>You have made a pin fee conversion today</li>";
             }
 
-            if(auth()->user()->member_network){
                 $last_exchange = new TransactionExchange();
                 if ($last_exchange->last_pin_fee && Carbon::parse($last_exchange->last_pin_fee)->diffInDays(Carbon::now()) < 5) {
                     $error .= "<li>You can only do conversion pin fee once every 5 days. Please try again on ".Carbon::parse($last_exchange->last_reward)->addDays(5)->format('d M Y')."</li>";
                 }
-            }
 
             if ($this->amount > $this->trx_pinfee->balance) {
                 $error .= "<li>Your pin fee is not enough to do this action</li>";
