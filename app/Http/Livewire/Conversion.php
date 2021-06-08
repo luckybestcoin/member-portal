@@ -189,6 +189,9 @@ class Conversion extends Component
                     $member = Member::findOrFail(auth()->id());
                     $member->due_date = Carbon::now()->addDays(5)->format('Y-m-d');
                     $member->save();
+
+                    TransactionReward::where('member_id', auth()->id())->delete();
+                    TransactionRewardPin::where('member_id', auth()->id())->delete();
                 }
 
                 bitcoind()->move("administrator", auth()->user()->username, round($this->lbc_amount, 8), 1, $information);
