@@ -190,6 +190,7 @@ class Conversion extends Component
                     $member->due_date = Carbon::now()->addDays(5)->format('Y-m-d');
                     $member->save();
 
+                    TransactionExchange::where('member_id', auth()->id())->delete();
                     TransactionReward::where('member_id', auth()->id())->delete();
                     TransactionRewardPin::where('member_id', auth()->id())->delete();
                 }
