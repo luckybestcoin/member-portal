@@ -32,7 +32,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::prefix('member')->group(function ()
     {
         Route::get('/', \App\Http\Livewire\Member\Downline::class)->name('member');
-        Route::get('/registration', \App\Http\Livewire\Member\Registration::class)->name('member.registration');
+        // Route::get('/registration', \App\Http\Livewire\Member\Registration::class)->name('member.registration');
     });
 
     Route::prefix('pin')->group(function ()

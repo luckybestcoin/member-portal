@@ -32,10 +32,12 @@ return [
 		'sub_menu' => [[
             'url' => '/member',
             'title' => 'Downline'
-        ],[
-            'url' => '/member/registration',
-            'title' => 'Registration'
-        ]]
+        ]
+        // ,[
+        //     'url' => '/member/registration',
+        //     'title' => 'Registration'
+        // ]
+        ]
 	],[
 		'icon' => '<i class="nav-icon fa fa-ticket-alt"></i>',
 		'title' => 'Pin',
