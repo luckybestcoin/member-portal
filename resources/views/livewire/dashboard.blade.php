@@ -114,6 +114,24 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        <p>[INFO LBC]</p>
+                        <p>Hal : MAINTENANCE </p>
+                            <p>11 Mei  2021.</p>
+
+                            <p>Diinformasikan bagi seluruh member bahwa:</p>
+
+                            <ol>
+                                <li>Akses Apliksi wallet dibuka secara umum, tidak ada batasan  waktu dan nominal (no limit) member bisa transfer coin ke market kapanpun dan berapapun.</li>
+                                <li>Registrasi ditutup utk member baru dan akun yang masih berjalan tetap mengikuti proses penyelesaian sesuai kontrak.</li>
+                            </ol>
+
+
+                            <p>
+                                Demikian informasi yang kami sampaikan atas permakluman nya kami haturkan terimakasih
+                            </p>
+
+                            <p>Hormat Kami:</p>
+                            <p>Management</p>
                         <p>Tanggal 30 MEI 2021</p>
                         <p>Diinformasikan kepada seluruh member LTC dan LBC mengenai hasil meeting bersama Dev & Founder yang telah mendapatkan beberapa kesepakatan sebagai berikut :</p>
                         <ol>
