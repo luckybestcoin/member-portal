@@ -115,23 +115,16 @@
                     </div>
                     <div class="modal-body">
                         <p>[INFO LBC]</p>
-                        <p>Hal : MAINTENANCE </p>
-                            <p>11 Juni 2021.</p>
+                        <p>Hal : KONVERSI/WITHDRAW LBC</p>
+                        <p>15 JUNI 2021</p>
 
-                            <p>Diinformasikan bagi seluruh member bahwa:</p>
-
-                            <ol>
-                                <li>Akses Apliksi wallet dibuka secara umum, tidak ada batasan  waktu dan nominal (no limit) member bisa transfer coin ke market kapanpun dan berapapun.</li>
-                                <li>Registrasi ditutup utk member baru dan akun yang masih berjalan tetap mengikuti proses penyelesaian sesuai kontrak.</li>
-                            </ol>
-
-
-                            <p>
-                                Demikian informasi yang kami sampaikan atas permakluman nya kami haturkan terimakasih
-                            </p>
-
-                            <p>Hormat Kami:</p>
-                            <p>Management</p>
+                        <p>Sehubungan denga kendala conversi/withdraw ke LBC yg terjadi beberapa hari ini, disebabkan oleh ketidak seimbangan kapasitas withdraw member dengan kapasitas produksi mining perhari yg sudah baku sesuai satingan blockchain LBC dan tidak bisa diseting kembali, berkaitan dengan hal tersebut, bagi member yang ingin melakukan conversi/withdraw, silahkan mencoba setiap hari karena suplay hasil mining waktunya tidak bisa ditentukan.</p>
+                        <p>Saat ini management masih terus berupaya untuk menstabilkan hal tsb.</p>
+                        <p>Untuk akses web wallet sudah di normalkan kembali seprti semula.</p>
+                        <p>Demikian kami sampaikan informasi tersebut agar dapat dimaklumi.</p>
+                        <br>
+                        <p>TTD</p>
+                        <p>MANAGEMENT LBC</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>

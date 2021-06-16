@@ -52,11 +52,13 @@ return [
             'url' => '/pin',
             'title' => 'History'
         ]]
-	],[
-		'icon' => '<i class="nav-icon fa fa-recycle"></i>',
-		'title' => 'Extension',
-		'url' => '/extension'
-	],[
+	],
+    // [
+	// 	'icon' => '<i class="nav-icon fa fa-recycle"></i>',
+	// 	'title' => 'Extension',
+	// 	'url' => '/extension'
+	// ],
+    [
 		'icon' => '<i class="nav-icon fa fa-gift"></i>',
 		'title' => 'Reward',
 		'url' => '/reward'
