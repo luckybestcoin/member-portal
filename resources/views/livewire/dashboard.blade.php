@@ -115,15 +115,14 @@
                     </div>
                     <div class="modal-body">
                         <p>[INFO LBC]</p>
-                        <p>Hal : KONVERSI/WITHDRAW LBC</p>
-                        <p>15 JUNI 2021</p>
+                        <p>Hal : PENGUMUMAN LBC</p>
+                        <p>19 Juni 2021</p>
 
-                        <p>Sehubungan denga kendala conversi/withdraw ke LBC yg terjadi beberapa hari ini, disebabkan oleh ketidak seimbangan kapasitas withdraw member dengan kapasitas produksi mining perhari yg sudah baku sesuai satingan blockchain LBC dan tidak bisa diseting kembali, berkaitan dengan hal tersebut, bagi member yang ingin melakukan conversi/withdraw, silahkan mencoba setiap hari karena suplay hasil mining waktunya tidak bisa ditentukan.</p>
-                        <p>Saat ini management masih terus berupaya untuk menstabilkan hal tsb.</p>
-                        <p>Untuk akses web wallet sudah di normalkan kembali seprti semula.</p>
-                        <p>Demikian kami sampaikan informasi tersebut agar dapat dimaklumi.</p>
+                        <p>Diinformasikan kepada seluruh member LBC. Bahwa LBC akan listing disalah satu market Indonesia, dan ini akan berdampak pada system Conversi /WD dikarenakan adanya pemutakhiran di sisi blockchain, maka team kami akan melakukan Maintenance khusus di menu WD selama beberapa hari dimulai pada tgl 19 Juni 2021 Pkl 22.00 WITA. Estimasi akan dinormalkan kembali pada tgl 25 Juni 2021 pukul 22.00 Wita.</p>
+                        <p>System tetap normal kecuali menu conversi/WD</p>
+                        <p>Demikian informasi yang kami sampaikan mohon untuk di maklumi terimakasih</p>
                         <br>
-                        <p>TTD</p>
+                        <p>Hormat kami</p>
                         <p>MANAGEMENT LBC</p>
                     </div>
                     <div class="modal-footer">
