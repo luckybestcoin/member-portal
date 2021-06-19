@@ -21,11 +21,13 @@ return [
 		'icon' => '<i class="nav-icon fa fa-user"></i>',
 		'title' => 'Profile',
 		'url' => '/profile'
-	],[
-		'icon' => '<i class="nav-icon fa fa-exchange-alt"></i>',
-		'title' => 'Conversion',
-		'url' => '/conversion'
-	],[
+	],
+    // [
+	// 	'icon' => '<i class="nav-icon fa fa-exchange-alt"></i>',
+	// 	'title' => 'Conversion',
+	// 	'url' => '/conversion'
+	// ],
+    [
 		'icon' => '<i class="nav-icon fa fa-network-wired"></i>',
 		'title' => 'Member',
 		'url' => 'javascript:void(0)',
