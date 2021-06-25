@@ -116,9 +116,16 @@
                     <div class="modal-body">
                         <p>[INFO LBC]</p>
                         <p>Hal : PENGUMUMAN LBC</p>
-                        <p>19 Juni 2021</p>
+                        <p>25 Juni 2021</p>
 
-                        <p>Diinformasikan kepada seluruh member LBC. Bahwa LBC akan listing disalah satu market Indonesia, dan ini akan berdampak pada system Conversi /WD dikarenakan adanya pemutakhiran di sisi blockchain, maka team kami akan melakukan Maintenance khusus di menu WD selama beberapa hari dimulai pada tgl 19 Juni 2021 Pkl 22.00 WITA. Estimasi akan dinormalkan kembali pada tgl 25 Juni 2021 pukul 22.00 Wita.</p>
+                        <p>Terkait dengan info di web sebelumnya tentang listing di salah satu market Indonesia, Diinformasikan kembali kepada seluruh member bahwa sebelumnya estimasi conversi/WD akan di buka tgl 25-06-2021 , akan tetapi ada beberapa item terkait pemutakhiran blockchain yg belum selesai oleh team IT maka conversi/WD akan dibuka setelah dipastikan listing di market sudah tayang dan estimasi waktunya pada  tgl 01-07-2021</p>
+
+                        <p>Mohon untuk tidak melakukan transaksi (deposit atau Withdraw) dimarket karna masih ada eror pada lalu lintas transaksi blockchain, sampai selesainya proses pemutakhiran</p>
+
+                        <p>Seluruh System tetap normal kecuali menu conversi/WD</p>
+
+
+                        <p>Demikian informasi yang kami sampaikan sebelumnya kami mohon maaf yang sebesar besarnya dan mohon  untuk di maklumi terimakasih🙏🙏</p>
                         <p>System tetap normal kecuali menu conversi/WD</p>
                         <p>Demikian informasi yang kami sampaikan mohon untuk di maklumi terimakasih</p>
                         <br>
