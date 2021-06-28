@@ -14,9 +14,7 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-            <a href="#" class="nav-link badge-pill badge badge-warning text-dark"><h6><strong id="lbc-balance"></strong></h6></a>
-        </li>
+
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="far fa-user-circle"></i>
@@ -36,10 +34,10 @@
 </nav>
 @push('scripts')
 <script>
-    $(document).ready(function(){
-            $.get("/balance", function (result){
-                $("#lbc-balance").text(result);
-            });
-    });
+    // $(document).ready(function(){
+    //         $.get("/balance", function (result){
+    //             $("#lbc-balance").text(result);
+    //         });
+    // });
 </script>
 @endpush

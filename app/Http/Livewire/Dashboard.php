@@ -10,10 +10,22 @@ use App\Models\TransactionRewardPin;
 
 class Dashboard extends Component
 {
-    public $reward, $fee, $conversion, $daily, $trx_exchange_reward = 0, $achievement, $remaining;
+    public $reward, $uid, $agreement, $fee, $conversion, $daily, $trx_exchange_reward = 0, $achievement, $remaining, $heba;
+
+    public function submit()
+    {
+        $this->validate([
+            'agreement' => 'required',
+            'heba' => 'required',
+            'uid' => 'required'
+        ]);
+
+
+    }
 
     public function mount()
     {
+        $this->heba = auth()->user()->heba;
         $trx_reward = new TransactionReward();
         $trx_pin = new TransactionRewardPin();
         $trx_exchange = new TransactionExchange();

@@ -62,8 +62,7 @@
             $color = \Str::random(6)
         @endphp
         <label class="mt-1">
-            LBC PRICE :
-            <span>$ {{ $rate->last_dollar }}</span>
+            HEBA Price $ 0.051724138 | https://heba.live | https://www.digiassetindo.com/
         </label>
     </div>
     <section class="content-header" style="padding-top: 40px">
