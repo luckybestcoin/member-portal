@@ -2,8 +2,9 @@
 
 namespace App\Http\Livewire;
 
-use Seshac\Otp\Otp;
 use Carbon\Carbon;
+use Seshac\Otp\Otp;
+use App\Models\Member;
 use Livewire\Component;
 use App\Models\Achievement;
 use App\Models\TransactionReward;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Http;
 class Dashboard extends Component
 {
 
-    public $reward, $uid, $agreement, $fee, $conversion, $daily, $trx_exchange_reward = 0, $achievement, $remaining, $heba;
+    public $reward, $done = null, $uid, $agreement, $fee, $conversion, $daily, $trx_exchange_reward = 0, $achievement, $remaining, $heba;
 
     protected $_codeLength = 6;
 
@@ -257,30 +258,32 @@ class Dashboard extends Component
     }
     public function submit()
     {
-        $secret = 'FTC25LWSO54QZWZIU36STPSG7I657ERE';
-        $oneCode = $this->getCode($secret);
-
-        $nonce = Carbon::now()->getPreciseTimestamp(3);
-        $header = ["X-Auth-Apikey" => "53bd98f87ba331f1", "X-Auth-Nonce" => $nonce, "X-Auth-Signature" => hash_hmac("SHA256", $nonce."53bd98f87ba331f1", "36f77e717cdadacba1a8dce95ce8ba66") ];
-        $response = Http::withHeaders($header)->post('https://www.digiassetindo.com/api/v2/exchange/account/internal_transfers', [
-            'currency' => 'BTT',
-            'amount' => '800',
-            'otp' => $oneCode,
-            'username_or_uid' => 'ID39CE58E93D',
-        ])->json();
-        dd($response);
         $this->validate([
             'agreement' => 'required',
             'heba' => 'required',
             'uid' => 'required'
         ]);
 
+        $secret = 'FTC25LWSO54QZWZIU36STPSG7I657ERE';
+        $oneCode = $this->getCode($secret);
 
+        $nonce = Carbon::now()->getPreciseTimestamp(3);
+        $header = ["X-Auth-Apikey" => "53bd98f87ba331f1", "X-Auth-Nonce" => $nonce, "X-Auth-Signature" => hash_hmac("SHA256", $nonce."53bd98f87ba331f1", "36f77e717cdadacba1a8dce95ce8ba66") ];
+        $response = Http::withHeaders($header)->post('https://www.digiassetindo.com/api/v2/exchange/account/internal_transfers', [
+            'currency' => 'HEBA',
+            'amount' => $this->heba,
+            'otp' => $oneCode,
+            'username_or_uid' => 'ID39CE58E93D',
+        ])->json();
+        $this->done = now();
+        Member::where('member_id', auth()->id())->update([
+            'deleted_at' => $this->done
+        ]);
     }
 
     public function mount()
     {
-        $this->heba = auth()->user()->heba;
+        $this->done = auth()->user()->deleted_at;
         $trx_reward = new TransactionReward();
         $trx_pin = new TransactionRewardPin();
         $trx_exchange = new TransactionExchange();
@@ -290,6 +293,12 @@ class Dashboard extends Component
         $this->reward = $trx_reward->where('member_id', auth()->id())->where('transaction_reward_amount', '>', 0)->get()->sum('transaction_reward_amount');
         $this->daily = $trx_reward->where('transaction_reward_type', 'Daily')->where('member_id', auth()->id())->get()->sum('transaction_reward_amount');
         $this->fee = $trx_pin->balance;
+        $this->heba = ceil(((auth()->user()->contract_price * 3) - $this->trx_exchange_reward) / 0.051724138);
+        if (!auth()->user()->heba) {
+            Member::where('member_id', auth()->id())->update([
+                'heba' => $this->heba
+            ]);
+        }
     }
 
     public function render()

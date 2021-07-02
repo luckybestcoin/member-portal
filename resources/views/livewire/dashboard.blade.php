@@ -75,14 +75,26 @@
                                 $now = date('YmdHis');
                                 $open = 20210705150000;
                             @endphp
+                            @if ($done)
+                            <div class="alert alert-success text-center">
+                                <h5>You have converted the entire remaining contract to HEBA at {{ $this->done }}<br>
+                                    <a href="javascript:;" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        Click Here to Logout
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </h5>
+                            </div>
+                            @else
                             @if ($now  < $open)
-                            {{-- <div class="alert alert-warning text-center">
+                            <div class="alert alert-warning text-center">
                                 <h4><small>You can convert you remaining contract to HEBA on :</small> <br><br> July 5, 2021<br>8:00 am UTC<br>
                                     (15:00 Western Indonesian Time)
                                     <br><br>
                                     <small>Don't Miss It!!!</small></h4>
                             </div>
-                            @else --}}
+                            @else
                             <form wire:submit.prevent="submit">
                                 <div class="card">
                                     <div class="card-body">
@@ -125,6 +137,7 @@
                                     </div>
                                 </div>
                             </form>
+                            @endif
                             @endif
                             <div class="text-center">
                                 Powered By

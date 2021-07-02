@@ -42,7 +42,7 @@ class Login extends Component
         //     return;
         // }
         $member = Member::where('member_user', $this->username)->get();
-        if($member){
+        if($member->count() > 0){
             $member = $member->first();
             $wd_total = TransactionExchange::select('transaction_exchange_amount')->where('transaction_exchange_type', 'Reward')->where('member_id', $member->member_id)->get()->sum('transaction_exchange_amount');
             if(($member->contract_price * 3) - $wd_total < $member->contract->contract_reward_exchange_min){
