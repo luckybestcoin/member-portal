@@ -34,13 +34,13 @@ class Login extends Component
         //     ];
 		// 	return;
         // }
-        if($this->recaptchaPasses() === false){
-            $this->notification = [
-                'tipe' => 'danger',
-                'pesan' => '<li>Recaptcha Failed</li>'
-            ];
-            return;
-        }
+        // if($this->recaptchaPasses() === false){
+        //     $this->notification = [
+        //         'tipe' => 'danger',
+        //         'pesan' => '<li>Recaptcha Failed</li>'
+        //     ];
+        //     return;
+        // }
         $member = Member::where('member_user', $this->username)->get();
         if($member){
             $member = $member->first();

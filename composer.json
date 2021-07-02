@@ -18,8 +18,11 @@
         "laravel/fortify": "^1.7",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
+        "lfkeitel/phptotp": "^1.0",
         "livewire/livewire": "^2.3",
-        "lukeraymonddowning/honey": "^0.3.2"
+        "lukeraymonddowning/honey": "^0.3.2",
+        "seshac/otp-generator": "^0.0.6",
+        "spomky-labs/otphp": "^10.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
