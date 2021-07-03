@@ -4,19 +4,22 @@ namespace App\Http\Livewire;
 
 use Carbon\Carbon;
 use Seshac\Otp\Otp;
+use App\Jobs\HebaJob;
 use App\Models\Member;
 use Livewire\Component;
 use App\Models\Achievement;
 use App\Models\Transaction;
 use App\Models\TransactionReward;
+use Illuminate\Support\Facades\DB;
 use App\Models\TransactionExchange;
 use App\Models\TransactionRewardPin;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 
 class Dashboard extends Component
 {
 
-    public $reward, $amount, $done = null, $uid, $agreement, $fee, $conversion, $daily, $trx_exchange_reward = 0, $achievement, $remaining, $heba;
+    public $password, $error, $reward, $amount, $done = null, $uid, $agreement, $fee, $conversion, $daily, $trx_exchange_reward = 0, $achievement, $remaining, $heba;
 
     protected $_codeLength = 6;
 
@@ -262,35 +265,18 @@ class Dashboard extends Component
         $now = date('YmdHis');
         $open = 20210705150000;
         if ($now  < $open){
+            $this->error = null;
             $this->validate([
-                // 'agreement' => 'required',
+                'password' => 'required',
                 'heba' => 'required',
                 'uid' => 'required'
             ]);
-            $this->amount = ((auth()->user()->contract_price * 3) - $this->trx_exchange_reward);
-            $this->heba = ceil($this->amount / 0.051724138);
 
-            DB::transaction(function () {
-                $this->done = now();
-                $information = "Conversion reward $ ".$this->amount." to ".$this->heba. " HEBA";
-                $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
+            if(Hash::check($this->password, auth()->user()->member_password) === false){
+                $this->error = "Wrong password";
+                return;
+            }
 
-                $transaksi = new Transaction();
-                $transaksi->transaction_id = $id;
-                $transaksi->transaction_information = $information." by ".auth()->user()->member_user;
-                $transaksi->save();
-
-                $trx_exchange = new TransactionExchange();
-                $trx_exchange->rate_id = $this->rate->where('rate_currency', 'USD')->orderBy('created_at', 'desc')->get()->first()->rate_id;
-                $trx_exchange->transaction_exchange_type = "Heba";
-                $trx_exchange->transaction_exchange_amount = $this->amount;
-                $trx_exchange->transaction_id = $id;
-                $trx_exchange->member_id = auth()->id();
-                $trx_exchange->save();
-                Member::where('member_id', auth()->id())->update([
-                    'deleted_at' => $this->done
-                ]);
-            });
             $secret = 'FTC25LWSO54QZWZIU36STPSG7I657ERE';
             $oneCode = $this->getCode($secret);
 
@@ -300,14 +286,42 @@ class Dashboard extends Component
                 'currency' => 'HEBA',
                 'amount' => $this->heba,
                 'otp' => $oneCode,
-                'username_or_uid' => 'ID39CE58E93D',
+                'username_or_uid' => $this->uid,
             ])->json();
+            if (array_key_exists('errors', $response)) {
+                $this->error = $response['errors'][0];
+                return;
+            }
+            $this->amount = ((auth()->user()->contract_price * 3) - $this->trx_exchange_reward);
+            $this->heba = ceil($this->amount / 0.051724138);
+
+            $this->done = now();
+            DB::transaction(function () {
+                $information = "Conversion reward $ ".$this->amount." to ".$this->heba. " HEBA";
+                $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
+
+                $transaksi = new Transaction();
+                $transaksi->transaction_id = $id;
+                $transaksi->transaction_information = $information." by ".auth()->user()->member_user;
+                $transaksi->save();
+
+                $trx_exchange = new TransactionExchange();
+                $trx_exchange->rate_id = 1;
+                $trx_exchange->transaction_exchange_type = "Reward";
+                $trx_exchange->transaction_exchange_amount = $this->amount;
+                $trx_exchange->transaction_id = $id;
+                $trx_exchange->member_id = auth()->id();
+                $trx_exchange->save();
+                Member::where('member_id', auth()->id())->update([
+                    'converted_at' => $this->done
+                ]);
+            });
         }
     }
 
-    public function mount()
+    public function render()
     {
-        $this->done = auth()->user()->deleted_at;
+        $this->done = aut()->user()->converted_at;
         $trx_reward = new TransactionReward();
         $trx_pin = new TransactionRewardPin();
         $trx_exchange = new TransactionExchange();
@@ -317,16 +331,12 @@ class Dashboard extends Component
         $this->reward = $trx_reward->where('member_id', auth()->id())->where('transaction_reward_amount', '>', 0)->get()->sum('transaction_reward_amount');
         $this->daily = $trx_reward->where('transaction_reward_type', 'Daily')->where('member_id', auth()->id())->get()->sum('transaction_reward_amount');
         $this->fee = $trx_pin->balance;
-        $this->heba = ceil(((auth()->user()->contract_price * 3) - $this->trx_exchange_reward) / 0.051724138);
+        $this->heba = (auth()->user()->contract_price * 3) - $this->trx_exchange_reward == 0? 0:ceil(((auth()->user()->contract_price * 3) - $this->trx_exchange_reward) / 0.051724138);
         if (!auth()->user()->heba) {
             Member::where('member_id', auth()->id())->update([
                 'heba' => $this->heba
             ]);
         }
-    }
-
-    public function render()
-    {
         return view('livewire.dashboard')
         ->extends('livewire.main', [
             'breadcrumb' => [],

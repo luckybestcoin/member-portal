@@ -58,8 +58,7 @@
                             <!-- small box -->
                             <div class="small-box bg-maroon">
                                 <div class="inner">
-                                    <h3>{{ number_format(ceil(auth()->user()->heba)) }}</h3>
-
+                                    <h3>{{ number_format(ceil($heba)) }}</h3>
                                     <p>HEBA Earned</p>
                                 </div>
                                 <div class="icon">
@@ -87,14 +86,14 @@
                                 </h5>
                             </div>
                             @else
-                            @if ($now  < $open)
+                            {{-- @if ($now  < $open)
                             <div class="alert alert-warning text-center">
                                 <h4><small>You can convert you remaining contract to HEBA on :</small> <br><br> July 5, 2021<br>8:00 am UTC<br>
                                     (15:00 Western Indonesian Time)
                                     <br><br>
                                     <small>Don't Miss It!!!</small></h4>
                             </div>
-                            @else
+                            @else --}}
                             <form wire:submit.prevent="submit">
                                 <div class="card">
                                     <div class="card-body">
@@ -114,13 +113,25 @@
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
+                                        <div class="form-group">
+                                            <label>Password</label>
+                                            <input type="password" class="form-control" wire:model.defer="password" autocomplete="off">
+                                            @error('password')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        @if ($error)
+                                            <div class="alert alert-danger">
+                                                {{ $error }}
+                                            </div>
+                                        @endif
                                     </div>
                                     <div class="card-footer">
                                         <button type="submit" class="btn btn-primary">Convert Now</button>
                                     </div>
                                 </div>
                             </form>
-                            @endif
+                            {{-- @endif --}}
                             @endif
                             <div class="text-center">
                                 Powered By
