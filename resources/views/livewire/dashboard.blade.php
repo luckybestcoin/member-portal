@@ -87,7 +87,7 @@
                                 </h5>
                             </div>
                             @else
-                            @if ($now  > $open)
+                            @if ($now  < $open)
                             <div class="alert alert-warning text-center">
                                 <h4><small>You can convert you remaining contract to HEBA on :</small> <br><br> July 5, 2021<br>8:00 am UTC<br>
                                     (15:00 Western Indonesian Time)
