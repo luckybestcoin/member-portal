@@ -259,7 +259,7 @@ class Dashboard extends Component
     public function submit()
     {
         $this->validate([
-            'agreement' => 'required',
+            // 'agreement' => 'required',
             'heba' => 'required',
             'uid' => 'required'
         ]);
