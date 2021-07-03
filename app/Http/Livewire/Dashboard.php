@@ -7,6 +7,7 @@ use Seshac\Otp\Otp;
 use App\Models\Member;
 use Livewire\Component;
 use App\Models\Achievement;
+use App\Models\Transaction;
 use App\Models\TransactionReward;
 use App\Models\TransactionExchange;
 use App\Models\TransactionRewardPin;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Http;
 class Dashboard extends Component
 {
 
-    public $reward, $done = null, $uid, $agreement, $fee, $conversion, $daily, $trx_exchange_reward = 0, $achievement, $remaining, $heba;
+    public $reward, $amount, $done = null, $uid, $agreement, $fee, $conversion, $daily, $trx_exchange_reward = 0, $achievement, $remaining, $heba;
 
     protected $_codeLength = 6;
 
@@ -258,27 +259,50 @@ class Dashboard extends Component
     }
     public function submit()
     {
-        $this->validate([
-            // 'agreement' => 'required',
-            'heba' => 'required',
-            'uid' => 'required'
-        ]);
+        $now = date('YmdHis');
+        $open = 20210705150000;
+        if ($now  < $open){
+            $this->validate([
+                // 'agreement' => 'required',
+                'heba' => 'required',
+                'uid' => 'required'
+            ]);
+            $this->amount = ((auth()->user()->contract_price * 3) - $this->trx_exchange_reward);
+            $this->heba = ceil($this->amount / 0.051724138);
 
-        $secret = 'FTC25LWSO54QZWZIU36STPSG7I657ERE';
-        $oneCode = $this->getCode($secret);
+            DB::transaction(function () {
+                $this->done = now();
+                $information = "Conversion reward $ ".$this->amount." to ".$this->heba. " HEBA";
+                $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
 
-        $nonce = Carbon::now()->getPreciseTimestamp(3);
-        $header = ["X-Auth-Apikey" => "53bd98f87ba331f1", "X-Auth-Nonce" => $nonce, "X-Auth-Signature" => hash_hmac("SHA256", $nonce."53bd98f87ba331f1", "36f77e717cdadacba1a8dce95ce8ba66") ];
-        $response = Http::withHeaders($header)->post('https://www.digiassetindo.com/api/v2/exchange/account/internal_transfers', [
-            'currency' => 'HEBA',
-            'amount' => $this->heba,
-            'otp' => $oneCode,
-            'username_or_uid' => 'ID39CE58E93D',
-        ])->json();
-        $this->done = now();
-        Member::where('member_id', auth()->id())->update([
-            'deleted_at' => $this->done
-        ]);
+                $transaksi = new Transaction();
+                $transaksi->transaction_id = $id;
+                $transaksi->transaction_information = $information." by ".auth()->user()->member_user;
+                $transaksi->save();
+
+                $trx_exchange = new TransactionExchange();
+                $trx_exchange->rate_id = $this->rate->where('rate_currency', 'USD')->orderBy('created_at', 'desc')->get()->first()->rate_id;
+                $trx_exchange->transaction_exchange_type = "Heba";
+                $trx_exchange->transaction_exchange_amount = $this->amount;
+                $trx_exchange->transaction_id = $id;
+                $trx_exchange->member_id = auth()->id();
+                $trx_exchange->save();
+                Member::where('member_id', auth()->id())->update([
+                    'deleted_at' => $this->done
+                ]);
+            });
+            $secret = 'FTC25LWSO54QZWZIU36STPSG7I657ERE';
+            $oneCode = $this->getCode($secret);
+
+            $nonce = Carbon::now()->getPreciseTimestamp(3);
+            $header = ["X-Auth-Apikey" => "53bd98f87ba331f1", "X-Auth-Nonce" => $nonce, "X-Auth-Signature" => hash_hmac("SHA256", $nonce."53bd98f87ba331f1", "36f77e717cdadacba1a8dce95ce8ba66") ];
+            $response = Http::withHeaders($header)->post('https://www.digiassetindo.com/api/v2/exchange/account/internal_transfers', [
+                'currency' => 'HEBA',
+                'amount' => $this->heba,
+                'otp' => $oneCode,
+                'username_or_uid' => 'ID39CE58E93D',
+            ])->json();
+        }
     }
 
     public function mount()
