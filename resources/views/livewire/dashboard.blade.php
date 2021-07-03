@@ -87,7 +87,7 @@
                                 </h5>
                             </div>
                             @else
-                            @if ($now  < $open)
+                            @if ($now  > $open)
                             <div class="alert alert-warning text-center">
                                 <h4><small>You can convert you remaining contract to HEBA on :</small> <br><br> July 5, 2021<br>8:00 am UTC<br>
                                     (15:00 Western Indonesian Time)
@@ -111,23 +111,6 @@
                                             <label>Digi Asset UID</label>
                                             <input type="text" class="form-control" wire:model.defer="uid" autocomplete="off">
                                             @error('uid')
-                                            <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Password</label>
-                                            <input type="password" class="form-control" wire:model.defer="password" autocomplete="off">
-                                            @error('password')
-                                            <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                        <div class="icheck-primary">
-                                            <input type="checkbox" wire:model.defer="agreement">
-                                            <label for="remember">
-                                                I agree to the terms and conditions
-                                            </label>
-                                            <br>
-                                            @error('agreement')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
