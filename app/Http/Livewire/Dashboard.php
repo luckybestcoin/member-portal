@@ -263,7 +263,7 @@ class Dashboard extends Component
     public function submit()
     {
         $now = date('YmdHis');
-        $open = 20210705150000;
+        $open = 20210705200000;
         if ($now  < $open){
             $this->error = null;
             $this->validate([
