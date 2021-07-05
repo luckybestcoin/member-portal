@@ -279,17 +279,15 @@ class Dashboard extends Component
                 }
 
                 $secret = 'FTC25LWSO54QZWZIU36STPSG7I657ERE';
-                $oneCode = $this->getCode($secret);
 
                 $nonce = Carbon::now()->getPreciseTimestamp(3);
                 $header = ["X-Auth-Apikey" => "53bd98f87ba331f1", "X-Auth-Nonce" => $nonce, "X-Auth-Signature" => hash_hmac("SHA256", $nonce."53bd98f87ba331f1", "36f77e717cdadacba1a8dce95ce8ba66") ];
-                $response = Http::withHeaders($header)->post('https://www.digiassetindo.com/api/v2/exchange/account/internal_transfers', [
+                $response = Http::withHeaders($header)->post('https://www.digiassetindo.com/api/v2/exchange/account/account_transfers', [
                     'currency' => 'HEBA',
                     'amount' => $this->heba,
-                    'otp' => $oneCode,
                     'username_or_uid' => $this->uid,
                 ])->json();
-                if (array_key_exists('errors', $response)) {
+                if (!array_key_exists('status', $response)) {
                     $this->error = $response['errors'][0];
                     return;
                 }
