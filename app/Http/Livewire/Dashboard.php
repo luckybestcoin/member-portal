@@ -323,7 +323,7 @@ class Dashboard extends Component
 
     public function render()
     {
-        $this->done = aut()->user()->converted_at;
+        $this->done = auth()->user()->converted_at;
         $trx_reward = new TransactionReward();
         $trx_pin = new TransactionRewardPin();
         $trx_exchange = new TransactionExchange();
