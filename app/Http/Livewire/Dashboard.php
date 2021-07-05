@@ -264,7 +264,7 @@ class Dashboard extends Component
     public function submit()
     {
         $now = date('YmdHis');
-        $open = 20210705200000;
+        $open = 20210705201500;
         $wd = 0;
 
         if ($this->uid == 'IDBAF43026C5') {
