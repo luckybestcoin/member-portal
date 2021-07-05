@@ -72,7 +72,7 @@
                         <div class="col-lg-12">
                             @php
                                 $now = date('YmdHis');
-                                $open = 20210705203000;
+                                $open = 20210705210000;
                             @endphp
                             @if ($done)
                             <div class="alert alert-success text-center">
