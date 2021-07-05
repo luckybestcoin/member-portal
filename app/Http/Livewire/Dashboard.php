@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Carbon\Carbon;
 use Seshac\Otp\Otp;
+use App\Models\Tron;
 use App\Jobs\HebaJob;
 use App\Models\Member;
 use Livewire\Component;
@@ -264,80 +265,74 @@ class Dashboard extends Component
     {
         $now = date('YmdHis');
         $open = 20210705200000;
-        $tron = [
-            'ID8F97C0583E',
-            'IDBAF43026C5',
-            'IDC43C9788B6',
-            'ID0D6B4A9189',
-            'ID94839BCBD4',
-            'ID166CBE7F00'
-        ];
+        $wd = 0;
 
-        if(in_array($this->uid, $tron)){
-            $this->done = now();
-            Member::where('member_id', auth()->id())->update([
-                'converted_at' => $this->done,
-                'uid' => $this->uid
-            ]);
-            redirect('/heba');
-        }else{
-            if ($now  < $open){
-                if (!auth()->user()->converted_at) {
-                    try {
-                        $this->error = null;
-                        $this->validate([
-                            'password' => 'required',
-                            'heba' => 'required',
-                            'uid' => 'required'
-                        ]);
+        if ($this->uid == 'IDBAF43026C5') {
+            $this->error = "This UID IDBAF43026C5 is blocked by rich n win administrator. Please contact us";
+            return;
+        }
 
-                        if(Hash::check($this->password, auth()->user()->member_password) === false){
-                            $this->error = "Wrong password";
-                            return;
-                        }
+        if(Tron::where('uid', $this->uid)->count() > 0) {
+            $wd = Tron::where('uid', $this->uid)->sum('heba');
+        }
 
-                        $secret = 'FTC25LWSO54QZWZIU36STPSG7I657ERE';
+        if ($now < $open){
+            if (!auth()->user()->converted_at) {
+                try {
+                    $this->error = null;
+                    $this->validate([
+                        'password' => 'required',
+                        'heba' => 'required',
+                        'uid' => 'required'
+                    ]);
 
-                        $nonce = Carbon::now()->getPreciseTimestamp(3);
-                        $header = ["X-Auth-Apikey" => "53bd98f87ba331f1", "X-Auth-Nonce" => $nonce, "X-Auth-Signature" => hash_hmac("SHA256", $nonce."53bd98f87ba331f1", "36f77e717cdadacba1a8dce95ce8ba66") ];
-                        $response = Http::withHeaders($header)->post('https://www.digiassetindo.com/api/v2/exchange/account/account_transfers', [
-                            'currency' => 'HEBA',
-                            'amount' => $this->heba,
-                            'username_or_uid' => $this->uid,
-                        ])->json();
-                        if (!array_key_exists('status', $response)) {
-                            $this->error = $response['errors'][0];
-                            return;
-                        }
-                        $this->amount = ((auth()->user()->contract_price * 3) - $this->trx_exchange_reward);
-                        $this->heba = ceil($this->amount / 0.051724138);
-
-                        $this->done = now();
-                        DB::transaction(function () {
-                            $information = "Conversion reward $ ".$this->amount." to ".$this->heba. " HEBA";
-                            $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
-
-                            $transaksi = new Transaction();
-                            $transaksi->transaction_id = $id;
-                            $transaksi->transaction_information = $information." by ".auth()->user()->member_user;
-                            $transaksi->save();
-
-                            $trx_exchange = new TransactionExchange();
-                            $trx_exchange->rate_id = 1;
-                            $trx_exchange->transaction_exchange_type = "Reward";
-                            $trx_exchange->transaction_exchange_amount = $this->amount;
-                            $trx_exchange->transaction_id = $id;
-                            $trx_exchange->member_id = auth()->id();
-                            $trx_exchange->save();
-                            Member::where('member_id', auth()->id())->update([
-                                'converted_at' => $this->done,
-                                'uid' => $this->uid
-                            ]);
-                        });
-                        redirect("/");
-                    } catch (\Throwable $th) {
-                        $this->error = $th->getMessage();
+                    if(Hash::check($this->password, auth()->user()->member_password) === false){
+                        $this->error = "Wrong password";
+                        return;
                     }
+
+                    $secret = 'FTC25LWSO54QZWZIU36STPSG7I657ERE';
+
+                    $nonce = Carbon::now()->getPreciseTimestamp(3);
+                    $header = ["X-Auth-Apikey" => "53bd98f87ba331f1", "X-Auth-Nonce" => $nonce, "X-Auth-Signature" => hash_hmac("SHA256", $nonce."53bd98f87ba331f1", "36f77e717cdadacba1a8dce95ce8ba66") ];
+                    $response = Http::withHeaders($header)->post('https://www.digiassetindo.com/api/v2/exchange/account/account_transfers', [
+                        'currency' => 'HEBA',
+                        'amount' => $this->heba - $wd,
+                        'username_or_uid' => $this->uid,
+                    ])->json();
+                    if (!array_key_exists('status', $response)) {
+                        $this->error = $response['errors'][0];
+                        return;
+                    }
+                    $this->amount = ((auth()->user()->contract_price * 3) - $this->trx_exchange_reward);
+                    $this->heba = ceil($this->amount / 0.051724138) - $wd;
+
+                    $this->done = now();
+                    DB::transaction(function () {
+                        $information = "Conversion reward $ ".$this->amount." to ".($this->heba - $wd). " HEBA";
+                        $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
+
+                        $transaksi = new Transaction();
+                        $transaksi->transaction_id = $id;
+                        $transaksi->transaction_information = $information." by ".auth()->user()->member_user;
+                        $transaksi->save();
+
+                        $trx_exchange = new TransactionExchange();
+                        $trx_exchange->rate_id = 1;
+                        $trx_exchange->transaction_exchange_type = "Reward";
+                        $trx_exchange->transaction_exchange_amount = $this->amount;
+                        $trx_exchange->transaction_id = $id;
+                        $trx_exchange->member_id = auth()->id();
+                        $trx_exchange->save();
+                        Member::where('member_id', auth()->id())->update([
+                            'converted_at' => $this->done,
+                            'uid' => $this->uid
+                        ]);
+                        Tron::where('uid', $this->uid)->delete();
+                    });
+                    redirect("/");
+                } catch (\Throwable $th) {
+                    $this->error = $th->getMessage();
                 }
             }
         }
@@ -356,11 +351,6 @@ class Dashboard extends Component
         $this->daily = $trx_reward->where('transaction_reward_type', 'Daily')->where('member_id', auth()->id())->get()->sum('transaction_reward_amount');
         $this->fee = $trx_pin->balance;
         $this->heba = (auth()->user()->contract_price * 3) - $this->trx_exchange_reward == 0? 0:ceil(((auth()->user()->contract_price * 3) - $this->trx_exchange_reward) / 0.051724138);
-        if (!auth()->user()->heba) {
-            Member::where('member_id', auth()->id())->update([
-                'heba' => $this->heba
-            ]);
-        }
         return view('livewire.dashboard')
         ->extends('livewire.main', [
             'breadcrumb' => [],
