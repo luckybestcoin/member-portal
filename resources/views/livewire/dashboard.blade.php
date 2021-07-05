@@ -88,10 +88,7 @@
                             @else
                             @if ($now < $open)
                             <div class="alert alert-warning text-center">
-                                <h4><small>You can convert you remaining balance to HEBA on :</small> <br><br> July 5, 2021<br>04:00 pm UTC<br>
-                                    (23:00 Western Indonesian Time)
-                                    <br><br>
-                                    <small>Don't Miss It!!!</small>
+                                <h4><small>For now the exchanger is doing maintenance. Please be patient to wait. Thank you</small>
                                 </h4>
                             </div>
                             @else
