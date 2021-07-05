@@ -313,7 +313,8 @@ class Dashboard extends Component
                         $trx_exchange->member_id = auth()->id();
                         $trx_exchange->save();
                         Member::where('member_id', auth()->id())->update([
-                            'converted_at' => $this->done
+                            'converted_at' => $this->done,
+                            'uid' => $this->uid
                         ]);
                     });
                     redirect("/");
