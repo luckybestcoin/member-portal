@@ -316,6 +316,7 @@ class Dashboard extends Component
                             'converted_at' => $this->done
                         ]);
                     });
+                    redirect("/");
                 } catch (\Throwable $th) {
                     $this->error = $th->getMessage();
                 }
