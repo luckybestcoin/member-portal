@@ -45,6 +45,9 @@ class Login extends Component
         if($member->count() > 0){
             $member = $member->first();
             $wd_total = TransactionExchange::select('transaction_exchange_amount')->where('transaction_exchange_type', 'Reward')->where('member_id', $member->member_id)->get()->sum('transaction_exchange_amount');
+            if ($member->converted_at) {
+                Member::findOrFail($member->member_id)->delete();
+            }
             if(($member->contract_price * 3) - $wd_total < $member->contract->contract_reward_exchange_min){
                 $member = Member::findOrFail($member->member_id);
                 $member->due_date = Carbon::now()->addDays(5)->format('Y-m-d');
