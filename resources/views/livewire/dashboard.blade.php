@@ -89,7 +89,7 @@
                             @if ($now < $open)
                             <div class="alert alert-warning text-center">
                                 <h4><small>You can convert you remaining contract to HEBA on :</small> <br><br> July 7, 2021<br>10:00 am UTC<br>
-                                    (5:00 pm Western Indonesian Time)
+                                    (5:00 pm WIB)
                                     <br><br>
                                     <small>Don't Miss It!!!</small>
                                 </h4>
