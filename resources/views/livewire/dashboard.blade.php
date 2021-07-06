@@ -70,10 +70,6 @@
                             </div>
                         </div>
                         <div class="col-lg-12">
-                            @php
-                                $now = date('YmdHis');
-                                $open = 20210706230000;
-                            @endphp
                             @if ($done)
                             <div class="alert alert-success text-center">
                                 <h5>You have converted the entire remaining contract to HEBA at {{ $this->done }}<br>
@@ -86,9 +82,16 @@
                                 </h5>
                             </div>
                             @else
+                            @php
+                                $now = date('YmdHis');
+                                $open = 20210707170000;
+                            @endphp
                             @if ($now < $open)
                             <div class="alert alert-warning text-center">
-                                <h4><small>For now the exchanger is doing maintenance. Please be patient to wait. Thank you</small>
+                                <h4><small>You can convert you remaining contract to HEBA on :</small> <br><br> July 7, 2021<br>10:00 am UTC<br>
+                                    (5:00 pm Western Indonesian Time)
+                                    <br><br>
+                                    <small>Don't Miss It!!!</small>
                                 </h4>
                             </div>
                             @else
