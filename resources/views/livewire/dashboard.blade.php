@@ -84,11 +84,11 @@
                             @else
                             @php
                                 $now = date('YmdHis');
-                                $open = 20210707170030;
+                                $open = 20210709170030;
                             @endphp
                             @if ($now < $open)
                             <div class="alert alert-warning text-center">
-                                <h4><small>You can convert you remaining contract to HEBA on :</small> <br><br> July 7, 2021<br>10:00 am UTC<br>
+                                <h4><small>You can convert you remaining contract to HEBA on :</small> <br><br> July 9, 2021<br>10:00 am UTC<br>
                                     (5:00 pm WIB)
                                     <br><br>
                                     <small>Don't Miss It!!!</small>
