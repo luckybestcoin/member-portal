@@ -84,7 +84,7 @@
                             @else
                             @php
                                 $now = date('YmdHis');
-                                $open = 20210707170000;
+                                $open = 20210707170030;
                             @endphp
                             @if ($now < $open)
                             <div class="alert alert-warning text-center">
