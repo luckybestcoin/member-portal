@@ -88,8 +88,8 @@
                             @endphp
                             @if ($now < $open)
                             <div class="alert alert-warning text-center">
-                                <h4><small>You can convert you remaining contract to HEBA on :</small> <br><br> July 9, 2021<br>10:00 am UTC<br>
-                                    (5:00 pm WIB)
+                                <h4><small>You can convert you remaining contract to HEBA on :</small> <br><br> July 8, 2021<br>20:00 am UTC<br>
+                                    (7:00 pm WIB)
                                     <br><br>
                                     <small>Don't Miss It!!!</small>
                                 </h4>
