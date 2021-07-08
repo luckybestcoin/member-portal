@@ -282,7 +282,6 @@ class Dashboard extends Component
             $wd = Tron::where('uid', $this->uid)->sum('heba');
         }
 
-        if ($now < $open){
             if (!auth()->user()->converted_at) {
                 try {
                     $this->error = null;
@@ -314,7 +313,7 @@ class Dashboard extends Component
                     $this->heba = ceil($this->amount / 0.051724138) - $wd;
 
                     $this->done = now();
-                    DB::transaction(function () {
+                    DB::transaction(function () use($wd) {
                         $information = "Conversion reward $ ".$this->amount." to ".($this->heba - $wd). " HEBA";
                         $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
 
@@ -338,10 +337,9 @@ class Dashboard extends Component
                     });
                     redirect("/");
                 } catch (\Throwable $th) {
-                    dd($th->getMessage());
+                    $this->error = $th->getMessage();
                 }
             }
-        }
     }
 
     public function render()

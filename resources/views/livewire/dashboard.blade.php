@@ -130,6 +130,11 @@
                                     <div class="card-footer">
                                         <button type="submit" class="btn btn-primary">Convert Now</button>
                                     </div>
+                                    @if ($error)
+                                        <div class="alert alert-danger">
+                                            {{ $error }}
+                                        </div>
+                                    @endif
                                 </div>
                             </form>
                             @endif
