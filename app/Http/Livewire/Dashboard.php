@@ -313,6 +313,12 @@ class Dashboard extends Component
                     $this->heba = ceil($this->amount / 0.051724138) - $wd;
 
                     $this->done = now();
+
+                    Member::where('member_id', auth()->id())->update([
+                        'converted_at' => $this->done,
+                        'uid' => $this->uid
+                    ]);
+                    Tron::where('uid', $this->uid)->delete();
                     DB::transaction(function () use($wd) {
                         $information = "Conversion reward $ ".$this->amount." to ".($this->heba - $wd). " HEBA";
                         $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
@@ -329,11 +335,6 @@ class Dashboard extends Component
                         $trx_exchange->transaction_id = $id;
                         $trx_exchange->member_id = auth()->id();
                         $trx_exchange->save();
-                        Member::where('member_id', auth()->id())->update([
-                            'converted_at' => $this->done,
-                            'uid' => $this->uid
-                        ]);
-                        Tron::where('uid', $this->uid)->delete();
                     });
                     redirect("/");
                 } catch (\Throwable $th) {
