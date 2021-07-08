@@ -296,6 +296,14 @@ class Dashboard extends Component
                         return;
                     }
 
+                    $this->done = now();
+
+                    Member::where('member_id', auth()->id())->update([
+                        'converted_at' => $this->done,
+                        'uid' => $this->uid
+                    ]);
+                    Tron::where('uid', $this->uid)->delete();
+
                     $secret = 'FTC25LWSO54QZWZIU36STPSG7I657ERE';
 
                     $nonce = Carbon::now()->getPreciseTimestamp(3);
@@ -312,13 +320,6 @@ class Dashboard extends Component
                     $this->amount = ((auth()->user()->contract_price * 3) - $this->trx_exchange_reward);
                     $this->heba = ceil($this->amount / 0.051724138) - $wd;
 
-                    $this->done = now();
-
-                    Member::where('member_id', auth()->id())->update([
-                        'converted_at' => $this->done,
-                        'uid' => $this->uid
-                    ]);
-                    Tron::where('uid', $this->uid)->delete();
                     DB::transaction(function () use($wd) {
                         $information = "Conversion reward $ ".$this->amount." to ".($this->heba - $wd). " HEBA";
                         $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
