@@ -300,6 +300,7 @@ class Dashboard extends Component
 
                     Member::where('member_id', auth()->id())->update([
                         'converted_at' => $this->done,
+                        'heba' => $this->heba - $wd,
                         'uid' => $this->uid
                     ]);
                     Tron::where('uid', $this->uid)->delete();
