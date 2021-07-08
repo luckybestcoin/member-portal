@@ -10,8 +10,8 @@ class Coba extends Component
 {
     public function render()
     {
-        $all = [];
-        for ($i=0; $i < 80; $i++) {
+        // $all = [];
+        // for ($i=0; $i < 80; $i++) {
             $secret = 'FTC25LWSO54QZWZIU36STPSG7I657ERE';
 
             $nonce = Carbon::now()->getPreciseTimestamp(3);
@@ -21,9 +21,8 @@ class Coba extends Component
                 'amount' => 1,
                 'username_or_uid' => 'ID4C53159693',
             ])->json();
-            $all[] = $response;
-        }
-        dd($all);
+            dd($response);
+        //}
         return view('livewire.coba');
     }
 }
