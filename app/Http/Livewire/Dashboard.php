@@ -332,7 +332,7 @@ class Dashboard extends Component
                     });
                     redirect("/");
                 } catch (\Throwable $th) {
-                    $this->error = $th->getMessage();
+                    dd($th->getMessage());
                 }
             }
         }
