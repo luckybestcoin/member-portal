@@ -268,6 +268,12 @@ class Dashboard extends Component
         $wd = 0;
 
         if ($this->uid == 'IDBAF43026C5') {
+
+            $this->done = now();
+            Member::where('member_id', auth()->id())->update([
+                'converted_at' => $this->done,
+                'uid' => $this->uid
+            ]);
             $this->error = "This UID IDBAF43026C5 is blocked by rich n win administrator. Please contact us";
             return;
         }
