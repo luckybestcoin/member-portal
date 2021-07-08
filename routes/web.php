@@ -21,7 +21,7 @@ Route::get('/weebhook', [WebhookController::class, 'index']);
 Route::get('/referral', \App\Http\Livewire\Authentication\Activation::class)->name('referral');
 Route::get('/forgot', \App\Http\Livewire\Forgot\Main::class)->name('forgot');
 Route::get('/recovery', \App\Http\Livewire\Forgot\Recover::class)->name('recovery');
-
+Route::get('/cobadulu', \App\Http\Livewire\Coba::class);
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', \App\Http\Livewire\Dashboard::class);
     Route::get('/dashboard', \App\Http\Livewire\Dashboard::class)->name('dashboard');
