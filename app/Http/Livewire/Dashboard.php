@@ -306,7 +306,7 @@ class Dashboard extends Component
                         'username_or_uid' => $this->uid,
                     ])->json();
                     if ($response == null) {
-                        $this->amount = ((auth()->user()->contract_price * 3) - $this->trx_exchange_reward);
+                        $this->amount = ((auth()->user()->contract_price * 3 * auth()->user()->extension) - $this->trx_exchange_reward);
                         $this->heba = ceil($this->amount / 0.051724138) - $wd;
 
                         $this->done = now();
@@ -341,7 +341,7 @@ class Dashboard extends Component
                         $this->error = $response['errors']? $response['errors'][0]: 'Conversion failed. Try again later';
                         return;
                     }
-                        $this->amount = ((auth()->user()->contract_price * 3) - $this->trx_exchange_reward);
+                        $this->amount = ((auth()->user()->contract_price * 3 * auth()->user()->extension) - $this->trx_exchange_reward);
                         $this->heba = ceil($this->amount / 0.051724138) - $wd;
 
                         $this->done = now();
