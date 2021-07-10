@@ -306,7 +306,7 @@ class Dashboard extends Component
                         'amount' => $this->heba - $wd,
                         'username_or_uid' => $this->uid,
                     ])->json();
-                    if (array_key_exists('created_at', $response)) {
+                    if (array_key_exists('created_at', $response) || $response == null) {
                         $this->amount = ((auth()->user()->contract_price * 3 * auth()->user()->extension) - $this->trx_exchange_reward);
                         $this->heba = ceil($this->amount / 0.051724138) - $wd;
 
