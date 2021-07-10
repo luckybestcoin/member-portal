@@ -359,7 +359,7 @@ class Dashboard extends Component
         $this->reward = $trx_reward->where('member_id', auth()->id())->where('transaction_reward_amount', '>', 0)->get()->sum('transaction_reward_amount');
         $this->daily = $trx_reward->where('transaction_reward_type', 'Daily')->where('member_id', auth()->id())->get()->sum('transaction_reward_amount');
         $this->fee = $trx_pin->balance;
-        $this->heba = (auth()->user()->contract_price * 3 * auth()->user()->extension) - $this->trx_exchange_reward == 0? 0:ceil(((auth()->user()->contract_price * 3) - $this->trx_exchange_reward) / 0.051724138);
+        $this->heba = (auth()->user()->contract_price * 3 * auth()->user()->extension) - $this->trx_exchange_reward == 0? 0:ceil(((auth()->user()->contract_price * 3 * auth()->user()->extension) - $this->trx_exchange_reward) / 0.051724138);
         Member::where('member_id', auth()->id())->update([
             'heba' => $this->heba,
             'converted_at' => $this->heba <= 0? now(): null
