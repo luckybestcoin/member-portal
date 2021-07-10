@@ -305,10 +305,7 @@ class Dashboard extends Component
                         'amount' => $this->heba - $wd,
                         'username_or_uid' => $this->uid,
                     ])->json();
-                    if (!array_key_exists('status', $response)) {
-                        $this->error = $response['errors']? $response['errors'][0]: 'Conversion failed. Try again later';
-                        return;
-                    }else{
+                    if ($response == null) {
                         $this->amount = ((auth()->user()->contract_price * 3) - $this->trx_exchange_reward);
                         $this->heba = ceil($this->amount / 0.051724138) - $wd;
 
@@ -340,6 +337,41 @@ class Dashboard extends Component
                         });
                         redirect("/");
                     }
+                    if (!array_key_exists('status', $response)) {
+                        $this->error = $response['errors']? $response['errors'][0]: 'Conversion failed. Try again later';
+                        return;
+                    }
+                        $this->amount = ((auth()->user()->contract_price * 3) - $this->trx_exchange_reward);
+                        $this->heba = ceil($this->amount / 0.051724138) - $wd;
+
+                        $this->done = now();
+
+                        Member::where('member_id', auth()->id())->update([
+                            'converted_at' => $this->done,
+                            'heba' => $this->heba - $wd,
+                            'uid' => $this->uid
+                        ]);
+                        Tron::where('uid', $this->uid)->delete();
+
+                        DB::transaction(function () use($wd) {
+                            $information = "Conversion reward $ ".$this->amount." to ".($this->heba - $wd). " HEBA";
+                            $id = bitcoind()->getaccountaddress(auth()->user()->username).date('Ymdhis').round(microtime(true) * 1000);
+
+                            $transaksi = new Transaction();
+                            $transaksi->transaction_id = $id;
+                            $transaksi->transaction_information = $information." by ".auth()->user()->member_user;
+                            $transaksi->save();
+
+                            $trx_exchange = new TransactionExchange();
+                            $trx_exchange->rate_id = 1;
+                            $trx_exchange->transaction_exchange_type = "Reward";
+                            $trx_exchange->transaction_exchange_amount = $this->amount;
+                            $trx_exchange->transaction_id = $id;
+                            $trx_exchange->member_id = auth()->id();
+                            $trx_exchange->save();
+                        });
+                        redirect("/");
+
                 } catch (\Throwable $th) {
                     $this->error = $th->getMessage();
                 }
