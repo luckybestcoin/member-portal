@@ -322,7 +322,7 @@ class Conversion extends Component
         $this->reward = $this->trx_reward->balance;
         $this->fee = $this->trx_pinfee->balance;
         $this->lbc_price = $this->rate->last_dollar;
-        $this->history = TransactionExchange::where('member_id', auth()->id())->get();
+        $this->history = TransactionExchange::with('transaction')->where('member_id', auth()->id())->orderBy('created_at', 'desc')->get();
         return view('livewire.conversion')
             ->extends('livewire.main', [
                 'breadcrumb' => ['Conversion'],

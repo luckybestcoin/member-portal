@@ -11,4 +11,7 @@ class Transaction extends Model
 
     protected $table = 'transaction';
     protected $primaryKey = 'transaction_id';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
 }

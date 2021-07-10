@@ -16,7 +16,7 @@ class TransactionExchange extends Model
 
     public function transaction()
     {
-        return $this->belongsTo(Transaction::class, 'transaction_id');
+        return $this->belongsTo('App\Models\Transaction', 'transaction_id', 'transaction_id');
     }
 
     public function getTotalPinAttribute()
