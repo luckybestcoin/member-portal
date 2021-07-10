@@ -14,7 +14,7 @@
                                         {{ $item->created_at }}
                                     </td>
                                     <td>
-                                        {{ $item->transaction? $item->transacttion->transaction_information: '' }}
+                                        {{ $item->transaction->transaction_information }}
                                     </td>
                                     <td>
                                         {{ $item->transaction_exchange_type }}
