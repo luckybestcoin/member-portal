@@ -21,7 +21,7 @@ return [
 		'icon' => '<i class="nav-icon fa fa-user"></i>',
 		'title' => 'Profile',
 		'url' => '/profile'
-	]]
+    ],
     // [
 	// 	'icon' => '<i class="nav-icon fa fa-exchange-alt"></i>',
 	// 	'title' => 'Conversion',
@@ -60,11 +60,12 @@ return [
 	// // 	'title' => 'Extension',
 	// // 	'url' => '/extension'
 	// // ],
-    // [
-	// 	'icon' => '<i class="nav-icon fa fa-gift"></i>',
-	// 	'title' => 'Reward',
-	// 	'url' => '/reward'
-	// ],[
+    [
+		'icon' => '<i class="nav-icon fa fa-gift"></i>',
+		'title' => 'Reward',
+		'url' => '/reward'
+	]]
+    //[
 	// 	'icon' => '<i class="nav-icon fa fa-wallet"></i>',
 	// 	'title' => 'Wallet',
 	// 	'url' => '/wallet'
