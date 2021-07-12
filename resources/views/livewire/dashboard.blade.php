@@ -43,7 +43,7 @@
                             <!-- small box -->
                             <div class="small-box bg-primary">
                                 <div class="inner">
-                                    <h3>$ {{ number_format((auth()->user()->contract_price * 3) - $trx_exchange_reward, 2) }}</h3>
+                                    <h3>$ {{ number_format(((auth()->user()->contract_price * 3) - $trx_exchange_reward > 0?: 0), 2) }}</h3>
 
                                     <p>Remaining Contract</p>
                                 </div>
@@ -58,7 +58,7 @@
                             <!-- small box -->
                             <div class="small-box bg-maroon">
                                 <div class="inner">
-                                    <h3>{{ number_format(ceil($heba)) }}</h3>
+                                    <h3>{{ number_format(ceil($heba > 0?: 0)) }}</h3>
                                     <p>HEBA Earned</p>
                                 </div>
                                 <div class="icon">
