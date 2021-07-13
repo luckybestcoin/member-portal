@@ -58,7 +58,7 @@
                             <!-- small box -->
                             <div class="small-box bg-maroon">
                                 <div class="inner">
-                                    <h3>{{ number_format(ceil($heba > 0?: 0)) }}</h3>
+                                    <h3>{{ number_format(ceil($heba > 0? $heba: 0)) }}</h3>
                                     <p>HEBA Earned</p>
                                 </div>
                                 <div class="icon">

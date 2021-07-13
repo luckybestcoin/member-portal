@@ -360,10 +360,10 @@ class Dashboard extends Component
         $this->daily = $trx_reward->where('transaction_reward_type', 'Daily')->where('member_id', auth()->id())->get()->sum('transaction_reward_amount');
         $this->fee = $trx_pin->balance;
         $this->heba = (auth()->user()->contract_price * 3) - $this->trx_exchange_reward == 0? 0:ceil(((auth()->user()->contract_price * 3) - $this->trx_exchange_reward) / 0.051724138);
-        Member::where('member_id', auth()->id())->update([
-            'heba' => $this->heba,
-            'converted_at' => $this->heba <= 0? now(): null
-        ]);
+        // Member::where('member_id', auth()->id())->update([
+        //     'heba' => $this->heba,
+        //     'converted_at' => $this->heba <= 0? now(): null
+        // ]);
         return view('livewire.dashboard')
         ->extends('livewire.main', [
             'breadcrumb' => [],
